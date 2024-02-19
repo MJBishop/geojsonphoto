@@ -23,6 +23,10 @@ class TestConvertDegreesMinutesSecondsToDecimal(unittest.TestCase):
         test_decimal = 5.205
         self.assertEqual(test_decimal, geophoto.dms_to_decimal(5, 12, 18))
 
+    def test_convert_five_degrees_twelve_minutes_eighteen_seconds_south(self):
+        test_decimal = -5.205
+        self.assertEqual(test_decimal, geophoto.dms_to_decimal(5, 12, 18, 'S'))
+
 
 
 
