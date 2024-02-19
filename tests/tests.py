@@ -7,21 +7,21 @@ import geophoto
 
 class TestConvertDegreesMinutesSecondsToDecimal(unittest.TestCase):
 
-    def test_convert_zero(self):
+    def test_convert_zero_east(self):
         test_decimal = 0
-        self.assertEqual(test_decimal, geophoto.dms_to_decimal(0, 0, 0))
+        self.assertEqual(test_decimal, geophoto.dms_to_decimal(0, 0, 0, 'E'))
 
-    def test_convert_five_degrees(self):
+    def test_convert_five_degrees_east(self):
         test_decimal = 5
-        self.assertEqual(test_decimal, geophoto.dms_to_decimal(5, 0, 0))
+        self.assertEqual(test_decimal, geophoto.dms_to_decimal(5, 0, 0, 'E'))
 
-    def test_convert_five_degrees_twelve_minutes(self):
+    def test_convert_five_degrees_twelve_minutes_north(self):
         test_decimal = 5.2
-        self.assertEqual(test_decimal, geophoto.dms_to_decimal(5, 12, 0))
+        self.assertEqual(test_decimal, geophoto.dms_to_decimal(5, 12, 0, 'N'))
 
-    def test_convert_five_degrees_twelve_minutes_eighteen_seconds(self):
+    def test_convert_five_degrees_twelve_minutes_eighteen_seconds_north(self):
         test_decimal = 5.205
-        self.assertEqual(test_decimal, geophoto.dms_to_decimal(5, 12, 18))
+        self.assertEqual(test_decimal, geophoto.dms_to_decimal(5, 12, 18, 'N'))
 
     def test_convert_five_degrees_twelve_minutes_eighteen_seconds_south(self):
         test_decimal = -5.205
