@@ -11,8 +11,8 @@ Convert Degrees, Minutes, Seconds, Ref to Decimal
 def dms_to_decimal(degrees, minutes, seconds, ref):
     if ref not in [NORTH_REF, SOUTH_REF, EAST_REF, WEST_REF]:
         raise ValueError('Invalid Reference! Expecting N, S, E or W: ' + ref)
-    if minutes > 59:
-        raise ValueError('Invalid Minutes! SHould be less than 60: ' + str(minutes))
+    if minutes > 59 or minutes < 0:
+        raise ValueError('Invalid Minutes! Should be positive and less than 60: ' + str(minutes))
     if (ref == NORTH_REF or ref == SOUTH_REF) and degrees > 90:
         raise ValueError('Latitude cannot be greater than 90 degrees: ' + str(degrees) + ref)
     elif (ref == EAST_REF or ref == WEST_REF) and degrees > 180:

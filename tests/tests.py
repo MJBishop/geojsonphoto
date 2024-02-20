@@ -51,9 +51,13 @@ class TestConvertDegreesMinutesSecondsToDecimal(unittest.TestCase):
         with self.assertRaises(ValueError):
             geophoto.dms_to_decimal(1, 1, 1, 'Z')
 
-    def test_invalid_minutes_raises_exception(self):
+    def test_invalid_minutes_60_raises_exception(self):
         with self.assertRaises(ValueError):
             geophoto.dms_to_decimal(1, 60, 1, 'N')
+
+    def test_invalid_negative_minutes_raises_exception(self):
+        with self.assertRaises(ValueError):
+            geophoto.dms_to_decimal(1, -1, 1, 'N')
 
 
 
