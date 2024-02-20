@@ -39,6 +39,10 @@ class TestConvertDegreesMinutesSecondsToDecimal(unittest.TestCase):
         with self.assertRaises(ValueError):
             geophoto.dms_to_decimal(91, 0, 0, 'S')
 
+    def test_long_181W_raises_exception(self):
+        with self.assertRaises(ValueError):
+            geophoto.dms_to_decimal(181, 0, 0, 'W')
+
 
 
 
