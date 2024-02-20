@@ -47,7 +47,9 @@ class TestConvertDegreesMinutesSecondsToDecimal(unittest.TestCase):
         with self.assertRaises(ValueError):
             geophoto.dms_to_decimal(181, 0, 0, 'E')
 
-
+    def test_invalid_ref_raises_exception(self):
+        with self.assertRaises(ValueError):
+            geophoto.dms_to_decimal(1, 1, 1, 'Z')
 
 
 
