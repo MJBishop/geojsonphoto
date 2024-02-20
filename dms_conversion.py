@@ -12,14 +12,14 @@ MAX_LONG_DEGREES = 90
 '''
 
 '''
-def latitude(ref):
+def is_latitude(ref):
     return (ref == NORTH_REF or ref == SOUTH_REF)
 
 
 '''
 
 '''
-def longitude(ref):
+def is_longitude(ref):
     return (ref == EAST_REF or ref == WEST_REF)
 
 
@@ -37,9 +37,9 @@ def dms_to_decimal(degrees, minutes, seconds, ref):
         raise ValueError('Invalid Seconds! Should be positive and less than 60: ' + str(seconds))
     if degrees < MIN_DMS:
         raise ValueError('Invalid Degrees! Should be positive: ' + str(seconds))
-    if latitude(ref) and degrees > MAX_LAT_DEGREES:
+    if is_latitude(ref) and degrees > MAX_LAT_DEGREES:
         raise ValueError('Latitude cannot be greater than 90 degrees: ' + str(degrees) + ref)
-    elif longitude(ref) and degrees > MAX_LONG_DEGREES:
+    elif is_longitude(ref) and degrees > MAX_LONG_DEGREES:
         raise ValueError('Longitude cannot be greater than 180 degrees: ' + str(degrees) + ref)
     
     return (degrees + minutes/60 + seconds/3600) * (-1 if ref == SOUTH_REF or ref == WEST_REF else 1)
