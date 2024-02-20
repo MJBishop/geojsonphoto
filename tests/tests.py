@@ -31,6 +31,11 @@ class TestConvertDegreesMinutesSecondsToDecimal(unittest.TestCase):
         test_decimal = -5.205
         self.assertEqual(test_decimal, geophoto.dms_to_decimal(5, 12, 18, 'W'))
 
+    def test_lat_91N_raises_exception(self):
+        with self.assertRaises(ValueError):
+            geophoto.dms_to_decimal(91, 0, 0, 'N')
+
+
 
 
 
