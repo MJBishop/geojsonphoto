@@ -5,7 +5,7 @@ sys.path.append("..")
 import geophoto
 
 
-class TestConvertDegreesMinutesSecondsToDecimal(unittest.TestCase):
+class TestDMSToDecimal(unittest.TestCase):
 
     def test_convert_zero_east(self):
         test_decimal = 0
@@ -70,7 +70,6 @@ class TestConvertDegreesMinutesSecondsToDecimal(unittest.TestCase):
     def test_invalid_negative_degrees_raises_exception(self):
         with self.assertRaises(ValueError):
             geophoto.dms_to_decimal(-1, 1, 1, 'N')
-
 
 
 if __name__ == '__main__':
