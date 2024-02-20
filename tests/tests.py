@@ -63,6 +63,10 @@ class TestConvertDegreesMinutesSecondsToDecimal(unittest.TestCase):
         with self.assertRaises(ValueError):
             geophoto.dms_to_decimal(1, 1, 60, 'N')
 
+    def test_invalid_negative_seconds_raises_exception(self):
+        with self.assertRaises(ValueError):
+            geophoto.dms_to_decimal(1, 1, -1, 'N')
+
 
 
 if __name__ == '__main__':
