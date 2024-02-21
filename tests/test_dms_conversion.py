@@ -1,8 +1,5 @@
 import unittest
-import sys
-sys.path.append("..")
-
-from dms_conversion import dms_to_decimal
+from geophoto.dms_conversion import dms_to_decimal
 
 
 class TestDMSToDecimal(unittest.TestCase):

@@ -22,6 +22,12 @@ def is_latitude(ref):
 def is_longitude(ref):
     return (ref == EAST_REF or ref == WEST_REF)
 
+# ?
+# is_valid_ref()
+# is_longitude_ref()
+# is_latitude_ref()
+# is_valid_latitude()
+# is_valid_longitude()
 
 '''
 Convert Degrees, Minutes, Seconds, Ref to Decimal
