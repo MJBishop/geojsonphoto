@@ -28,6 +28,19 @@ class TestGeoJSONParser(unittest.TestCase):
         )
         self.assertEqual(2, len(geojson_parser._collections_dictionary[test_title]))
 
+    def test_add_second_collection(self):
+        geojson_parser = GeoJSONParser()
+        test_title1 = 'Test_Title1'
+        test_title2 = 'Test_Title2'
+        geojson_parser.add_feature(
+            collection_title = test_title1, lat=0, long=0, properties={}
+        )
+        geojson_parser.add_feature(
+            collection_title = test_title2, lat=0, long=0, properties={}
+        )
+        self.assertEqual(1, len(geojson_parser._collections_dictionary[test_title1]))
+        self.assertEqual(1, len(geojson_parser._collections_dictionary[test_title2]))
+
 
 
 if __name__ == '__main__':
