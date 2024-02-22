@@ -8,7 +8,13 @@ class TestGeoJSONParser(unittest.TestCase):
         geojson_parser = GeoJSONParser()
         self.assertEqual({}, geojson_parser._collections_dictionary)
 
-
+    def test_add_first_feature(self):
+        geojson_parser = GeoJSONParser()
+        test_title = 'Test_Title'
+        geojson_parser.add_feature(
+            lat=0, long=0, properties={}, title = test_title
+        )
+        self.assertTrue(test_title in geojson_parser._collections_dictionary)
 
 
 if __name__ == '__main__':
