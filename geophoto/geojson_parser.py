@@ -16,5 +16,7 @@ class GeoJSONParser(object):
         '''
         point = geojson.Point((lat, long))
         feature = geojson.Feature(geometry=point, properties=properties)
-        if title not in self._collections_dictionary.keys():
+        if title not in self._collections_dictionary:
             self._collections_dictionary[title] = [feature]
+        else:
+            self._collections_dictionary[title].append(feature)
