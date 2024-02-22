@@ -53,12 +53,9 @@ class TestGeoJSONParser(unittest.TestCase):
         test_title1 = 'Test_Title1'
         test_title2 = 'Test_Title2'
 
-        # 
+        # add_feature
         geojson_parser.add_feature(
             collection_title = test_title1, lat=test_lat, long=test_long, properties={}
-        )
-        geojson_parser.add_feature(
-            collection_title = test_title2, lat=test_lat, long=test_long, properties={}
         )
         
         # test geojson
@@ -74,6 +71,8 @@ class TestGeoJSONParser(unittest.TestCase):
         title, feature = next(it)
         self.assertEqual(test_title1, title)
         self.assertEqual(test_feature_collection, feature)
+        with self.assertRaises(StopIteration):
+            next(it)
 
 
 
