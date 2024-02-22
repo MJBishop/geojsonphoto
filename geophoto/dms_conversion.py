@@ -1,3 +1,11 @@
+'''
+
+'''
+
+
+'''
+
+'''
 NORTH_REF = 'N'
 SOUTH_REF = 'S'
 EAST_REF = 'E'
@@ -9,32 +17,26 @@ MAX_LAT_DEGREES = 90
 MAX_LONG_DEGREES = 90
 
 
-'''
-
-'''
 def is_latitude(ref):
+    '''
+
+    '''
     return (ref == NORTH_REF or ref == SOUTH_REF)
 
 
-'''
-
-'''
 def is_longitude(ref):
+    '''
+
+    '''
     return (ref == EAST_REF or ref == WEST_REF)
 
-# ?
-# is_valid_ref()
-# is_longitude_ref()
-# is_latitude_ref()
-# is_valid_latitude()
-# is_valid_longitude()
 
-'''
-Convert Degrees, Minutes, Seconds, Ref to Decimal
-
-
-'''
 def dms_to_decimal(degrees, minutes, seconds, ref):
+    '''
+    Convert Degrees, Minutes, Seconds, Ref to Decimal
+
+
+    '''
     if ref not in [NORTH_REF, SOUTH_REF, EAST_REF, WEST_REF]:
         raise ValueError('Invalid Reference! Expecting N, S, E or W: ' + ref)
     if minutes > MAX_MINUTES or minutes < MIN_DMS:
