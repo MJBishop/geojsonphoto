@@ -1,6 +1,7 @@
 import unittest
 from geophoto.geophoto import GeoPhoto
 
+
 class TestGeoPhoto(unittest.TestCase):
     
     def test_init_geophoto_in_path(self):
@@ -13,6 +14,12 @@ class TestGeoPhoto(unittest.TestCase):
         out_path = 'tests/test_out_path'
         geojson_parser = GeoPhoto(in_path = in_path, out_path=out_path)
         self.assertEqual(out_path, geojson_parser.out_path)
+    
+    def test_init_geophoto_geojson_parser(self):
+        in_path = 'tests/test_files/IMG_9729.jpg'
+        out_path = 'tests/test_out_path'
+        geojson_parser = GeoPhoto(in_path = in_path, out_path=out_path)
+        self.assertTrue(geojson_parser.geojson_parser)
 
 
 if __name__ == '__main__':
