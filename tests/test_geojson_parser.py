@@ -15,6 +15,8 @@ class TestGeoJSONParser(unittest.TestCase):
             lat=0, long=0, properties={}, title = test_title
         )
         self.assertTrue(test_title in geojson_parser._collections_dictionary)
+        self.assertEqual(1, len(geojson_parser._collections_dictionary[test_title]))
+
 
 
 if __name__ == '__main__':
