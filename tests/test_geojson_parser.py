@@ -12,7 +12,7 @@ class TestGeoJSONParser(unittest.TestCase):
         geojson_parser = GeoJSONParser()
         test_title = 'Test_Title'
         geojson_parser.add_feature(
-            lat=0, long=0, properties={}, title = test_title
+            collection_title = test_title, lat=0, long=0, properties={}
         )
         self.assertTrue(test_title in geojson_parser._collections_dictionary)
         self.assertEqual(1, len(geojson_parser._collections_dictionary[test_title]))
@@ -21,10 +21,10 @@ class TestGeoJSONParser(unittest.TestCase):
         geojson_parser = GeoJSONParser()
         test_title = 'Test_Title'
         geojson_parser.add_feature(
-            lat=0, long=0, properties={}, title = test_title
+            collection_title = test_title, lat=0, long=0, properties={}
         )
         geojson_parser.add_feature(
-            lat=0, long=0, properties={}, title = test_title
+            collection_title = test_title, lat=0, long=0, properties={}
         )
         self.assertEqual(2, len(geojson_parser._collections_dictionary[test_title]))
 
