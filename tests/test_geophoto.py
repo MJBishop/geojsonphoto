@@ -48,6 +48,15 @@ class TestGeoPhotoInit(unittest.TestCase):
 #     def test_init_geophoto_process(self):
 #         geophoto = GeoPhoto(in_path = self.in_path, out_path = self.out_path)
 #         geophoto.process()
+        
+class TestFolderFilesFromPath(unittest.TestCase):
+
+    def setUp(self):
+        self.test_file_name = 'image_file.jpg'
+        self.test_in_path = os.path.join('tests/test_files/', 'folder/', self.test_file_name)
+
+    def test_filename_from_path(self):
+        self.assertEqual(self.test_file_name, GeoPhoto.folder_files_from_path(self.test_in_path))
 
 
 if __name__ == '__main__':

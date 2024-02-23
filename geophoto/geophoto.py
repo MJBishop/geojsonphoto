@@ -50,5 +50,7 @@ class GeoPhoto(object):
                 # print(f"Folder {full_path} already exists")
                 pass
 
-
+    @classmethod
+    def folder_files_from_path(cls, filepath):
+        return filepath.split('/')[-1]
     
