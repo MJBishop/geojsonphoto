@@ -26,7 +26,7 @@ class GeoPhoto(object):
     '''
     
     '''
-    def __init__(self, in_path, out_path=DEFAULT_OUT_PATH, strip_exif=False, resize=False, thumbnails=False):
+    def __init__(self, in_path, out_path=DEFAULT_OUT_PATH, strip_exif=True, resize=False, thumbnails=False):
         '''
         
         '''
@@ -51,8 +51,12 @@ class GeoPhoto(object):
                 pass
 
     @classmethod
-    def folder_files_from_path(cls, filepath):
+    def folder_and_filename_from_path(cls, filepath):
         head, file = os.path.split(filepath)
         head, folder = os.path.split(head)
         return folder, file
     
+    @classmethod
+    def thumbnail_filename_from_filename(cls, file_name):
+        file_name, file_type  = file_name.split('.')
+        return file_name + '_thumb.' + file_type
