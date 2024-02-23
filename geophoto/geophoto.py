@@ -68,15 +68,23 @@ class GeoPhoto(object):
                 image = Image(image_file)
                 if image.has_exif:
 
-                    # 
+                    # Paths
                     folder, filename = GeoPhoto.folder_and_filename_from_filepath(filepath)
                     rel_image_path = os.path.join(OUT_DIR, IMAGE_OUT_DIR, filename)
                     image_path = os.path.join(self.out_path, rel_image_path)
+                    thumb_file_name = GeoPhoto.thumbnail_filename_from_filename(filename)
+                    rel_thumbnail_path = os.path.join(OUT_DIR, THUMBNAIL_OUT_DIR, thumb_file_name)
+                    thumbnail_path = os.path.join(self.out_path, rel_thumbnail_path)
 
                     # Exif data
                     lat = dms_to_decimal(*image.gps_latitude, image.gps_latitude_ref)
                     long = dms_to_decimal(*image.gps_longitude, image.gps_longitude_ref)
                     datetime_object = datetime.strptime(image.datetime_original, '%Y:%m:%d %H:%M:%S')
+
+                    # thumbnail 
+                    if self.thumbnails:
+                        with open(thumbnail_path, 'wb') as im:
+                            im.write(image.get_thumbnail())
 
                     # image 
                     if self.strip_exif or self.resize:

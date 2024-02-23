@@ -91,8 +91,20 @@ class TestGeoPhotoProcess(TestGeoPhotoInit):
         self.assertTrue(os.path.isdir(file_path))
 
         image_path = os.path.join(file_path, test_image_file)
-        # with open(image_path, 'r') as f:
-        #     pass
+        with open(image_path, 'r') as f:
+            pass
+
+    def test_geophoto_process_creates_thumbnail_file(self):
+        test_thumbnail_file = 'IMG_9729_thumb.jpg'
+        geophoto = GeoPhoto(in_path = self.in_path, out_path = self.out_path, strip_exif=False, thumbnails=True)
+        geophoto.process()
+
+        file_path = os.path.join(self.out_path, OUT_DIR, THUMBNAIL_OUT_DIR)
+        self.assertTrue(os.path.isdir(file_path))
+
+        thumb_path = os.path.join(file_path, test_thumbnail_file)
+        with open(thumb_path, 'r') as f:
+            pass
         
         
 class TestFolderFilesFromPath(unittest.TestCase):
