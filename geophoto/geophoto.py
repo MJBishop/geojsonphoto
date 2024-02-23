@@ -7,6 +7,8 @@ from exif import Image
 import io
 from datetime import datetime
 import json
+import warnings
+warnings.filterwarnings("ignore", category=RuntimeWarning)
 
 from geophoto.geojson_parser import GeoJSONParser
 from geophoto.dms_conversion import dms_to_decimal
@@ -66,23 +68,34 @@ class GeoPhoto(object):
                 image = Image(image_file)
                 if image.has_exif:
 
+                    # 
                     folder, filename = GeoPhoto.folder_and_filename_from_filepath(filepath)
+                    rel_image_path = os.path.join(OUT_DIR, IMAGE_OUT_DIR, filename)
+                    image_path = os.path.join(self.out_path, rel_image_path)
 
-
-                    # geojson
+                    # Exif data
                     lat = dms_to_decimal(*image.gps_latitude, image.gps_latitude_ref)
                     long = dms_to_decimal(*image.gps_longitude, image.gps_longitude_ref)
                     datetime_object = datetime.strptime(image.datetime_original, '%Y:%m:%d %H:%M:%S')
+
+                    # image 
+                    if self.strip_exif or self.resize:
+                        image.delete_all()
+                        with open(image_path, 'wb') as new_image_file:
+                            new_image_file.write(image.get_file())
+
+                    # geojson
                     props = {
-                        "datetime": str(datetime_object)
+                        "datetime": str(datetime_object),
+                        "image_path": rel_image_path
                     }
                     self.geojson_parser.add_feature(folder, lat, long, props)
 
         # Save geojson
         for title, feature_collection in self.geojson_parser:
-            rel_g_path = os.path.join(OUT_DIR, GEOJSON_OUT_DIR, f'{title}.geojson')
-            g_path = os.path.join(self.out_path, rel_g_path)
-            with open(g_path, 'w') as f:
+            rel_path = os.path.join(OUT_DIR, GEOJSON_OUT_DIR, f'{title}.geojson')
+            path = os.path.join(self.out_path, rel_path)
+            with open(path, 'w') as f:
                 json.dump(feature_collection, f)
 
     @classmethod

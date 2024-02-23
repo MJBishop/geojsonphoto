@@ -78,9 +78,21 @@ class TestGeoPhotoProcess(TestGeoPhotoInit):
         file_path = os.path.join(self.out_path, OUT_DIR, GEOJSON_OUT_DIR)
         self.assertTrue(os.path.isdir(file_path))
 
-        geojson_path = os.path.join(file_path, 'test_geojson_file_name')
+        geojson_path = os.path.join(file_path, test_geojson_file_name)
         with open(geojson_path, 'r') as f:
             pass
+
+    def test_geophoto_process_creates_image_file(self):
+        test_image_file = 'IMG_9729.jpg'
+        geophoto = GeoPhoto(in_path = self.in_path, out_path = self.out_path, strip_exif=True)
+        geophoto.process()
+
+        file_path = os.path.join(self.out_path, OUT_DIR, IMAGE_OUT_DIR)
+        self.assertTrue(os.path.isdir(file_path))
+
+        image_path = os.path.join(file_path, test_image_file)
+        # with open(image_path, 'r') as f:
+        #     pass
         
         
 class TestFolderFilesFromPath(unittest.TestCase):
