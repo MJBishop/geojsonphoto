@@ -70,15 +70,20 @@ class TestGeoPhotoInit(unittest.TestCase):
 
 class TestGeoPhotoProcess(TestGeoPhotoInit):
 
+
+    def setUp(self):
+        super().setUp()
+        self.test_geojson_file_name = 'test_folder.geojson'
+        self.geojson_file_path = os.path.join(self.out_path, OUT_DIR, GEOJSON_OUT_DIR)
+        self.image_file_path = os.path.join(self.out_path, OUT_DIR, IMAGE_OUT_DIR)
+
     def test_geophoto_process_creates_geojson_file(self):
-        test_geojson_file_name = 'test_folder.geojson'
         geophoto = GeoPhoto(in_path = self.in_path, out_path = self.out_path, strip_exif=False)
         geophoto.process()
 
-        file_path = os.path.join(self.out_path, OUT_DIR, GEOJSON_OUT_DIR)
-        self.assertTrue(os.path.isdir(file_path))
+        self.assertTrue(os.path.isdir(self.geojson_file_path))
 
-        geojson_path = os.path.join(file_path, test_geojson_file_name)
+        geojson_path = os.path.join(self.geojson_file_path, self.test_geojson_file_name)
         with open(geojson_path, 'r') as f:
             jsn = json.load(f)
             self.assertIsNotNone(jsn['features'][0]['properties']['datetime'])
@@ -92,13 +97,20 @@ class TestGeoPhotoProcess(TestGeoPhotoInit):
         geophoto = GeoPhoto(in_path = self.in_path, out_path = self.out_path, strip_exif=True)
         geophoto.process()
 
-        file_path = os.path.join(self.out_path, OUT_DIR, IMAGE_OUT_DIR)
-        self.assertTrue(os.path.isdir(file_path))
+        self.assertTrue(os.path.isdir(self.image_file_path))
 
-        image_path = os.path.join(file_path, test_image_file)
+        image_path = os.path.join(self.image_file_path, test_image_file)
         with open(image_path, 'r') as f:
             pass
-        # path in geojson?
+        
+        geojson_path = os.path.join(self.geojson_file_path, self.test_geojson_file_name)
+        with open(geojson_path, 'r') as f:
+            jsn = json.load(f)
+            self.assertIsNotNone(jsn['features'][0]['properties']['datetime'])
+            self.assertIsNotNone(jsn['features'][0]['properties']['image_path'])
+
+            with self.assertRaises(KeyError):
+                jsn['features'][0]['properties']['thumbnail_path']
 
     def test_geophoto_process_creates_thumbnail_file(self):
         test_thumbnail_file = 'IMG_9729_thumb.jpg'
