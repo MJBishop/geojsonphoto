@@ -32,8 +32,12 @@ class GeoPhoto(object):
         '''
         self.in_path = in_path
         self.out_path = out_path
+        self.strip_exif = strip_exif
+        self.resize = resize
+        self.thumbnails = thumbnails
         self.geojson_parser = GeoJSONParser()
 
+        # Make Output Directories
         sub_directories = [GEOJSON_OUT_DIR]
         if strip_exif or resize:
             sub_directories.append(IMAGE_OUT_DIR)
@@ -50,11 +54,13 @@ class GeoPhoto(object):
                 # print(f"Folder {full_path} already exists")
                 pass
 
+
+
     @classmethod
-    def folder_and_filename_from_path(cls, filepath):
-        head, file = os.path.split(filepath)
+    def folder_and_filename_from_filepath(cls, filepath):
+        head, filename = os.path.split(filepath)
         head, folder = os.path.split(head)
-        return folder, file
+        return folder, filename
     
     @classmethod
     def thumbnail_filename_from_filename(cls, file_name):
