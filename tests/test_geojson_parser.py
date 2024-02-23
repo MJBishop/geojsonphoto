@@ -75,7 +75,5 @@ class TestGeoJSONParser(unittest.TestCase):
             next(it)
 
 
-
-
 if __name__ == '__main__':
     unittest.main()
