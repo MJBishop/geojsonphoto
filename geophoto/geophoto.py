@@ -6,6 +6,7 @@ import glob
 from exif import Image
 from datetime import datetime
 import json
+import warnings 
 
 from geophoto.geojson_parser import GeoJSONParser
 from geophoto.dms_conversion import dms_to_decimal
@@ -96,8 +97,14 @@ class GeoPhoto(object):
                             pass
 
                         # delete exif data
-                        image.delete_all()
-                        
+                        with warnings.catch_warnings():
+                            warnings.filterwarnings('error')
+                            try:
+                                image.delete_all()
+                            except Warning as e:
+                                # print(e) - log?
+                                pass
+
                         with open(image_path, 'wb') as im:
                             im.write(image.get_file())
                             props["image_path"] = rel_image_path
