@@ -55,14 +55,49 @@ class GeoPhoto(object):
                 pass
 
 
+    def process(self):
+        '''
+        
+        '''
+        files = glob.iglob(f'{self.in_path}**/*.[Jj][Pp][Gg]', recursive=False)
+
+        for filepath in files:
+            with open(filepath, 'rb') as image_file:
+                image = Image(image_file)
+                if image.has_exif:
+
+                    folder, filename = GeoPhoto.folder_and_filename_from_filepath(filepath)
+
+
+                    # geojson
+                    lat = dms_to_decimal(*image.gps_latitude, image.gps_latitude_ref)
+                    long = dms_to_decimal(*image.gps_longitude, image.gps_longitude_ref)
+                    datetime_object = datetime.strptime(image.datetime_original, '%Y:%m:%d %H:%M:%S')
+                    props = {
+                        "datetime": str(datetime_object)
+                    }
+                    self.geojson_parser.add_feature(folder, lat, long, props)
+
+        # Save geojson
+        for title, feature_collection in self.geojson_parser:
+            rel_g_path = os.path.join(OUT_DIR, GEOJSON_OUT_DIR, f'{title}.geojson')
+            g_path = os.path.join(self.out_path, rel_g_path)
+            with open(g_path, 'w') as f:
+                json.dump(feature_collection, f)
 
     @classmethod
     def folder_and_filename_from_filepath(cls, filepath):
+        '''
+        
+        '''
         head, filename = os.path.split(filepath)
         head, folder = os.path.split(head)
         return folder, filename
     
     @classmethod
     def thumbnail_filename_from_filename(cls, file_name):
-        file_name, file_type  = file_name.split('.')
-        return file_name + '_thumb.' + file_type
+        '''
+        
+        '''
+        f_name, f_type  = file_name.split('.')
+        return f_name + '_thumb.' + f_type

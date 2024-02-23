@@ -67,11 +67,20 @@ class TestGeoPhotoInit(unittest.TestCase):
 
         self.assertFalse(os.path.isdir(os.path.join(self.out_path, OUT_DIR, THUMBNAIL_OUT_DIR)))
         
-# class TestGeoPhotoProcess(TestGeoPhotoInit):
 
-#     def test_init_geophoto_process(self):
-#         geophoto = GeoPhoto(in_path = self.in_path, out_path = self.out_path)
-#         geophoto.process()
+class TestGeoPhotoProcess(TestGeoPhotoInit):
+
+    def test_geophoto_process_creates_geojson_file(self):
+        test_geojson_file_name = 'test_folder.geojson'
+        geophoto = GeoPhoto(in_path = self.in_path, out_path = self.out_path, strip_exif=False)
+        geophoto.process()
+
+        file_path = os.path.join(self.out_path, OUT_DIR, GEOJSON_OUT_DIR)
+        self.assertTrue(os.path.isdir(file_path))
+
+        geojson_path = os.path.join(file_path, 'test_geojson_file_name')
+        with open(geojson_path, 'r') as f:
+            pass
         
         
 class TestFolderFilesFromPath(unittest.TestCase):
@@ -93,6 +102,7 @@ class TestFolderFilesFromPath(unittest.TestCase):
     def test_thumb_filename_from_path(self):
         thumbnail_filename = GeoPhoto.thumbnail_filename_from_filename(self.test_filename)
         self.assertEqual(self.test_folder_filename, thumbnail_filename)
+
 
 
 if __name__ == '__main__':
