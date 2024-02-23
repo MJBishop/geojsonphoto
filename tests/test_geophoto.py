@@ -31,7 +31,7 @@ class TestGeoPhotoInit(unittest.TestCase):
         geophoto = GeoPhoto(in_path = self.in_path, out_path = self.out_path)
         self.assertTrue(geophoto.geojson_parser)
     
-    def test_init_geophoto_creates_out_directories(self):
+    def test_default_init_geophoto_creates_out_directories(self):
         self.assertFalse(os.path.isdir(os.path.join(self.out_path, OUT_DIR)))
 
         geophoto = GeoPhoto(in_path = self.in_path, out_path = self.out_path)
@@ -39,8 +39,9 @@ class TestGeoPhotoInit(unittest.TestCase):
         self.assertTrue(os.path.isdir(self.out_path))
         self.assertTrue(os.path.isdir(os.path.join(self.out_path, OUT_DIR)))
         self.assertTrue(os.path.isdir(os.path.join(self.out_path, OUT_DIR, GEOJSON_OUT_DIR)))
-        self.assertTrue(os.path.isdir(os.path.join(self.out_path, OUT_DIR, IMAGE_OUT_DIR)))
-        self.assertTrue(os.path.isdir(os.path.join(self.out_path, OUT_DIR, THUMBNAIL_OUT_DIR)))
+
+        self.assertFalse(os.path.isdir(os.path.join(self.out_path, OUT_DIR, IMAGE_OUT_DIR)))
+        self.assertFalse(os.path.isdir(os.path.join(self.out_path, OUT_DIR, THUMBNAIL_OUT_DIR)))
         
 # class TestGeoPhotoProcess(TestGeoPhotoInit):
 
