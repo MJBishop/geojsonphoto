@@ -81,6 +81,7 @@ class TestGeoPhotoProcess(TestGeoPhotoInit):
         geojson_path = os.path.join(file_path, test_geojson_file_name)
         with open(geojson_path, 'r') as f:
             pass
+        # date in geojson?
 
     def test_geophoto_process_creates_image_file(self):
         test_image_file = 'IMG_9729.jpg'
@@ -93,6 +94,7 @@ class TestGeoPhotoProcess(TestGeoPhotoInit):
         image_path = os.path.join(file_path, test_image_file)
         with open(image_path, 'r') as f:
             pass
+        # path in geojson?
 
     def test_geophoto_process_creates_thumbnail_file(self):
         test_thumbnail_file = 'IMG_9729_thumb.jpg'
@@ -105,6 +107,7 @@ class TestGeoPhotoProcess(TestGeoPhotoInit):
         thumb_path = os.path.join(file_path, test_thumbnail_file)
         with open(thumb_path, 'r') as f:
             pass
+        # path in geojson?
         
         
 class TestFolderFilesFromPath(unittest.TestCase):
