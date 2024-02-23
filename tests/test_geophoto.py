@@ -54,6 +54,18 @@ class TestGeoPhotoInit(unittest.TestCase):
         self.assertTrue(os.path.isdir(os.path.join(self.out_path, OUT_DIR, THUMBNAIL_OUT_DIR)))
 
         self.assertFalse(os.path.isdir(os.path.join(self.out_path, OUT_DIR, IMAGE_OUT_DIR)))
+    
+    def test_resize_init_geophoto_creates_out_directories(self):
+        self.assertFalse(os.path.isdir(os.path.join(self.out_path, OUT_DIR)))
+
+        geophoto = GeoPhoto(in_path = self.in_path, out_path = self.out_path, strip_exif=False, resize=True, thumbnails=False)
+
+        self.assertTrue(os.path.isdir(self.out_path))
+        self.assertTrue(os.path.isdir(os.path.join(self.out_path, OUT_DIR)))
+        self.assertTrue(os.path.isdir(os.path.join(self.out_path, OUT_DIR, GEOJSON_OUT_DIR)))
+        self.assertTrue(os.path.isdir(os.path.join(self.out_path, OUT_DIR, IMAGE_OUT_DIR)))
+
+        self.assertFalse(os.path.isdir(os.path.join(self.out_path, OUT_DIR, THUMBNAIL_OUT_DIR)))
         
 # class TestGeoPhotoProcess(TestGeoPhotoInit):
 
