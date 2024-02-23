@@ -80,8 +80,12 @@ class TestGeoPhotoProcess(TestGeoPhotoInit):
 
         geojson_path = os.path.join(file_path, test_geojson_file_name)
         with open(geojson_path, 'r') as f:
-            pass
-        # date in geojson?
+            jsn = json.load(f)
+            self.assertIsNotNone(jsn['features'][0]['properties']['datetime'])
+
+            with self.assertRaises(KeyError):
+                jsn['features'][0]['properties']['image_path']
+                jsn['features'][0]['properties']['thumbnail_path']
 
     def test_geophoto_process_creates_image_file(self):
         test_image_file = 'IMG_9729.jpg'
