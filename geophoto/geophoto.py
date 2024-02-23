@@ -52,5 +52,7 @@ class GeoPhoto(object):
 
     @classmethod
     def folder_files_from_path(cls, filepath):
-        return filepath.split('/')[-1]
+        head, file = os.path.split(filepath)
+        head, folder = os.path.split(head)
+        return folder, file
     

@@ -53,10 +53,14 @@ class TestFolderFilesFromPath(unittest.TestCase):
 
     def setUp(self):
         self.test_file_name = 'image_file.jpg'
-        self.test_in_path = os.path.join('tests/test_files/', 'folder/', self.test_file_name)
+        self.test_folder_name = 'folder'
+        self.test_in_path = os.path.join('tests/test_files/', self.test_folder_name, self.test_file_name)
 
     def test_filename_from_path(self):
-        self.assertEqual(self.test_file_name, GeoPhoto.folder_files_from_path(self.test_in_path))
+        self.assertEqual(self.test_file_name, GeoPhoto.folder_files_from_path(self.test_in_path)[1])
+
+    def test_folder_from_path(self):
+        self.assertEqual(self.test_folder_name, GeoPhoto.folder_files_from_path(self.test_in_path)[0])
 
 
 if __name__ == '__main__':
