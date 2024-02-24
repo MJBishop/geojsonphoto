@@ -3,13 +3,11 @@
 '''
 import os
 import glob
-from exif import Image
-from datetime import datetime
 import json
 import warnings 
 
 from geophoto.geojson_parser import GeoJSONParser
-from geophoto.dms_conversion import dms_to_decimal
+from geophoto.exif_reader import read_exif
 
 
 '''
@@ -76,8 +74,6 @@ class GeoPhoto(object):
         thumb_file_name = GeoPhoto.thumbnail_filename_from_image_filename(filename)
         return os.path.join(OUT_DIR, IMAGE_DIR, thumb_file_name)
         
-
-
     def process(self):
         '''
         
@@ -85,56 +81,37 @@ class GeoPhoto(object):
         files = glob.iglob(f'{self.in_dir_path}**/*.[Jj][Pp][Gg]', recursive=False)
 
         for filepath in files:
-            with open(filepath, 'rb') as image_file:
-                image = Image(image_file)
-                if image.has_exif:
+            image_file = open(filepath, 'rb')
+            try:
+                coord, props, image_dict = read_exif(image_file)
+            except:
+                pass
+            else:
+                folder, filename = GeoPhoto.folder_and_filename_from_filepath(filepath)
 
-                    # exif data
-                    lat = dms_to_decimal(*image.gps_latitude, image.gps_latitude_ref)
-                    long = dms_to_decimal(*image.gps_longitude, image.gps_longitude_ref)
-                    datetime_object = datetime.strptime(image.datetime_original, '%Y:%m:%d %H:%M:%S')
-                    props = {
-                        "datetime": str(datetime_object)
-                    }
+                # thumbnail 
+                if self.thumbnails:
+                    rel_thumbnail_path = self._rel_thumbnail_path(filename)
+                    thumbnail_path = os.path.join(self.out_dir_path, rel_thumbnail_path)
 
+                    with open(thumbnail_path, 'wb') as im:
+                        im.write(image_dict['thumbnail'])
+                        props["thumbnail_path"] = rel_thumbnail_path
 
-                    # 
-                    folder, filename = GeoPhoto.folder_and_filename_from_filepath(filepath)
+                # image 
+                if self.strip_exif or self.resize:
+                    rel_image_path = self._rel_image_path(filename)
+                    image_path = os.path.join(self.out_dir_path, rel_image_path)            
 
-                    # thumbnail 
-                    if self.thumbnails:
-                        rel_thumbnail_path = self._rel_thumbnail_path(filename)
-                        thumbnail_path = os.path.join(self.out_dir_path, rel_thumbnail_path)
+                    with open(image_path, 'wb') as im:
+                        im.write(image_dict['image'])
+                        props["image_path"] = rel_image_path
+            
+                # 
+                image_file.close()
 
-                        with open(thumbnail_path, 'wb') as im:
-                            im.write(image.get_thumbnail())
-                            props["thumbnail_path"] = rel_thumbnail_path
-
-                    # image 
-                    if self.strip_exif or self.resize:
-                        rel_image_path = self._rel_image_path(filename)
-                        image_path = os.path.join(self.out_dir_path, rel_image_path)
-
-                        if self.resize:
-                            # TODO - resize image
-                            pass
-
-                        # delete exif data
-                        with warnings.catch_warnings():
-                            warnings.filterwarnings('error')
-                            try:
-                                image.delete_all()
-                            except Warning as e:
-                                # print(e) - log?
-                                pass
-
-                        with open(image_path, 'wb') as im:
-                            im.write(image.get_file())
-                            props["image_path"] = rel_image_path
-
-
-                    # geojson
-                    self._geojson_parser.add_feature(folder, lat, long, props)
+                # geojson
+                self._geojson_parser.add_feature(folder, *coord, props)
 
         # Save geojson
         for title, feature_collection in self._geojson_parser:

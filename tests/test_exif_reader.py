@@ -24,8 +24,13 @@ class TestExif(unittest.TestCase):
 
     def test_read_exif_thumbnail_file(self):
         with open(self.filepath, 'rb') as image_file:
-            coord, props, thumb_f = read_exif(image_file)
-        self.assertIsNotNone(thumb_f)
+            coord, props, files = read_exif(image_file)
+        self.assertIsNotNone(files['thumbnail'])
+
+    def test_read_exif_image_file(self):
+        with open(self.filepath, 'rb') as image_file:
+            coord, props, files = read_exif(image_file)
+        self.assertIsNotNone(files['image'])
 
 
 class TestNoExif(unittest.TestCase):
