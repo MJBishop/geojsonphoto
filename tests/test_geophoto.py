@@ -50,8 +50,6 @@ class TestGeoPhotoInit(unittest.TestCase):
 
         self.assertTrue(os.path.isdir(os.path.join(self.out_path, OUT_DIR, GEOJSON_OUT_DIR)))
         self.assertTrue(os.path.isdir(os.path.join(self.out_path, OUT_DIR, IMAGE_OUT_DIR)))
-
-        self.assertFalse(os.path.isdir(os.path.join(self.out_path, OUT_DIR, THUMBNAIL_OUT_DIR)))
     
     def test_thumbnail_init_geophoto_creates_out_directories(self):
         self.assertFalse(os.path.isdir(os.path.join(self.out_path, OUT_DIR)))
@@ -63,9 +61,7 @@ class TestGeoPhotoInit(unittest.TestCase):
                             thumbnails=True)
 
         self.assertTrue(os.path.isdir(os.path.join(self.out_path, OUT_DIR, GEOJSON_OUT_DIR)))
-        self.assertTrue(os.path.isdir(os.path.join(self.out_path, OUT_DIR, THUMBNAIL_OUT_DIR)))
-
-        self.assertFalse(os.path.isdir(os.path.join(self.out_path, OUT_DIR, IMAGE_OUT_DIR)))
+        self.assertTrue(os.path.isdir(os.path.join(self.out_path, OUT_DIR, IMAGE_OUT_DIR)))
     
     def test_resize_init_geophoto_creates_out_directories(self):
         self.assertFalse(os.path.isdir(os.path.join(self.out_path, OUT_DIR)))
@@ -79,7 +75,7 @@ class TestGeoPhotoInit(unittest.TestCase):
         self.assertTrue(os.path.isdir(os.path.join(self.out_path, OUT_DIR, GEOJSON_OUT_DIR)))
         self.assertTrue(os.path.isdir(os.path.join(self.out_path, OUT_DIR, IMAGE_OUT_DIR)))
 
-        self.assertFalse(os.path.isdir(os.path.join(self.out_path, OUT_DIR, THUMBNAIL_OUT_DIR)))
+        # self.assertFalse(os.path.isdir(os.path.join(self.out_path, OUT_DIR, THUMBNAIL_OUT_DIR)))
         
 
 class TestGeoPhotoProcess(TestGeoPhotoInit):
@@ -87,7 +83,7 @@ class TestGeoPhotoProcess(TestGeoPhotoInit):
     def setUp(self):
         super().setUp()
         self.test_geojson_file_name = 'test_folder.geojson'
-        self.thumbnail_file_path = os.path.join(self.out_path, OUT_DIR, THUMBNAIL_OUT_DIR)
+        # self.thumbnail_file_path = os.path.join(self.out_path, OUT_DIR, THUMBNAIL_OUT_DIR) 
 
     def test_geophoto_process_creates_geojson_file(self):
         geophoto = GeoPhoto(in_path = self.in_path, out_path = self.out_path, strip_exif=False)
@@ -129,9 +125,9 @@ class TestGeoPhotoProcess(TestGeoPhotoInit):
         geophoto = GeoPhoto(in_path = self.in_path, out_path = self.out_path, strip_exif=False, thumbnails=True)
         geophoto.process()
 
-        self.assertTrue(os.path.isdir(self.thumbnail_file_path))
+        self.assertTrue(os.path.isdir(self.image_dir_path))
 
-        thumb_path = os.path.join(self.thumbnail_file_path, test_thumbnail_file)
+        thumb_path = os.path.join(self.image_dir_path, test_thumbnail_file)
         with open(thumb_path, 'r') as f:
             pass
         

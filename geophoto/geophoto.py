@@ -19,7 +19,6 @@ DEFAULT_OUT_PATH = './'
 OUT_DIR = 'geophoto_output/'
 GEOJSON_OUT_DIR = 'geojson/'
 IMAGE_OUT_DIR = 'images/'
-THUMBNAIL_OUT_DIR = 'thumbnails/'
 
 
 class GeoPhoto(object):
@@ -39,10 +38,8 @@ class GeoPhoto(object):
 
         # Make Output Directories
         sub_directories = [GEOJSON_OUT_DIR]
-        if strip_exif or resize:
+        if strip_exif or resize or thumbnails:
             sub_directories.append(IMAGE_OUT_DIR)
-        if thumbnails:
-            sub_directories.append(THUMBNAIL_OUT_DIR)
 
         for sub_dir in sub_directories:
             full_path = os.path.join(out_path, OUT_DIR, sub_dir)
@@ -69,6 +66,7 @@ class GeoPhoto(object):
     @property
     def image_dir_path(self):
         return os.path.join(self.out_path, OUT_DIR, IMAGE_OUT_DIR)
+        # either test for failure or always strip exif?
 
 
     def process(self):
@@ -96,7 +94,7 @@ class GeoPhoto(object):
                     # thumbnail 
                     if self.thumbnails:
                         thumb_file_name = GeoPhoto.thumbnail_filename_from_filename(filename)
-                        rel_thumbnail_path = os.path.join(OUT_DIR, THUMBNAIL_OUT_DIR, thumb_file_name)
+                        rel_thumbnail_path = os.path.join(OUT_DIR, IMAGE_OUT_DIR, thumb_file_name)
                         thumbnail_path = os.path.join(self.out_path, rel_thumbnail_path)
 
                         with open(thumbnail_path, 'wb') as im:
