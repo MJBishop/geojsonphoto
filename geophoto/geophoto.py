@@ -26,6 +26,7 @@ class GeoPhoto(object):
     
     '''
     def __init__(self, in_dir_path, out_dir_path=DEFAULT_OUT_DIR_PATH, strip_exif=True, resize=False, thumbnails=False):
+        # need: action_thumbnail!!
         '''
         
         '''
@@ -34,7 +35,7 @@ class GeoPhoto(object):
         self.strip_exif = strip_exif
         self.resize = resize
         self.thumbnails = thumbnails
-        self.geojson_parser = GeoJSONParser()
+        self._geojson_parser = GeoJSONParser()
 
         # Make Output Directories
         sub_directories = [GEOJSON_DIR]
@@ -67,6 +68,14 @@ class GeoPhoto(object):
     def image_dir_path(self):
         return os.path.join(self.out_dir_path, OUT_DIR, IMAGE_DIR)
         # either test for failure or always strip exif?
+    
+    def _rel_image_path(self, filename):
+        return os.path.join(OUT_DIR, IMAGE_DIR, filename)
+    
+    def _rel_thumbnail_path(self, filename):
+        thumb_file_name = GeoPhoto.thumbnail_filename_from_image_filename(filename)
+        return os.path.join(OUT_DIR, IMAGE_DIR, thumb_file_name)
+        
 
 
     def process(self):
@@ -80,9 +89,6 @@ class GeoPhoto(object):
                 image = Image(image_file)
                 if image.has_exif:
 
-                    # 
-                    folder, filename = GeoPhoto.folder_and_filename_from_filepath(filepath)
-
                     # exif data
                     lat = dms_to_decimal(*image.gps_latitude, image.gps_latitude_ref)
                     long = dms_to_decimal(*image.gps_longitude, image.gps_longitude_ref)
@@ -91,10 +97,13 @@ class GeoPhoto(object):
                         "datetime": str(datetime_object)
                     }
 
+
+                    # 
+                    folder, filename = GeoPhoto.folder_and_filename_from_filepath(filepath)
+
                     # thumbnail 
                     if self.thumbnails:
-                        thumb_file_name = GeoPhoto.thumbnail_filename_from_image_filename(filename)
-                        rel_thumbnail_path = os.path.join(OUT_DIR, IMAGE_DIR, thumb_file_name)
+                        rel_thumbnail_path = self._rel_thumbnail_path(filename)
                         thumbnail_path = os.path.join(self.out_dir_path, rel_thumbnail_path)
 
                         with open(thumbnail_path, 'wb') as im:
@@ -103,7 +112,7 @@ class GeoPhoto(object):
 
                     # image 
                     if self.strip_exif or self.resize:
-                        rel_image_path = os.path.join(OUT_DIR, IMAGE_DIR, filename)
+                        rel_image_path = self._rel_image_path(filename)
                         image_path = os.path.join(self.out_dir_path, rel_image_path)
 
                         if self.resize:
@@ -125,10 +134,10 @@ class GeoPhoto(object):
 
 
                     # geojson
-                    self.geojson_parser.add_feature(folder, lat, long, props)
+                    self._geojson_parser.add_feature(folder, lat, long, props)
 
         # Save geojson
-        for title, feature_collection in self.geojson_parser:
+        for title, feature_collection in self._geojson_parser:
             geojson_file_path = os.path.join(self.geojson_dir_path, f'{title}.geojson')
             with open(geojson_file_path, 'w') as f:
                 json.dump(feature_collection, f)

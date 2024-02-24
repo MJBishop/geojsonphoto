@@ -40,7 +40,7 @@ class TestGeoPhotoInit(unittest.TestCase):
     
     def test_init_geojson_parser(self):
         geophoto = GeoPhoto(in_dir_path = self.in_path, out_dir_path = self.out_path)
-        self.assertTrue(geophoto.geojson_parser)
+        self.assertTrue(geophoto._geojson_parser)
     
     def test_default_init_geophoto_creates_out_directories(self):
         self.assertFalse(os.path.isdir(os.path.join(self.out_path, OUT_DIR)))
