@@ -53,6 +53,19 @@ class TestMissingExif(unittest.TestCase):
                 coord, props, thumb_f = read_exif(image_file)
 
 
+class TestMissingDatetime(unittest.TestCase):
+    
+    def setUp(self):
+        self.in_path = 'tests/test_files/test_images/test_missing_datetime/'
+        self.file_dir = 'test_folder/MISSING_DATETIME.jpg'
+        self.filepath = os.path.join(self.in_path, self.file_dir)
+
+    def test_read_missing_datetime(self):
+        with self.assertRaises(AttributeError):
+            with open(self.filepath, 'rb') as image_file:
+                coord, props, thumb_f = read_exif(image_file)
+
+
 class TestCorruptedExif(unittest.TestCase):
     pass
 
