@@ -65,6 +65,10 @@ class GeoPhoto(object):
     @property
     def geojson_dir_path(self):
         return os.path.join(self.out_path, OUT_DIR, GEOJSON_OUT_DIR)
+    
+    @property
+    def image_dir_path(self):
+        return os.path.join(self.out_path, OUT_DIR, IMAGE_OUT_DIR)
 
 
     def process(self):

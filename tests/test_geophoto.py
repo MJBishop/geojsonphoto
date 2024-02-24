@@ -10,6 +10,7 @@ class TestGeoPhotoInit(unittest.TestCase):
         self.in_path = 'tests/test_files/test_images/test_exif/'
         self.out_path = 'tests/test_out_path/'
         self.geojson_dir_path = os.path.join(self.out_path, OUT_DIR, GEOJSON_OUT_DIR)
+        self.image_dir_path = os.path.join(self.out_path, OUT_DIR, IMAGE_OUT_DIR)
 
     def tearDown(self):
         out_path = os.path.join(self.out_path, OUT_DIR)
@@ -20,17 +21,21 @@ class TestGeoPhotoInit(unittest.TestCase):
         if os.path.isdir(default_path):
             shutil.rmtree(default_path)
     
-    def test_init_in_path(self):
+    def test_in_path(self):
         geophoto = GeoPhoto(in_path = self.in_path)
         self.assertEqual(self.in_path, geophoto.in_path)
     
-    def test_init_out_path(self):
+    def test_out_path(self):
         geophoto = GeoPhoto(in_path = self.in_path, out_path = self.out_path)
         self.assertEqual(self.out_path, geophoto.out_path)
 
-    def test_init_geojson_path(self):
+    def test_geojson_dir_path(self):
         geophoto = GeoPhoto(in_path = self.in_path, out_path = self.out_path)
         self.assertEqual(self.geojson_dir_path, geophoto.geojson_dir_path)
+
+    def test_image_dir_path(self):
+        geophoto = GeoPhoto(in_path = self.in_path, out_path = self.out_path)
+        self.assertEqual(self.image_dir_path, geophoto.image_dir_path)
 
     
     def test_init_geojson_parser(self):
@@ -82,7 +87,6 @@ class TestGeoPhotoProcess(TestGeoPhotoInit):
     def setUp(self):
         super().setUp()
         self.test_geojson_file_name = 'test_folder.geojson'
-        self.image_file_path = os.path.join(self.out_path, OUT_DIR, IMAGE_OUT_DIR)
         self.thumbnail_file_path = os.path.join(self.out_path, OUT_DIR, THUMBNAIL_OUT_DIR)
 
     def test_geophoto_process_creates_geojson_file(self):
@@ -105,9 +109,9 @@ class TestGeoPhotoProcess(TestGeoPhotoInit):
         geophoto = GeoPhoto(in_path = self.in_path, out_path = self.out_path, strip_exif=True)
         geophoto.process()
 
-        self.assertTrue(os.path.isdir(self.image_file_path))
+        self.assertTrue(os.path.isdir(self.image_dir_path))
 
-        image_path = os.path.join(self.image_file_path, test_image_file)
+        image_path = os.path.join(self.image_dir_path, test_image_file)
         with open(image_path, 'r') as f:
             pass
         
