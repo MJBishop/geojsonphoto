@@ -11,17 +11,15 @@ def read_exif(image_file):
     
     '''
     image = Image(image_file)
+    if not image.has_exif:
+        # print(f'KeyError: No metadata in file {image_file.name}')
+        raise KeyError(f'KeyError: No metadata in file {image_file.name}')
 
 
     # coord
     try:
         lat = dms_to_decimal(*image.gps_latitude, image.gps_latitude_ref)
         long = dms_to_decimal(*image.gps_longitude, image.gps_longitude_ref)
-
-    except KeyError as e:
-        # print(f'KeyError: No metadata in file {image_file.name}')
-        raise e
-    
     except AttributeError as e:
         # print(f'AttributeError: Missing metadata, {e} in file {image_file.name}')
         raise e
