@@ -3,6 +3,7 @@
 '''
 from exif import Image
 from geophoto.dms_conversion import dms_to_decimal
+from datetime import datetime
 
 
 def read_exif(image_file):
@@ -17,7 +18,10 @@ def read_exif(image_file):
     coord = (lat, long)
 
     # props
-    props = {}
+    datetime_object = datetime.strptime(image.datetime_original, '%Y:%m:%d %H:%M:%S')
+    props = {
+        "datetime": str(datetime_object)
+    }
 
 
     # thumb

@@ -10,11 +10,17 @@ class TestExifReader(unittest.TestCase):
         self.file_dir = 'test_folder/EXIF.jpg'
         self.filepath = os.path.join(self.in_path, self.file_dir)
 
-    def test_read_coord(self):
+    def test_read_exif_coord(self):
         test_coord = (-8.631052777777779, 115.09526944444444)
         with open(self.filepath, 'rb') as image_file:
             coord, props, thumb_f = read_exif(image_file)
         self.assertEqual(test_coord, coord)
+
+    def test_read_exif_datetime(self):
+        datetime = "2023-05-05 06:19:24"
+        with open(self.filepath, 'rb') as image_file:
+            coord, props, thumb_f = read_exif(image_file)
+        self.assertEqual(props['datetime'], datetime)
 
 
 
