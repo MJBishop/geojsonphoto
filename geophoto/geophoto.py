@@ -61,6 +61,10 @@ class GeoPhoto(object):
     @property
     def out_path(self):
         return self._out_path
+    
+    @property
+    def geojson_dir_path(self):
+        return os.path.join(self.out_path, OUT_DIR, GEOJSON_OUT_DIR)
 
 
     def process(self):
@@ -123,9 +127,8 @@ class GeoPhoto(object):
 
         # Save geojson
         for title, feature_collection in self.geojson_parser:
-            rel_geojson_path = os.path.join(OUT_DIR, GEOJSON_OUT_DIR, f'{title}.geojson')
-            geojson_path = os.path.join(self.out_path, rel_geojson_path)
-            with open(geojson_path, 'w') as f:
+            geojson_file_path = os.path.join(self.geojson_dir_path, f'{title}.geojson')
+            with open(geojson_file_path, 'w') as f:
                 json.dump(feature_collection, f)
 
     @staticmethod
