@@ -23,8 +23,7 @@ def read_exif(image_file):
         "datetime": str(datetime_object)
     }
 
-
     # thumb
-    thumb_f = None
+    thumb_f = image.get_thumbnail()
 
     return coord, props, thumb_f

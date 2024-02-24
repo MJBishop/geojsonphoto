@@ -22,6 +22,11 @@ class TestExifReader(unittest.TestCase):
             coord, props, thumb_f = read_exif(image_file)
         self.assertEqual(props['datetime'], datetime)
 
+    def test_read_exif_thumbnail_file(self):
+        with open(self.filepath, 'rb') as image_file:
+            coord, props, thumb_f = read_exif(image_file)
+        self.assertIsNotNone(thumb_f)
+
 
 
 if __name__ == '__main__':
