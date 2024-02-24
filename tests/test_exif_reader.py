@@ -3,7 +3,7 @@ import os
 from geophoto.exif_reader import read_exif
 
 
-class TestExifReader(unittest.TestCase):
+class TestExif(unittest.TestCase):
 
     def setUp(self):
         self.in_path = 'tests/test_files/test_images/test_exif/'
@@ -26,6 +26,27 @@ class TestExifReader(unittest.TestCase):
         with open(self.filepath, 'rb') as image_file:
             coord, props, thumb_f = read_exif(image_file)
         self.assertIsNotNone(thumb_f)
+
+
+class TestNoExif(unittest.TestCase):
+    
+    def setUp(self):
+        self.in_path = 'tests/test_files/test_images/test_no_exif/'
+        self.file_dir = 'test_folder/NO_EXIF.jpg'
+        self.filepath = os.path.join(self.in_path, self.file_dir)
+
+    def test_read_no_exif(self):
+        with self.assertRaises(KeyError):
+            with open(self.filepath, 'rb') as image_file:
+                coord, props, thumb_f = read_exif(image_file)
+
+
+class TestMissingExif(unittest.TestCase):
+    pass
+
+
+class TestCorruptedExif(unittest.TestCase):
+    pass
 
 
 

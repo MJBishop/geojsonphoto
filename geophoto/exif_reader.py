@@ -11,6 +11,8 @@ def read_exif(image_file):
     
     '''
     image = Image(image_file)
+    if not image.has_exif:
+        raise KeyError(f'Error: No metadata in file {image_file.name}')
 
     # coord
     lat = dms_to_decimal(*image.gps_latitude, image.gps_latitude_ref)
