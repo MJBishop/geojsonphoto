@@ -23,20 +23,20 @@ class GeoPhoto(object):
     '''
     
     '''
-    def __init__(self, in_dir_path, out_dir_path=DEFAULT_OUT_DIR_PATH, strip_exif=True, thumbnails=False):
+    def __init__(self, in_dir_path, out_dir_path=DEFAULT_OUT_DIR_PATH, images=False, thumbnails=False):
         # need: action_thumbnail!!
         '''
         
         '''
         self._in_dir_path = in_dir_path
         self._out_dir_path = out_dir_path
-        self.strip_exif = strip_exif
-        self.thumbnails = thumbnails
+        self._images = images
+        self._thumbnails = thumbnails
         self._geojson_parser = GeoJSONParser()
 
         # Make Output Directories
         sub_directories = [GEOJSON_DIR]
-        if strip_exif or thumbnails:
+        if images or thumbnails:
             sub_directories.append(IMAGE_DIR)
 
         for sub_dir in sub_directories:
@@ -83,13 +83,14 @@ class GeoPhoto(object):
             image_file = open(filepath, 'rb')
             try:
                 coord, props, image_dict = read_exif(image_file)
+                image_file.close()
             except:
                 pass
             else:
                 folder, filename = GeoPhoto.folder_and_filename_from_filepath(filepath)
 
                 # thumbnail 
-                if self.thumbnails:
+                if self._thumbnails:
                     rel_thumbnail_path = self._rel_thumbnail_path(filename)
                     thumbnail_path = os.path.join(self.out_dir_path, rel_thumbnail_path)
 
@@ -98,16 +99,13 @@ class GeoPhoto(object):
                         props["thumbnail_path"] = rel_thumbnail_path
 
                 # image 
-                if self.strip_exif:
+                if self._images:
                     rel_image_path = self._rel_image_path(filename)
                     image_path = os.path.join(self.out_dir_path, rel_image_path)            
 
                     with open(image_path, 'wb') as im:
                         im.write(image_dict['image'])
                         props["image_path"] = rel_image_path
-            
-                # 
-                image_file.close()
 
                 # geojson
                 self._geojson_parser.add_feature(folder, *coord, props)
