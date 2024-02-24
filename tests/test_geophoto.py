@@ -7,7 +7,7 @@ from geophoto.geophoto import *
 class TestGeoPhotoInit(unittest.TestCase):
 
     def setUp(self):
-        self.in_path = 'tests/test_files/'
+        self.in_path = 'tests/test_files/test_images/test_exif/'
         self.out_path = 'tests/test_out_path/'
 
     def tearDown(self):
@@ -70,7 +70,6 @@ class TestGeoPhotoInit(unittest.TestCase):
 
 class TestGeoPhotoProcess(TestGeoPhotoInit):
 
-
     def setUp(self):
         super().setUp()
         self.test_geojson_file_name = 'test_folder.geojson'
@@ -94,7 +93,7 @@ class TestGeoPhotoProcess(TestGeoPhotoInit):
                 jsn['features'][0]['properties']['thumbnail_path']
 
     def test_geophoto_process_creates_image_file(self):
-        test_image_file = 'IMG_9729.jpg'
+        test_image_file = 'EXIF.jpg'
         geophoto = GeoPhoto(in_path = self.in_path, out_path = self.out_path, strip_exif=True)
         geophoto.process()
 
@@ -114,7 +113,7 @@ class TestGeoPhotoProcess(TestGeoPhotoInit):
                 jsn['features'][0]['properties']['thumbnail_path']
 
     def test_geophoto_process_creates_thumbnail_file(self):
-        test_thumbnail_file = 'IMG_9729_thumb.jpg'
+        test_thumbnail_file = 'EXIF_thumb.jpg'
         geophoto = GeoPhoto(in_path = self.in_path, out_path = self.out_path, strip_exif=False, thumbnails=True)
         geophoto.process()
 

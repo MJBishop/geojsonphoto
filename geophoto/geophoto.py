@@ -69,7 +69,7 @@ class GeoPhoto(object):
                     # 
                     folder, filename = GeoPhoto.folder_and_filename_from_filepath(filepath)
 
-                    # Exif data
+                    # exif data
                     lat = dms_to_decimal(*image.gps_latitude, image.gps_latitude_ref)
                     long = dms_to_decimal(*image.gps_longitude, image.gps_longitude_ref)
                     datetime_object = datetime.strptime(image.datetime_original, '%Y:%m:%d %H:%M:%S')
