@@ -3,6 +3,7 @@
 '''
 from exif import Image
 from datetime import datetime
+import warnings 
 
 from geophoto.dms_conversion import dms_to_decimal
 
@@ -15,6 +16,7 @@ def read_exif(image_file):
     if not image.has_exif:
         # print(f'KeyError: No metadata in file {image_file.name}')
         raise KeyError
+
 
     # coord
     try:
@@ -49,13 +51,15 @@ def read_exif(image_file):
         'thumbnail': image.get_thumbnail()
     }
 
-    # # delete exif data
-    # with warnings.catch_warnings():
-    #     warnings.filterwarnings('error')
-    #     try:
-    #         image.delete_all()
-    #     except Warning as e:
-    #         # print(e) - log?
-    #         pass
+
+    # delete exif data
+    # Warning that not all data has been deleted:
+    with warnings.catch_warnings():
+        warnings.filterwarnings('error')
+        try:
+            image.delete_all()
+        except Warning as e:
+            # print(e) - log?
+            pass
 
     return coord, props, files

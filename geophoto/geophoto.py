@@ -4,7 +4,6 @@
 import os
 import glob
 import json
-import warnings 
 
 from geophoto.geojson_parser import GeoJSONParser
 from geophoto.exif_reader import read_exif

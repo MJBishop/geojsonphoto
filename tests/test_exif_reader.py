@@ -45,6 +45,7 @@ class TestNoExif(unittest.TestCase):
             with open(self.filepath, 'rb') as image_file:
                 coord, props, thumb_f = read_exif(image_file)
 
+
 class TestMissingExif(unittest.TestCase):
     
     def setUp(self):
