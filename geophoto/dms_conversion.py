@@ -38,17 +38,17 @@ def dms_to_decimal(degrees, minutes, seconds, ref):
 
     '''
     if ref not in [NORTH_REF, SOUTH_REF, EAST_REF, WEST_REF]:
-        raise ValueError('Invalid Reference! Expecting N, S, E or W: ' + ref)
+        raise ValueError(f'ValueError: Invalid GPS Reference {ref}, Expecting N, S, E or W')
     if minutes > MAX_MINUTES or minutes < MIN_DMS:
-        raise ValueError('Invalid Minutes! Should be positive and less than 60: ' + str(minutes))
+        raise ValueError(f'ValueError: Invalid Minutes {str(minutes)}, Should be positive and less than 60')
     if seconds > MAX_SECONDS or seconds < MIN_DMS:
-        raise ValueError('Invalid Seconds! Should be positive and less than 60: ' + str(seconds))
+        raise ValueError(f'ValueError: Invalid Seconds {str(seconds)}, Should be positive and less than 60')
     if degrees < MIN_DMS:
-        raise ValueError('Invalid Degrees! Should be positive: ' + str(seconds))
+        raise ValueError(f'ValueError: Invalid Degrees {str(seconds)}, Should be positive')
     if is_latitude(ref) and degrees > MAX_LAT_DEGREES:
-        raise ValueError('Latitude cannot be greater than 90 degrees: ' + str(degrees) + ref)
+        raise ValueError(f'ValueError: Latitude {str(degrees) + ref}, cannot be greater than 90 degrees')
     elif is_longitude(ref) and degrees > MAX_LONG_DEGREES:
-        raise ValueError('Longitude cannot be greater than 180 degrees: ' + str(degrees) + ref)
+        raise ValueError(f'ValueError: Longitude {str(degrees) + ref}, cannot be greater than 180 degrees')
     
     return (degrees + minutes/60 + seconds/3600) * (-1 if ref == SOUTH_REF or ref == WEST_REF else 1)
 

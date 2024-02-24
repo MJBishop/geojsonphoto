@@ -23,21 +23,20 @@ def read_exif(image_file):
     except AttributeError as e:
         # print(f'AttributeError: Missing metadata, {e} in file {image_file.name}')
         raise e
+    except ValueError as e:
+        raise e
     
     coord = (lat, long)
     
 
-    # datetime
+    # props : datetime
     try:
         datetime_object = datetime.strptime(image.datetime_original, '%Y:%m:%d %H:%M:%S')
     except AttributeError as e:
         # print(f'AttributeError: Missing metadata, {e} in file {image_file.name}')
         raise e
 
-    # props
-    props = {
-        "datetime": str(datetime_object)
-    }
+    props = { "datetime": str(datetime_object) }
 
 
     # thumb
