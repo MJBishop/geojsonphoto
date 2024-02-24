@@ -15,34 +15,34 @@ from geophoto.dms_conversion import dms_to_decimal
 '''
 
 '''
-DEFAULT_OUT_PATH = './'
+DEFAULT_OUT_DIR_PATH = './'
 OUT_DIR = 'geophoto_output/'
-GEOJSON_OUT_DIR = 'geojson/'
-IMAGE_OUT_DIR = 'images/'
+GEOJSON_DIR = 'geojson/'
+IMAGE_DIR = 'images/'
 
 
 class GeoPhoto(object):
     '''
     
     '''
-    def __init__(self, in_path, out_path=DEFAULT_OUT_PATH, strip_exif=True, resize=False, thumbnails=False):
+    def __init__(self, in_dir_path, out_dir_path=DEFAULT_OUT_DIR_PATH, strip_exif=True, resize=False, thumbnails=False):
         '''
         
         '''
-        self._in_path = in_path
-        self._out_path = out_path
+        self._in_dir_path = in_dir_path
+        self._out_dir_path = out_dir_path
         self.strip_exif = strip_exif
         self.resize = resize
         self.thumbnails = thumbnails
         self.geojson_parser = GeoJSONParser()
 
         # Make Output Directories
-        sub_directories = [GEOJSON_OUT_DIR]
+        sub_directories = [GEOJSON_DIR]
         if strip_exif or resize or thumbnails:
-            sub_directories.append(IMAGE_OUT_DIR)
+            sub_directories.append(IMAGE_DIR)
 
         for sub_dir in sub_directories:
-            full_path = os.path.join(out_path, OUT_DIR, sub_dir)
+            full_path = os.path.join(out_dir_path, OUT_DIR, sub_dir)
 
             try:
                 os.makedirs(full_path)
@@ -52,20 +52,20 @@ class GeoPhoto(object):
                 pass
 
     @property
-    def in_path(self):
-        return self._in_path
+    def in_dir_path(self):
+        return self._in_dir_path
     
     @property
-    def out_path(self):
-        return self._out_path
+    def out_dir_path(self):
+        return self._out_dir_path
     
     @property
     def geojson_dir_path(self):
-        return os.path.join(self.out_path, OUT_DIR, GEOJSON_OUT_DIR)
+        return os.path.join(self.out_dir_path, OUT_DIR, GEOJSON_DIR)
     
     @property
     def image_dir_path(self):
-        return os.path.join(self.out_path, OUT_DIR, IMAGE_OUT_DIR)
+        return os.path.join(self.out_dir_path, OUT_DIR, IMAGE_DIR)
         # either test for failure or always strip exif?
 
 
@@ -73,7 +73,7 @@ class GeoPhoto(object):
         '''
         
         '''
-        files = glob.iglob(f'{self.in_path}**/*.[Jj][Pp][Gg]', recursive=False)
+        files = glob.iglob(f'{self.in_dir_path}**/*.[Jj][Pp][Gg]', recursive=False)
 
         for filepath in files:
             with open(filepath, 'rb') as image_file:
@@ -94,8 +94,8 @@ class GeoPhoto(object):
                     # thumbnail 
                     if self.thumbnails:
                         thumb_file_name = GeoPhoto.thumbnail_filename_from_filename(filename)
-                        rel_thumbnail_path = os.path.join(OUT_DIR, IMAGE_OUT_DIR, thumb_file_name)
-                        thumbnail_path = os.path.join(self.out_path, rel_thumbnail_path)
+                        rel_thumbnail_path = os.path.join(OUT_DIR, IMAGE_DIR, thumb_file_name)
+                        thumbnail_path = os.path.join(self.out_dir_path, rel_thumbnail_path)
 
                         with open(thumbnail_path, 'wb') as im:
                             im.write(image.get_thumbnail())
@@ -103,8 +103,8 @@ class GeoPhoto(object):
 
                     # image 
                     if self.strip_exif or self.resize:
-                        rel_image_path = os.path.join(OUT_DIR, IMAGE_OUT_DIR, filename)
-                        image_path = os.path.join(self.out_path, rel_image_path)
+                        rel_image_path = os.path.join(OUT_DIR, IMAGE_DIR, filename)
+                        image_path = os.path.join(self.out_dir_path, rel_image_path)
 
                         if self.resize:
                             # TODO - resize image
