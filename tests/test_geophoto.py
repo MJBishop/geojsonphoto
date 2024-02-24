@@ -152,7 +152,7 @@ class TestFolderFilesFromPath(unittest.TestCase):
         folder = GeoPhoto.folder_and_filename_from_filepath(self.test_in_path)[0]
         self.assertEqual(self.test_folder_name, folder)
 
-    def test_thumb_filename_from_path(self):
+    def test_thumbnail_filename_from_filename(self):
         thumbnail_filename = GeoPhoto.thumbnail_filename_from_filename(self.test_filename)
         self.assertEqual(self.test_folder_filename, thumbnail_filename)
 

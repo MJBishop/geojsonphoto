@@ -30,8 +30,8 @@ class GeoPhoto(object):
         '''
         
         '''
-        self.in_path = in_path
-        self.out_path = out_path
+        self._in_path = in_path
+        self._out_path = out_path
         self.strip_exif = strip_exif
         self.resize = resize
         self.thumbnails = thumbnails
@@ -53,6 +53,14 @@ class GeoPhoto(object):
             except FileExistsError:
                 # print(f"Folder {full_path} already exists")
                 pass
+
+    @property
+    def in_path(self):
+        return self._in_path
+    
+    @property
+    def out_path(self):
+        return self._out_path
 
 
     def process(self):
@@ -120,8 +128,8 @@ class GeoPhoto(object):
             with open(geojson_path, 'w') as f:
                 json.dump(feature_collection, f)
 
-    @classmethod
-    def folder_and_filename_from_filepath(cls, filepath):
+    @staticmethod
+    def folder_and_filename_from_filepath(filepath):
         '''
         
         '''
@@ -129,8 +137,8 @@ class GeoPhoto(object):
         head, folder = os.path.split(head)
         return folder, filename
     
-    @classmethod
-    def thumbnail_filename_from_filename(cls, file_name):
+    @staticmethod
+    def thumbnail_filename_from_filename(file_name):
         '''
         
         '''
