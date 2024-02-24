@@ -23,7 +23,7 @@ class GeoPhoto(object):
     '''
     
     '''
-    def __init__(self, in_dir_path, out_dir_path=DEFAULT_OUT_DIR_PATH, strip_exif=True, resize=False, thumbnails=False):
+    def __init__(self, in_dir_path, out_dir_path=DEFAULT_OUT_DIR_PATH, strip_exif=True, thumbnails=False):
         # need: action_thumbnail!!
         '''
         
@@ -31,13 +31,12 @@ class GeoPhoto(object):
         self._in_dir_path = in_dir_path
         self._out_dir_path = out_dir_path
         self.strip_exif = strip_exif
-        self.resize = resize
         self.thumbnails = thumbnails
         self._geojson_parser = GeoJSONParser()
 
         # Make Output Directories
         sub_directories = [GEOJSON_DIR]
-        if strip_exif or resize or thumbnails:
+        if strip_exif or thumbnails:
             sub_directories.append(IMAGE_DIR)
 
         for sub_dir in sub_directories:
@@ -99,7 +98,7 @@ class GeoPhoto(object):
                         props["thumbnail_path"] = rel_thumbnail_path
 
                 # image 
-                if self.strip_exif or self.resize:
+                if self.strip_exif:
                     rel_image_path = self._rel_image_path(filename)
                     image_path = os.path.join(self.out_dir_path, rel_image_path)            
 
