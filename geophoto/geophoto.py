@@ -93,7 +93,7 @@ class GeoPhoto(object):
 
                     # thumbnail 
                     if self.thumbnails:
-                        thumb_file_name = GeoPhoto.thumbnail_filename_from_filename(filename)
+                        thumb_file_name = GeoPhoto.thumbnail_filename_from_image_filename(filename)
                         rel_thumbnail_path = os.path.join(OUT_DIR, IMAGE_DIR, thumb_file_name)
                         thumbnail_path = os.path.join(self.out_dir_path, rel_thumbnail_path)
 
@@ -143,7 +143,7 @@ class GeoPhoto(object):
         return folder, filename
     
     @staticmethod
-    def thumbnail_filename_from_filename(file_name):
+    def thumbnail_filename_from_image_filename(file_name):
         '''
         
         '''
