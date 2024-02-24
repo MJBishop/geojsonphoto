@@ -11,19 +11,31 @@ def read_exif(image_file):
     
     '''
     image = Image(image_file)
-    if not image.has_exif:
-        raise KeyError(f'Error: No metadata in file {image_file.name}')
 
     # coord
-    lat = dms_to_decimal(*image.gps_latitude, image.gps_latitude_ref)
-    long = dms_to_decimal(*image.gps_longitude, image.gps_longitude_ref)
+    try:
+        lat = dms_to_decimal(*image.gps_latitude, image.gps_latitude_ref)
+        long = dms_to_decimal(*image.gps_longitude, image.gps_longitude_ref)
+
+    except KeyError as e:
+        print(f'KeyError: No metadata in file {image_file.name}')
+        raise e
+    
+    except AttributeError as e:
+        print(f'AttributeError: Missing metadata {e} in file {image_file.name}')
+        raise e
+    
     coord = (lat, long)
+    
 
     # props
     datetime_object = datetime.strptime(image.datetime_original, '%Y:%m:%d %H:%M:%S')
     props = {
         "datetime": str(datetime_object)
     }
+
+
+    
 
     # thumb
     thumb_f = image.get_thumbnail()

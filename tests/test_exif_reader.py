@@ -40,9 +40,17 @@ class TestNoExif(unittest.TestCase):
             with open(self.filepath, 'rb') as image_file:
                 coord, props, thumb_f = read_exif(image_file)
 
-
 class TestMissingExif(unittest.TestCase):
-    pass
+    
+    def setUp(self):
+        self.in_path = 'tests/test_files/test_images/test_missing_exif/'
+        self.file_dir = 'test_folder/MISSING_EXIF.jpg'
+        self.filepath = os.path.join(self.in_path, self.file_dir)
+
+    def test_read_missing_exif(self):
+        with self.assertRaises(AttributeError):
+            with open(self.filepath, 'rb') as image_file:
+                coord, props, thumb_f = read_exif(image_file)
 
 
 class TestCorruptedExif(unittest.TestCase):
