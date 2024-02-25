@@ -17,44 +17,48 @@ def read_exif(image_file):
         # print(f'KeyError: No metadata in file {image_file.name}')
         raise KeyError
 
-
     # coord
     try:
-        lat = dms_to_decimal(*image.gps_latitude, image.gps_latitude_ref)
-        long = dms_to_decimal(*image.gps_longitude, image.gps_longitude_ref)
+        dms_lat = (*image.gps_latitude, image.gps_latitude_ref)
+        dms_long = (*image.gps_longitude, image.gps_longitude_ref)
     except AttributeError as e:
-        # print(f'AttributeError: Missing metadata, {e} in file {image_file.name}')
+        # print(f'AttributeError: Missing coord metadata, {e} in file {image_file.name}')
         raise e
-    except ValueError as e:
-        # print(f'{e}, in file {image_file.name}')
-        raise e
+    else:
+        try:
+            lat = dms_to_decimal(*dms_lat)
+            long = dms_to_decimal(*dms_long)
+        except ValueError as e:
+            # print(f'{e}, in file {image_file.name}')
+            raise e
     
-    coord = (lat, long)
-    
-
-    # props : datetime
+    # datetime
     try:
-        datetime_object = datetime.strptime(image.datetime_original, '%Y:%m:%d %H:%M:%S')
+        datetime_str = image.datetime_original
     except AttributeError as e:
         # print(f'AttributeError: Missing metadata, {e} in file {image_file.name}')
         raise e
-    except ValueError as e:
-        # print(f'ValueError: {e}, in file {image_file.name}')
-        raise e
+    else:
+        try:
+            datetime_object = datetime.strptime(datetime_str, '%Y:%m:%d %H:%M:%S')
+        except ValueError as e:
+            # print(f'ValueError: {e}, in file {image_file.name}')
+            raise e
 
-    props = { "datetime": str(datetime_object) }
-
+    # props 
+    props = { 
+        "datetime": str(datetime_object),
+        }
 
     # files
     files = {
         'image' : image.get_file(), 
-        'thumbnail': image.get_thumbnail()
-    }
-
+        'thumbnail': image.get_thumbnail(),
+        }
 
     # delete exif data
-    # Warning that not all data has been deleted:
     with warnings.catch_warnings():
+        # Warning that not all data has been deleted:
         warnings.filterwarnings('error')
         try:
             image.delete_all()
@@ -62,4 +66,5 @@ def read_exif(image_file):
             # print(e) - log?
             pass
 
-    return coord, props, files
+
+    return (lat, long), props, files
