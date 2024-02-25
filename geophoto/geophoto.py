@@ -9,9 +9,6 @@ from geophoto.geojson_parser import GeoJSONParser
 from geophoto.exif_reader import read_exif
 
 
-'''
-
-'''
 DEFAULT_OUT_DIR_PATH = './'
 OUT_DIR = 'geophoto_output/'
 GEOJSON_DIR = 'geojson/'
@@ -50,27 +47,32 @@ class GeoPhoto(object):
 
     @property
     def in_dir_path(self):
+        '''
+        
+        '''
         return self._in_dir_path
     
     @property
     def out_dir_path(self):
+        '''
+        
+        '''
         return self._out_dir_path
     
     @property
     def geojson_dir_path(self):
+        '''
+        
+        '''
         return os.path.join(self.out_dir_path, OUT_DIR, GEOJSON_DIR)
     
     @property
     def image_dir_path(self):
+        '''
+        
+        '''
         return os.path.join(self.out_dir_path, OUT_DIR, IMAGE_DIR)
         # either test for failure or always strip exif?
-    
-    def _rel_image_path(self, filename):
-        return os.path.join(OUT_DIR, IMAGE_DIR, filename)
-    
-    def _rel_thumbnail_path(self, filename):
-        thumb_file_name = GeoPhoto.thumbnail_filename_from_image_filename(filename)
-        return os.path.join(OUT_DIR, IMAGE_DIR, thumb_file_name)
         
     def process(self):
         '''
@@ -131,3 +133,16 @@ class GeoPhoto(object):
         '''
         f_name, f_type  = file_name.split('.')
         return f_name + '_thumb.' + f_type
+    
+    def _rel_image_path(self, filename):
+        '''
+        
+        '''
+        return os.path.join(OUT_DIR, IMAGE_DIR, filename)
+    
+    def _rel_thumbnail_path(self, filename):
+        '''
+        
+        '''
+        thumb_file_name = GeoPhoto.thumbnail_filename_from_image_filename(filename)
+        return os.path.join(OUT_DIR, IMAGE_DIR, thumb_file_name)

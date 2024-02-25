@@ -3,6 +3,7 @@
 '''
 import geojson
 
+
 class GeoJSONParser(object):
     '''
     
@@ -11,25 +12,28 @@ class GeoJSONParser(object):
         '''
         
         '''
-        self._collections_dictionary = {}
+        self._collections_dict = {}
 
     def __iter__(self):
         '''
         
         '''
-        return iter(self._collections_dictionary.items())
+        return iter(self._collections_dict.items())
 
-    def add_feature(self, collection_title, lat, long, properties={}):
+    def add_feature(self, title, lat, long, properties={}):
         '''
         
         '''
         point = geojson.Point((lat, long))
-        feature = geojson.Feature(geometry=point, properties=properties)
-        if collection_title not in self._collections_dictionary:
+        feature = geojson.Feature(
+            geometry=point, 
+            properties=properties
+        )
+        if title not in self._collections_dict:
             feature_collection = geojson.FeatureCollection(
                 features = [feature], 
-                title = collection_title
-                )
-            self._collections_dictionary[collection_title] = feature_collection
+                title = title
+            )
+            self._collections_dict[title] = feature_collection
         else:
-            self._collections_dictionary[collection_title]['features'].append(feature)
+            self._collections_dict[title]['features'].append(feature)
