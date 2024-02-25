@@ -1,6 +1,6 @@
-'''
+"""
 
-'''
+"""
 import os
 import glob
 import json
@@ -16,14 +16,15 @@ IMAGE_DIR = 'images/'
 
 
 class GeoPhoto(object):
-    '''
+    """
     
-    '''
+    """
+
     def __init__(self, in_dir_path, out_dir_path=DEFAULT_OUT_DIR_PATH, images=False, thumbnails=False):
         # need: action_thumbnail!!
-        '''
+        """
         
-        '''
+        """
         self._in_dir_path = in_dir_path
         self._out_dir_path = out_dir_path
         self._images = images
@@ -31,15 +32,12 @@ class GeoPhoto(object):
         self._geojson_parser = GeoJSONParser()
 
         # Make Output Directories
-        sub_directories = [GEOJSON_DIR]
+        dir_paths = [self.geojson_dir_path]
         if images or thumbnails:
-            sub_directories.append(IMAGE_DIR)
-
-        for sub_dir in sub_directories:
-            full_path = os.path.join(out_dir_path, OUT_DIR, sub_dir)
-
+            dir_paths.append(self.image_dir_path)
+        for path in dir_paths:
             try:
-                os.makedirs(full_path)
+                os.makedirs(path)
                 # print(f"Folder {full_path} created!")
             except FileExistsError:
                 # print(f"Folder {full_path} already exists")
@@ -47,38 +45,40 @@ class GeoPhoto(object):
 
     @property
     def in_dir_path(self):
-        '''
-        
-        '''
+        """Return the path to the input directory."""
         return self._in_dir_path
     
     @property
     def out_dir_path(self):
-        '''
-        
-        '''
+        """Return the path to the output directory."""
         return self._out_dir_path
     
     @property
     def geojson_dir_path(self):
-        '''
-        
-        '''
+        """Return the path to the geojson directory."""
         return os.path.join(self.out_dir_path, OUT_DIR, GEOJSON_DIR)
     
     @property
     def image_dir_path(self):
-        '''
-        
-        '''
+        """Return the path to the image directory."""
         return os.path.join(self.out_dir_path, OUT_DIR, IMAGE_DIR)
-        # either test for failure or always strip exif?
         
     def process(self):
-        '''
+        """
         
-        '''
-        files = glob.iglob(f'{self.in_dir_path}**/*.[Jj][Pp][Gg]', recursive=False)
+        """
+        # exts = [
+        #     '*.[Jj][Pp][Gg]', 
+        #     '*.[Jj][Pp][Ee][Gg]', 
+        #     '*.[Pp][Nn][Gg]', 
+        #     '*.[Tt][Ii][Ff]', 
+        #     '*.[Tt][Ii][Ff][Ff]',
+        #     ]
+        # for ext in exts:
+        #     files = glob.iglob(f'{self.in_dir_path}**/{ext}', recursive=False)
+        #         for file in files: 
+                
+        files = glob.iglob(f'{self.in_dir_path}**/*.[Jj][Pp][Gg]')
 
         for filepath in files:
             image_file = open(filepath, 'rb')
@@ -91,7 +91,7 @@ class GeoPhoto(object):
                 folder, filename = GeoPhoto.folder_and_filename_from_filepath(filepath)
 
                 # thumbnail 
-                if self._thumbnails:
+                if self._thumbnails: # and thumbnail is not None:
                     rel_thumbnail_path = self._rel_thumbnail_path(filename)
                     thumbnail_path = os.path.join(self.out_dir_path, rel_thumbnail_path)
 
@@ -100,7 +100,7 @@ class GeoPhoto(object):
                         props["thumbnail_path"] = rel_thumbnail_path
 
                 # image 
-                if self._images:
+                if self._images: # and image is not None:
                     rel_image_path = self._rel_image_path(filename)
                     image_path = os.path.join(self.out_dir_path, rel_image_path)            
 
@@ -119,30 +119,23 @@ class GeoPhoto(object):
 
     @staticmethod
     def folder_and_filename_from_filepath(filepath):
-        '''
-        
-        '''
+        """Split the filepath and return the folder and filename."""
         head, filename = os.path.split(filepath)
         head, folder = os.path.split(head)
         return folder, filename
     
     @staticmethod
-    def thumbnail_filename_from_image_filename(file_name):
-        '''
-        
-        '''
-        f_name, f_type  = file_name.split('.')
+    def thumbnail_filename_from_image_filename(filename):
+        """Split the image filename and return the thumbnail filename."""
+        f_name, f_type  = filename.split('.')
         return f_name + '_thumb.' + f_type
     
+
     def _rel_image_path(self, filename):
-        '''
-        
-        '''
+        # Return the relative path to the image filename.
         return os.path.join(OUT_DIR, IMAGE_DIR, filename)
     
     def _rel_thumbnail_path(self, filename):
-        '''
-        
-        '''
+        # Return the relative path to the thumbnail image filename.
         thumb_file_name = GeoPhoto.thumbnail_filename_from_image_filename(filename)
         return os.path.join(OUT_DIR, IMAGE_DIR, thumb_file_name)
