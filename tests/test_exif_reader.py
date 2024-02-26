@@ -33,6 +33,19 @@ class TestExif(unittest.TestCase):
         self.assertIsNotNone(files['image'])
 
 
+class TestExifFromImageTypes(unittest.TestCase):
+
+    def setUp(self):
+        self.in_path = 'tests/test_files/test_images/test_multiple_image_types/'
+
+    def test_jpeg(self):
+        file_dir = 'test_folder/EXIF_jpeg.jpeg'
+        filepath = os.path.join(self.in_path, file_dir)
+        with open(filepath, 'rb') as image_file:
+            coord, props, files = read_exif(image_file)
+        self.assertIsNotNone(files['image'])
+
+
 class TestNoExif(unittest.TestCase):
     
     def setUp(self):
@@ -43,7 +56,7 @@ class TestNoExif(unittest.TestCase):
     def test_read_no_exif(self):
         with self.assertRaises(KeyError):
             with open(self.filepath, 'rb') as image_file:
-                coord, props, thumb_f = read_exif(image_file)
+                coord, props, files = read_exif(image_file)
 
 
 class TestMissingExif(unittest.TestCase):
@@ -56,7 +69,7 @@ class TestMissingExif(unittest.TestCase):
     def test_read_missing_exif(self):
         with self.assertRaises(AttributeError):
             with open(self.filepath, 'rb') as image_file:
-                coord, props, thumb_f = read_exif(image_file)
+                coord, props, files = read_exif(image_file)
 
 
 class TestMissingDatetime(unittest.TestCase):
@@ -69,7 +82,7 @@ class TestMissingDatetime(unittest.TestCase):
     def test_read_missing_datetime(self):
         with self.assertRaises(AttributeError):
             with open(self.filepath, 'rb') as image_file:
-                coord, props, thumb_f = read_exif(image_file)
+                coord, props, files = read_exif(image_file)
 
 
 class TestCorruptedExif(unittest.TestCase):
@@ -82,7 +95,7 @@ class TestCorruptedExif(unittest.TestCase):
     def test_read_corrupted_gps(self):
         with self.assertRaises(ValueError):
             with open(self.filepath, 'rb') as image_file:
-                coord, props, thumb_f = read_exif(image_file)
+                coord, props, files = read_exif(image_file)
 
 
 class TestCorruptedDatetime(unittest.TestCase):
@@ -95,7 +108,7 @@ class TestCorruptedDatetime(unittest.TestCase):
     def test_read_corrupted_datetime(self):
         with self.assertRaises(ValueError):
             with open(self.filepath, 'rb') as image_file:
-                coord, props, thumb_f = read_exif(image_file)
+                coord, props, files = read_exif(image_file)
 
 
 

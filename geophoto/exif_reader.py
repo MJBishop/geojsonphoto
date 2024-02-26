@@ -1,6 +1,6 @@
-'''
+"""
 
-'''
+"""
 from exif import Image
 from datetime import datetime
 import warnings 
@@ -9,9 +9,36 @@ from geophoto.dms_conversion import dms_to_decimal
 
 
 def read_exif(image_file):
-    '''
+    """
+    Return exif metadata from image_file.
+
+
     
-    '''
+    Parameters
+    ----------
+    image_file : _io.BufferedReader
+        The 
+
+    Returns
+    -------
+    coords : tuple of float
+        The quotient of the division.
+    props : dictionary of str
+        The quotient of the division.
+    files : dictionary of bytes
+        The quotient of the division.
+    
+    Raises
+    ------
+    KeyError
+        If `ref` is invalid.
+    AttributeError
+        If `ref` is invalid.
+        If `ref` is invalid.
+    ValueError
+        If `ref` is invalid.
+        If `ref` is invalid.
+    """
     image = Image(image_file)
     if not image.has_exif:
         # print(f'KeyError: No metadata in file {image_file.name}')
