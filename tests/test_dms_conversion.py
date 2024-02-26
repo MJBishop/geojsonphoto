@@ -5,28 +5,32 @@ from geophoto.dms_conversion import dms_to_decimal
 class TestDMSToDecimal(unittest.TestCase):
 
     def test_convert_zero_east(self):
-        test_decimal = 0
-        self.assertEqual(test_decimal, dms_to_decimal(0, 0, 0, 'E'))
+        test_result = 0
+        self.assertEqual(test_result, dms_to_decimal(0, 0, 0, 'E'))
 
     def test_convert_five_degrees_east(self):
-        test_decimal = 5
-        self.assertEqual(test_decimal, dms_to_decimal(5, 0, 0, 'E'))
+        test_result = 5
+        self.assertEqual(test_result, dms_to_decimal(5, 0, 0, 'E'))
 
     def test_convert_five_degrees_twelve_minutes_north(self):
-        test_decimal = 5.2
-        self.assertEqual(test_decimal, dms_to_decimal(5, 12, 0, 'N'))
+        test_result = 5.2
+        self.assertEqual(test_result, dms_to_decimal(5, 12, 0, 'N'))
 
     def test_convert_five_degrees_twelve_minutes_eighteen_seconds_north(self):
-        test_decimal = 5.205
-        self.assertEqual(test_decimal, dms_to_decimal(5, 12, 18, 'N'))
+        test_result = 5.205
+        self.assertEqual(test_result, dms_to_decimal(5, 12, 18, 'N'))
 
     def test_convert_five_degrees_twelve_minutes_eighteen_seconds_south(self):
-        test_decimal = -5.205
-        self.assertEqual(test_decimal, dms_to_decimal(5, 12, 18, 'S'))
+        test_result = -5.205
+        self.assertEqual(test_result, dms_to_decimal(5, 12, 18, 'S'))
 
     def test_convert_five_degrees_twelve_minutes_eighteen_seconds_west(self):
-        test_decimal = -5.205
-        self.assertEqual(test_decimal, dms_to_decimal(5, 12, 18, 'W'))
+        test_result = -5.205
+        self.assertEqual(test_result, dms_to_decimal(5, 12, 18, 'W'))
+
+    def test_convert_fiftynine_degrees_five_minutes_three_seconds_north(self):
+        test_result = 59.084167
+        self.assertEqual(test_result, dms_to_decimal(59, 5, 3, 'N'))
 
     def test_lat_91N_raises_exception(self):
         with self.assertRaises(ValueError):

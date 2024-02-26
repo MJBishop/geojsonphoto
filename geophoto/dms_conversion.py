@@ -1,6 +1,19 @@
-'''
+"""
+1. summary
+2. extended summary
+3. routine listings
+Notes
+-----
+DMS notation - sexagesimal unit subdivisions:
+    One degree is divided into 60 minutes (of arc).
+    One minute into 60 seconds (of arc).    
+6. references
+7. examples
+"""
+from decimal import Decimal, getcontext
+getcontext().prec = 9
 
-'''
+SIX_PLACES = Decimal(10) ** -6 
 NORTH_REF = 'N'
 SOUTH_REF = 'S'
 EAST_REF = 'E'
@@ -12,42 +25,58 @@ MAX_LONG_DEGREES = 180
 
 
 def is_latitude(ref):
-    '''
-
-    '''
+    """Return True if `ref` is 'N' or 'S'."""
     return (ref == NORTH_REF or ref == SOUTH_REF)
 
 
 def is_longitude(ref):
-    '''
-
-    '''
+    """Return True if `ref` is 'E' or 'W'."""
     return (ref == EAST_REF or ref == WEST_REF)
 
 
-def dms_to_decimal(degrees, minutes, seconds, ref):
-    '''
-    Convert Degrees, Minutes, Seconds, Ref to Decimal
+def dms_to_decimal(deg, min, sec, ref):
+    """
+    Convert degrees, minutes, seconds and reference to decimal.
 
+    Parameters
+    ----------
+    deg : float
+        The dividend.
+    min : float
+        The divisor.
+    sec : float
+        The 
+    ref : str
+        The compass reference.
+ 
+    Returns
+    -------
+    float
+        Decimal degree.
 
-    '''
+    Raises
+    ------
+    ValueError
+        If `ref` is invalid.
+        If `ref` is invalid.
+    """
     if ref not in [NORTH_REF, SOUTH_REF, EAST_REF, WEST_REF]:
         raise ValueError(f'ValueError: Invalid GPS Reference {ref}, Expecting N, S, E or W')
     
-    if minutes > MAX_MINUTES or minutes < 0:
-        raise ValueError(f'ValueError: Invalid Minutes {str(minutes)}, Should be positive and less than 60')
+    if min > MAX_MINUTES or min < 0:
+        raise ValueError(f'ValueError: Invalid Minutes {str(min)}, Should be positive and less than 60')
     
-    if seconds > MAX_SECONDS or seconds < 0:
-        raise ValueError(f'ValueError: Invalid Seconds {str(seconds)}, Should be positive and less than 60')
+    if sec > MAX_SECONDS or sec < 0:
+        raise ValueError(f'ValueError: Invalid Seconds {str(sec)}, Should be positive and less than 60')
     
-    if degrees < 0:
-        raise ValueError(f'ValueError: Invalid Degrees {str(seconds)}, Should be positive')
+    if deg < 0:
+        raise ValueError(f'ValueError: Invalid Degrees {str(sec)}, Should be positive')
     
-    if is_latitude(ref) and degrees > MAX_LAT_DEGREES:
-        raise ValueError(f'ValueError: Latitude {str(degrees) + ref}, cannot be greater than 90 degrees')
+    if is_latitude(ref) and deg > MAX_LAT_DEGREES:
+        raise ValueError(f'ValueError: Latitude {str(deg) + ref}, cannot be greater than 90 degrees')
     
-    elif is_longitude(ref) and degrees > MAX_LONG_DEGREES:
-        raise ValueError(f'ValueError: Longitude {str(degrees) + ref}, cannot be greater than 180 degrees')
+    elif is_longitude(ref) and deg > MAX_LONG_DEGREES:
+        raise ValueError(f'ValueError: Longitude {str(deg) + ref}, cannot be greater than 180 degrees')
     
-    return (degrees + minutes/60 + seconds/3600) * (-1 if ref == SOUTH_REF or ref == WEST_REF else 1)
-
+    dec_deg = (Decimal(deg) + Decimal(min)/Decimal(60) + Decimal(sec)/Decimal(3600)) * (-1 if ref == SOUTH_REF or ref == WEST_REF else 1)
+    return float(dec_deg.quantize(SIX_PLACES))
