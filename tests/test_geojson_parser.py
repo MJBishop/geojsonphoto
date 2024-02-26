@@ -7,40 +7,40 @@ class TestGeoJSONParser(unittest.TestCase):
 
     def test_init_geojson_parser_collections_dictionary(self):
         geojson_parser = GeoJSONParser()
-        self.assertEqual({}, geojson_parser._collections_dictionary)
+        self.assertEqual({}, geojson_parser._collections_dict)
 
     def test_add_first_feature(self):
         geojson_parser = GeoJSONParser()
         test_title = 'Test_Title'
         geojson_parser.add_feature(
-            collection_title = test_title, lat=0, long=0, properties={}
+            title = test_title, lat=0, long=0, properties={}
         )
-        self.assertTrue(test_title in geojson_parser._collections_dictionary)
-        self.assertEqual(1, len(geojson_parser._collections_dictionary[test_title]['features']))
+        self.assertTrue(test_title in geojson_parser._collections_dict)
+        self.assertEqual(1, len(geojson_parser._collections_dict[test_title]['features']))
 
     def test_add_second_feature(self):
         geojson_parser = GeoJSONParser()
         test_title = 'Test_Title'
         geojson_parser.add_feature(
-            collection_title = test_title, lat=0, long=0, properties={}
+            title = test_title, lat=0, long=0, properties={}
         )
         geojson_parser.add_feature(
-            collection_title = test_title, lat=0, long=0, properties={}
+            title = test_title, lat=0, long=0, properties={}
         )
-        self.assertEqual(2, len(geojson_parser._collections_dictionary[test_title]['features']))
+        self.assertEqual(2, len(geojson_parser._collections_dict[test_title]['features']))
 
     def test_add_second_collection(self):
         geojson_parser = GeoJSONParser()
         test_title1 = 'Test_Title1'
         test_title2 = 'Test_Title2'
         geojson_parser.add_feature(
-            collection_title = test_title1, lat=0, long=0, properties={}
+            title = test_title1, lat=0, long=0, properties={}
         )
         geojson_parser.add_feature(
-            collection_title = test_title2, lat=0, long=0, properties={}
+            title = test_title2, lat=0, long=0, properties={}
         )
-        self.assertEqual(1, len(geojson_parser._collections_dictionary[test_title1]['features']))
-        self.assertEqual(1, len(geojson_parser._collections_dictionary[test_title2]['features']))
+        self.assertEqual(1, len(geojson_parser._collections_dict[test_title1]['features']))
+        self.assertEqual(1, len(geojson_parser._collections_dict[test_title2]['features']))
 
 # TODO - test invalid...    lat, long: ValueError; this is checked in conversion    properties, title: isValid
         
@@ -55,7 +55,7 @@ class TestGeoJSONParser(unittest.TestCase):
 
         # add_feature
         geojson_parser.add_feature(
-            collection_title = test_title1, lat=test_lat, long=test_long, properties={}
+            title = test_title1, lat=test_lat, long=test_long, properties={}
         )
         
         # test geojson

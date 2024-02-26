@@ -8,7 +8,7 @@ import warnings
 from geophoto.dms_conversion import dms_to_decimal
 
 
-def read_exif(image_file):
+def read_exif(filepath):
     """
     Return exif metadata from image_file.
 
@@ -39,59 +39,61 @@ def read_exif(image_file):
         If `ref` is invalid.
         If `ref` is invalid.
     """
-    image = Image(image_file)
-    if not image.has_exif:
-        # print(f'KeyError: No metadata in file {image_file.name}')
-        raise KeyError
 
-    # coord
-    try:
-        dms_lat = (*image.gps_latitude, image.gps_latitude_ref)
-        dms_long = (*image.gps_longitude, image.gps_longitude_ref)
-    except AttributeError as e:
-        # print(f'AttributeError: Missing coord metadata, {e} in file {image_file.name}')
-        raise e
-    else:
+    with open(filepath, 'rb') as image_file:
+        image = Image(image_file)
+        if not image.has_exif:
+            # print(f'KeyError: No metadata in file {image_file.name}')
+            raise KeyError
+
+        # coord
         try:
-            lat = dms_to_decimal(*dms_lat)
-            long = dms_to_decimal(*dms_long)
-        except ValueError as e:
-            # print(f'{e}, in file {image_file.name}')
+            dms_lat = (*image.gps_latitude, image.gps_latitude_ref)
+            dms_long = (*image.gps_longitude, image.gps_longitude_ref)
+        except AttributeError as e:
+            # print(f'AttributeError: Missing coord metadata, {e} in file {image_file.name}')
             raise e
-    
-    # datetime
-    try:
-        datetime_str = image.datetime_original
-    except AttributeError as e:
-        # print(f'AttributeError: Missing metadata, {e} in file {image_file.name}')
-        raise e
-    else:
+        else:
+            try:
+                lat = dms_to_decimal(*dms_lat)
+                long = dms_to_decimal(*dms_long)
+            except ValueError as e:
+                # print(f'{e}, in file {image_file.name}')
+                raise e
+        
+        # datetime
         try:
-            datetime_object = datetime.strptime(datetime_str, '%Y:%m:%d %H:%M:%S')
-        except ValueError as e:
-            # print(f'ValueError: {e}, in file {image_file.name}')
+            datetime_str = image.datetime_original
+        except AttributeError as e:
+            # print(f'AttributeError: Missing metadata, {e} in file {image_file.name}')
             raise e
+        else:
+            try:
+                datetime_object = datetime.strptime(datetime_str, '%Y:%m:%d %H:%M:%S')
+            except ValueError as e:
+                # print(f'ValueError: {e}, in file {image_file.name}')
+                raise e
 
-    # props 
-    props = { 
-        "datetime": str(datetime_object),
-        }
+        # props 
+        props = { 
+            "datetime": str(datetime_object),
+            }
 
-    # files
-    files = {
-        'image' : image.get_file(), 
-        'thumbnail': image.get_thumbnail(),
-        }
+        # files
+        files = {
+            'image' : image.get_file(), 
+            'thumbnail': image.get_thumbnail(),
+            }
 
-    # delete exif data
-    with warnings.catch_warnings():
-        # Warning that not all data has been deleted:
-        warnings.filterwarnings('error')
-        try:
-            image.delete_all()
-        except Warning as e:
-            # print(e) - log?
-            pass
+        # delete exif data
+        with warnings.catch_warnings():
+            # Warning that not all data has been deleted:
+            warnings.filterwarnings('error')
+            try:
+                image.delete_all()
+            except Warning as e:
+                # print(e) - log?
+                pass
 
 
-    return (lat, long), props, files
+        return (lat, long), props, files

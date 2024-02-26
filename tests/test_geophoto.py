@@ -73,17 +73,17 @@ class TestGeoPhotoInit(unittest.TestCase):
         self.assertTrue(os.path.isdir(self.image_dir_path))
         
 
-class TestGeoPhotoProcess(TestGeoPhotoInit):
+class TestGeoPhotoStart(TestGeoPhotoInit):
 
     def setUp(self):
         super().setUp()
         self.test_geojson_file_name = 'test_folder.geojson'
 
-    def test_geophoto_process_creates_geojson_file(self):
+    def test_geophoto_start_creates_geojson_file(self):
         geophoto = GeoPhoto(in_dir_path = self.in_path, 
                             out_dir_path = self.out_path, 
                             images=False)
-        geophoto.process()
+        geophoto.start()
 
         self.assertTrue(os.path.isdir(self.geojson_dir_path))
 
@@ -96,12 +96,12 @@ class TestGeoPhotoProcess(TestGeoPhotoInit):
                 jsn['features'][0]['properties']['image_path']
                 jsn['features'][0]['properties']['thumbnail_path']
 
-    def test_geophoto_process_creates_image_file(self):
+    def test_geophoto_start_creates_image_file(self):
         test_image_file = 'EXIF.jpg'
         geophoto = GeoPhoto(in_dir_path = self.in_path, 
                             out_dir_path = self.out_path, 
                             images=True)
-        geophoto.process()
+        geophoto.start()
 
         self.assertTrue(os.path.isdir(self.image_dir_path))
 
@@ -118,13 +118,13 @@ class TestGeoPhotoProcess(TestGeoPhotoInit):
             with self.assertRaises(KeyError):
                 jsn['features'][0]['properties']['thumbnail_path']
 
-    def test_geophoto_process_creates_thumbnail_file(self):
+    def test_geophoto_start_creates_thumbnail_file(self):
         test_thumbnail_file = 'EXIF_thumb.jpg'
         geophoto = GeoPhoto(in_dir_path = self.in_path, 
                             out_dir_path = self.out_path, 
                             images=False, 
                             thumbnails=True)
-        geophoto.process()
+        geophoto.start()
 
         self.assertTrue(os.path.isdir(self.image_dir_path))
 
