@@ -13,7 +13,7 @@ DMS notation - sexagesimal unit subdivisions:
 from decimal import Decimal, getcontext
 getcontext().prec = 9
 
-SIX_PLACES = Decimal(10) ** -6 
+SIX_PLACES = Decimal(10) **-6 
 NORTH_REF = 'N'
 SOUTH_REF = 'S'
 EAST_REF = 'E'
@@ -28,11 +28,9 @@ def is_latitude(ref):
     """Return True if `ref` is 'N' or 'S'."""
     return (ref == NORTH_REF or ref == SOUTH_REF)
 
-
 def is_longitude(ref):
     """Return True if `ref` is 'E' or 'W'."""
     return (ref == EAST_REF or ref == WEST_REF)
-
 
 def dms_to_decimal(deg, min, sec, ref):
     """
@@ -63,11 +61,11 @@ def dms_to_decimal(deg, min, sec, ref):
     if ref not in [NORTH_REF, SOUTH_REF, EAST_REF, WEST_REF]:
         raise ValueError(f'ValueError: Invalid GPS Reference {ref}, Expecting N, S, E or W')
     
-    if min > MAX_MINUTES or min < 0:
-        raise ValueError(f'ValueError: Invalid Minutes {str(min)}, Should be positive and less than 60')
-    
     if sec > MAX_SECONDS or sec < 0:
         raise ValueError(f'ValueError: Invalid Seconds {str(sec)}, Should be positive and less than 60')
+    
+    if min > MAX_MINUTES or min < 0:
+        raise ValueError(f'ValueError: Invalid Minutes {str(min)}, Should be positive and less than 60')
     
     if deg < 0:
         raise ValueError(f'ValueError: Invalid Degrees {str(sec)}, Should be positive')
@@ -78,5 +76,6 @@ def dms_to_decimal(deg, min, sec, ref):
     elif is_longitude(ref) and deg > MAX_LONG_DEGREES:
         raise ValueError(f'ValueError: Longitude {str(deg) + ref}, cannot be greater than 180 degrees')
     
-    dec_deg = (Decimal(deg) + Decimal(min)/Decimal(60) + Decimal(sec)/Decimal(3600)) * (-1 if ref == SOUTH_REF or ref == WEST_REF else 1)
+    sign = (-1 if ref == SOUTH_REF or ref == WEST_REF else 1)
+    dec_deg = (Decimal(deg) + Decimal(min)/Decimal(60) + Decimal(sec)/Decimal(3600)) * sign
     return float(dec_deg.quantize(SIX_PLACES))

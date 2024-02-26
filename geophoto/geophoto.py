@@ -37,9 +37,11 @@ class GeoPhoto(object):
         for path in dir_paths:
             try:
                 os.makedirs(path)
-                # print(f"Folder {path} created!")
             except FileExistsError:
                 # print(f"Folder {path} already exists")
+                pass
+            else:
+                # print(f"Folder {path} created!")
                 pass
 
     @property
@@ -69,8 +71,12 @@ class GeoPhoto(object):
         files = glob.iglob(f'{self.in_dir_path}**/*.[Jj][Pp][Gg]')
 
         for filepath in files:
-            folder, coord, props = self._process_file(filepath)
-            self._geojson_parser.add_feature(folder, *coord, props)
+            try:
+                folder, coord, props = self._process_image_file(filepath)
+            except:
+                pass
+            else:
+                self._geojson_parser.add_feature(folder, *coord, props)
 
         # Save geojson
         for title, feature_collection in self._geojson_parser:
@@ -78,12 +84,18 @@ class GeoPhoto(object):
             with open(geojson_file_path, 'w') as f:
                 json.dump(feature_collection, f)
 
-    def _process_file(self, filepath):
+    def _process_image_file(self, filepath):
         try:
             coord, props, image_dict = read_exif(filepath)
-        except:
-            pass
-            # return!
+        except KeyError as e:
+            # record failure: No exif data
+            raise e
+        except AttributeError as e:
+            # record failure: Missing exif data
+            raise e
+        except ValueError as e:
+            # record failure: Invalid exif data
+            raise e
         else:
             folder, filename = GeoPhoto.folder_and_filename_from_filepath(filepath)
 

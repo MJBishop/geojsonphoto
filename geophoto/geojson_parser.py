@@ -1,29 +1,28 @@
-'''
+"""
 
-'''
+"""
 import geojson
 
 
 class GeoJSONParser(object):
-    '''
+    """
     
-    '''
+    """
+
     def __init__(self):
-        '''
+        """
         
-        '''
+        """
         self._collections_dict = {}
 
     def __iter__(self):
-        '''
-        
-        '''
+        """Return an iterator for `_collections_dict` items."""
         return iter(self._collections_dict.items())
 
     def add_feature(self, title, lat, long, properties={}):
-        '''
+        """
         
-        '''
+        """
         point = geojson.Point((lat, long))
         feature = geojson.Feature(
             geometry=point, 
