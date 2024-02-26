@@ -8,7 +8,6 @@ import json
 from geophoto.geojson_parser import GeoJSONParser
 from geophoto.exif_reader import read_exif
 
-
 DEFAULT_OUT_DIR_PATH = './'
 OUT_DIR = 'geophoto_output/'
 GEOJSON_DIR = 'geojson/'
@@ -38,9 +37,9 @@ class GeoPhoto(object):
         for path in dir_paths:
             try:
                 os.makedirs(path)
-                # print(f"Folder {full_path} created!")
+                # print(f"Folder {path} created!")
             except FileExistsError:
-                # print(f"Folder {full_path} already exists")
+                # print(f"Folder {path} already exists")
                 pass
 
     @property
@@ -63,7 +62,7 @@ class GeoPhoto(object):
         """Return the path to the image directory."""
         return os.path.join(self.out_dir_path, OUT_DIR, IMAGE_DIR)
         
-    def process(self):
+    def start(self):
         """
         
         """
@@ -81,41 +80,44 @@ class GeoPhoto(object):
         files = glob.iglob(f'{self.in_dir_path}**/*.[Jj][Pp][Gg]')
 
         for filepath in files:
-            image_file = open(filepath, 'rb')
-            try:
-                coord, props, image_dict = read_exif(image_file)
-                image_file.close()
-            except:
-                pass
-            else:
-                folder, filename = GeoPhoto.folder_and_filename_from_filepath(filepath)
-
-                # thumbnail 
-                if self._thumbnails: # and thumbnail is not None:
-                    rel_thumbnail_path = self._rel_thumbnail_path(filename)
-                    thumbnail_path = os.path.join(self.out_dir_path, rel_thumbnail_path)
-
-                    with open(thumbnail_path, 'wb') as im:
-                        im.write(image_dict['thumbnail'])
-                        props["thumbnail_path"] = rel_thumbnail_path
-
-                # image 
-                if self._images: # and image is not None:
-                    rel_image_path = self._rel_image_path(filename)
-                    image_path = os.path.join(self.out_dir_path, rel_image_path)            
-
-                    with open(image_path, 'wb') as im:
-                        im.write(image_dict['image'])
-                        props["image_path"] = rel_image_path
-
-                # geojson
-                self._geojson_parser.add_feature(folder, *coord, props)
+            self._process_file(filepath)
 
         # Save geojson
         for title, feature_collection in self._geojson_parser:
             geojson_file_path = os.path.join(self.geojson_dir_path, f'{title}.geojson')
             with open(geojson_file_path, 'w') as f:
                 json.dump(feature_collection, f)
+
+    def _process_file(self, filepath):
+        image_file = open(filepath, 'rb')
+        try:
+            coord, props, image_dict = read_exif(image_file)
+            image_file.close()
+        except:
+            pass
+        else:
+            folder, filename = GeoPhoto.folder_and_filename_from_filepath(filepath)
+
+            # thumbnail 
+            if self._thumbnails: # and thumbnail is not None:
+                rel_thumbnail_path = self._rel_thumbnail_path(filename)
+                thumbnail_path = os.path.join(self.out_dir_path, rel_thumbnail_path)
+
+                with open(thumbnail_path, 'wb') as im:
+                    im.write(image_dict['thumbnail'])
+                    props["thumbnail_path"] = rel_thumbnail_path
+
+            # image 
+            if self._images: # and image is not None:
+                rel_image_path = self._rel_image_path(filename)
+                image_path = os.path.join(self.out_dir_path, rel_image_path)            
+
+                with open(image_path, 'wb') as im:
+                    im.write(image_dict['image'])
+                    props["image_path"] = rel_image_path
+
+            # geojson
+            self._geojson_parser.add_feature(folder, *coord, props)
 
     @staticmethod
     def folder_and_filename_from_filepath(filepath):
@@ -129,7 +131,6 @@ class GeoPhoto(object):
         """Split the image filename and return the thumbnail filename."""
         f_name, f_type  = filename.split('.')
         return f_name + '_thumb.' + f_type
-    
 
     def _rel_image_path(self, filename):
         # Return the relative path to the image filename.
