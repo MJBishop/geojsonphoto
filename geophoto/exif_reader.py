@@ -16,13 +16,13 @@ def read_exif(filepath):
     
     Parameters
     ----------
-    image_file : _io.BufferedReader
-        The 
+    filepath : str
+        The path to the image file.
 
     Returns
     -------
-    coords : tuple of float
-        The quotient of the division.
+    coord : tuple of float
+        The decimal representation of the latitude and longitude as a float.
     props : dictionary of str
         The quotient of the division.
     files : dictionary of bytes
@@ -80,10 +80,8 @@ def read_exif(filepath):
             }
 
         # files
-        files = {
-            'image' : image.get_file(), 
-            'thumbnail': image.get_thumbnail(),
-            }
+        image_b = image.get_file()         # if image else None, 
+        thumb_b = image.get_thumbnail() # if thumb else None, 
 
         # delete exif data
         with warnings.catch_warnings():
@@ -96,4 +94,4 @@ def read_exif(filepath):
                 pass
 
 
-        return (lat, long), props, files
+        return (lat, long), props, image_b, thumb_b

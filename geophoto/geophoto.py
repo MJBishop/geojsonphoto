@@ -86,7 +86,7 @@ class GeoPhoto(object):
 
     def _process_image_file(self, filepath):
         try:
-            coord, props, image_dict = read_exif(filepath)
+            coord, props, image_b, thumb_b = read_exif(filepath)
         except KeyError as e:
             # record failure: No exif data
             raise e
@@ -99,23 +99,23 @@ class GeoPhoto(object):
         else:
             folder, filename = GeoPhoto.folder_and_filename_from_filepath(filepath)
 
-            # thumbnail 
-            if self._thumbnails: # and thumbnail is not None:
-                rel_thumbnail_path = self._rel_thumbnail_path(filename)
-                thumbnail_path = os.path.join(self.out_dir_path, rel_thumbnail_path)
-
-                with open(thumbnail_path, 'wb') as im:
-                    im.write(image_dict['thumbnail'])
-                    props["thumbnail_path"] = rel_thumbnail_path
-
             # image 
-            if self._images: # and image is not None:
+            if self._images and image_b is not None:
                 rel_image_path = self._rel_image_path(filename)
                 image_path = os.path.join(self.out_dir_path, rel_image_path)            
 
                 with open(image_path, 'wb') as im:
-                    im.write(image_dict['image'])
+                    im.write(image_b)
                     props["image_path"] = rel_image_path
+
+            # thumbnail 
+            if self._thumbnails and thumb_b is not None:
+                rel_thumbnail_path = self._rel_thumbnail_path(filename)
+                thumbnail_path = os.path.join(self.out_dir_path, rel_thumbnail_path)
+
+                with open(thumbnail_path, 'wb') as im:
+                    im.write(thumb_b)
+                    props["thumbnail_path"] = rel_thumbnail_path
 
             return folder, coord, props
 
