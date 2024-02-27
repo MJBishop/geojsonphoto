@@ -8,7 +8,7 @@ import warnings
 from geophoto.dms_conversion import dms_to_decimal
 
 
-def read_exif(filepath):
+def read_exif(filepath, get_image=False, get_thumbnail=False):
     """
     Return exif metadata from image_file.
 
@@ -80,8 +80,8 @@ def read_exif(filepath):
             }
 
         # files
-        image_b = image.get_file()         # if image else None, 
-        thumb_b = image.get_thumbnail() # if thumb else None, 
+        image_b = image.get_file() if get_image else None
+        thumb_b = image.get_thumbnail() if get_thumbnail else None
 
         # delete exif data
         with warnings.catch_warnings():

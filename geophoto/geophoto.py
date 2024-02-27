@@ -86,7 +86,9 @@ class GeoPhoto(object):
 
     def _process_image_file(self, filepath):
         try:
-            coord, props, image_b, thumb_b = read_exif(filepath)
+            coord, props, image_b, thumb_b = read_exif(filepath, 
+                                                       get_image=self._images, 
+                                                       get_thumbnail=self._thumbnails)
         except KeyError as e:
             # record failure: No exif data
             raise e
