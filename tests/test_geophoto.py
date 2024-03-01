@@ -155,7 +155,7 @@ class TestGeoPhotoStart(TestGeoPhotoInit):
         
         f = io.StringIO()
         with redirect_stdout(f):
-            geophoto.status
+            geophoto.print_status
         out = f.getvalue()
         self.assertEqual('Ready\n', out)
 
@@ -169,7 +169,7 @@ class TestGeoPhotoStart(TestGeoPhotoInit):
 
         f = io.StringIO()
         with redirect_stdout(f):
-            geophoto.status
+            geophoto.print_status
         out = f.getvalue()
         self.assertEqual('Finished\n', out)
 

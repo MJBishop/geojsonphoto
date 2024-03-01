@@ -69,7 +69,8 @@ class GeoPhoto(object):
         return os.path.join(self.out_dir_path, OUT_DIR, IMAGE_DIR)
     
     @property
-    def status(self):
+    def print_status(self):
+        """Print the current status."""
         if self._in_progress is None:
             print('Ready')
         elif self._in_progress:
@@ -90,7 +91,7 @@ class GeoPhoto(object):
             raise RuntimeError('Error: Too many calls to function')
         
         self._in_progress = True
-        self.status
+        self.print_status
 
         files = glob.iglob(f'{self.in_dir_path}**/*.[Jj][Pp][Gg]')
 
@@ -109,7 +110,7 @@ class GeoPhoto(object):
                 json.dump(feature_collection, f)
         
         self._in_progress = False
-        self.status
+        self.print_status
 
     def _process_image_file(self, filepath):
         try:
