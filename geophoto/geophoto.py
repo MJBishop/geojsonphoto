@@ -19,20 +19,23 @@ class GeoPhoto(object):
     
     """
 
-    def __init__(self, in_dir_path, out_dir_path=DEFAULT_OUT_DIR_PATH, images=False, thumbnails=False):
-        # need: action_thumbnail!!
+    def __init__(self, 
+                 in_dir_path, 
+                 out_dir_path=DEFAULT_OUT_DIR_PATH, 
+                 save_images=False, 
+                 save_thumbnails=False):
         """
-        
+        Initialise Geophoto
         """
         self._in_dir_path = in_dir_path
         self._out_dir_path = out_dir_path
-        self._images = images
-        self._thumbnails = thumbnails
+        self._save_images = save_images
+        self._save_thumbnails = save_thumbnails
         self._geojson_parser = GeoJSONParser()
 
         # Make Output Directories
         dir_paths = [self.geojson_dir_path]
-        if images or thumbnails:
+        if save_images or save_thumbnails:
             dir_paths.append(self.image_dir_path)
         for path in dir_paths:
             try:
@@ -63,10 +66,19 @@ class GeoPhoto(object):
     def image_dir_path(self):
         """Return the path to the image directory."""
         return os.path.join(self.out_dir_path, OUT_DIR, IMAGE_DIR)
+    
+    @property
+    def status(self):
+        return 'Ready'
         
     def start(self):
         """
-        
+        Read and process the images from `in_dir_path`.
+
+        Notes
+        -----
+        Saves the harvested metadata as geojson to 'out_dir_path`
+        Optionally saves images without metadata and thumbnails.
         """
         files = glob.iglob(f'{self.in_dir_path}**/*.[Jj][Pp][Gg]')
 
@@ -87,8 +99,8 @@ class GeoPhoto(object):
     def _process_image_file(self, filepath):
         try:
             coord, props, image_b, thumb_b = read_exif(filepath, 
-                                                       get_image=self._images, 
-                                                       get_thumbnail=self._thumbnails)
+                                                       get_image=self._save_images, 
+                                                       get_thumbnail=self._save_thumbnails)
         except KeyError as e:
             # record failure: No exif data
             raise e
@@ -102,7 +114,7 @@ class GeoPhoto(object):
             folder, filename = GeoPhoto.folder_and_filename_from_filepath(filepath)
 
             # image 
-            if self._images and image_b is not None:
+            if self._save_images and image_b is not None:
                 rel_image_path = self._rel_image_path(filename)
                 image_path = os.path.join(self.out_dir_path, rel_image_path)            
 
@@ -111,7 +123,7 @@ class GeoPhoto(object):
                     props["image_path"] = rel_image_path
 
             # thumbnail 
-            if self._thumbnails and thumb_b is not None:
+            if self._save_thumbnails and thumb_b is not None:
                 rel_thumbnail_path = self._rel_thumbnail_path(filename)
                 thumbnail_path = os.path.join(self.out_dir_path, rel_thumbnail_path)
 
