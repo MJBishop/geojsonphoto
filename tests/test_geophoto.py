@@ -149,6 +149,15 @@ class TestGeoPhotoStart(TestGeoPhotoInit):
                             save_thumbnails=True)
         self.assertEqual('Ready', geophoto.status)
         # geophoto.start()
+
+    def test_finished_status(self):
+        test_thumbnail_file = 'EXIF_thumb.jpg'
+        geophoto = GeoPhoto(in_dir_path = self.in_path, 
+                            out_dir_path = self.out_path, 
+                            save_images=False, 
+                            save_thumbnails=True)
+        geophoto.start()
+        self.assertEqual('Finished', geophoto.status)
         
         
 class TestFolderFilesFromPath(unittest.TestCase):

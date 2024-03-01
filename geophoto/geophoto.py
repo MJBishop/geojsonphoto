@@ -32,6 +32,7 @@ class GeoPhoto(object):
         self._save_images = save_images
         self._save_thumbnails = save_thumbnails
         self._geojson_parser = GeoJSONParser()
+        self._in_progress = None
 
         # Make Output Directories
         dir_paths = [self.geojson_dir_path]
@@ -69,7 +70,10 @@ class GeoPhoto(object):
     
     @property
     def status(self):
-        return 'Ready'
+        if self._in_progress is None:
+            return 'Ready'
+        elif not self._in_progress:
+            return 'Finished' 
         
     def start(self):
         """
@@ -95,6 +99,8 @@ class GeoPhoto(object):
             geojson_file_path = os.path.join(self.geojson_dir_path, f'{title}.geojson')
             with open(geojson_file_path, 'w') as f:
                 json.dump(feature_collection, f)
+        
+        self._in_progress = False
 
     def _process_image_file(self, filepath):
         try:
