@@ -184,7 +184,7 @@ class TestGeoPhotoStart(TestGeoPhotoInit):
         with redirect_stdout(f):
             geophoto.start()
         out = f.getvalue()
-        self.assertEqual('In Progress\nFinished\n', out)
+        self.assertEqual('Processing\nFinished\n', out)
 
     def test_repeat_calls_to_start_raises_exception(self):
         test_thumbnail_file = 'EXIF_thumb.jpg'

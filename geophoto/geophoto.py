@@ -73,7 +73,7 @@ class GeoPhoto(object):
         if self._in_progress is None:
             print('Ready')
         elif self._in_progress:
-            print('In Progress')
+            print('Processing')
         elif not self._in_progress:
             print('Finished')
         
