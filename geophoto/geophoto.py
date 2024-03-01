@@ -71,9 +71,11 @@ class GeoPhoto(object):
     @property
     def status(self):
         if self._in_progress is None:
-            return 'Ready'
+            print('Ready')
+        elif self._in_progress:
+            print('In Progress')
         elif not self._in_progress:
-            return 'Finished' 
+            print('Finished')
         
     def start(self):
         """
@@ -84,6 +86,9 @@ class GeoPhoto(object):
         Saves the harvested metadata as geojson to 'out_dir_path`
         Optionally saves images without metadata and thumbnails.
         """
+        self._in_progress = True
+        self.status
+
         files = glob.iglob(f'{self.in_dir_path}**/*.[Jj][Pp][Gg]')
 
         for filepath in files:
@@ -101,6 +106,7 @@ class GeoPhoto(object):
                 json.dump(feature_collection, f)
         
         self._in_progress = False
+        self.status
 
     def _process_image_file(self, filepath):
         try:

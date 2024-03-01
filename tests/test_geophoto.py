@@ -1,7 +1,12 @@
 import unittest
 import os
 import shutil
+import io
+from contextlib import redirect_stdout
+
 from geophoto.geophoto import *
+
+
 
 
 class TestGeoPhotoInit(unittest.TestCase):
@@ -147,8 +152,12 @@ class TestGeoPhotoStart(TestGeoPhotoInit):
                             out_dir_path = self.out_path, 
                             save_images=False, 
                             save_thumbnails=True)
-        self.assertEqual('Ready', geophoto.status)
-        # geophoto.start()
+        
+        f = io.StringIO()
+        with redirect_stdout(f):
+            geophoto.status
+        out = f.getvalue()
+        self.assertEqual('Ready\n', out)
 
     def test_finished_status(self):
         test_thumbnail_file = 'EXIF_thumb.jpg'
@@ -157,7 +166,25 @@ class TestGeoPhotoStart(TestGeoPhotoInit):
                             save_images=False, 
                             save_thumbnails=True)
         geophoto.start()
-        self.assertEqual('Finished', geophoto.status)
+
+        f = io.StringIO()
+        with redirect_stdout(f):
+            geophoto.status
+        out = f.getvalue()
+        self.assertEqual('Finished\n', out)
+
+    def test_in_progress_status(self):
+        test_thumbnail_file = 'EXIF_thumb.jpg'
+        geophoto = GeoPhoto(in_dir_path = self.in_path, 
+                            out_dir_path = self.out_path, 
+                            save_images=False, 
+                            save_thumbnails=True)
+        
+        f = io.StringIO()
+        with redirect_stdout(f):
+            geophoto.start()
+        out = f.getvalue()
+        self.assertEqual('In Progress\nFinished\n', out)
         
         
 class TestFolderFilesFromPath(unittest.TestCase):
