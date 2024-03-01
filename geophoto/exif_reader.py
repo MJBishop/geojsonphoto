@@ -4,15 +4,13 @@
 from exif import Image
 from datetime import datetime
 import warnings 
-
+import sys
 from geophoto.dms_conversion import dms_to_decimal
 
 
 def read_exif(filepath, get_image=False, get_thumbnail=False):
     """
-    Return exif metadata from image_file.
-
-
+    Read exif metadata from image file at `filepath`.
     
     Parameters
     ----------
@@ -21,25 +19,24 @@ def read_exif(filepath, get_image=False, get_thumbnail=False):
 
     Returns
     -------
-    coord : tuple of float
-        The decimal representation of the latitude and longitude as a float.
-    props : dictionary of str
-        The quotient of the division.
-    files : dictionary of bytes
-        The quotient of the division.
+    (lat, long) : tuple of float
+        The decimal latitude, longitude coordinate as a float.
+    props : dictionary
+        Dictionary containing the date the image was captured.
+    image_b : bytes
+        The image.
+    thumb_b : bytes
+        The thumbnail.
     
     Raises
     ------
     KeyError
-        If `ref` is invalid.
+        If `image_file` has no metadata.
     AttributeError
-        If `ref` is invalid.
-        If `ref` is invalid.
+        If `image_file` has missing metadata.
     ValueError
-        If `ref` is invalid.
-        If `ref` is invalid.
+        If `image_file` has invalid metadata.
     """
-
     with open(filepath, 'rb') as image_file:
         image = Image(image_file)
         if not image.has_exif:
@@ -52,6 +49,7 @@ def read_exif(filepath, get_image=False, get_thumbnail=False):
             dms_long = (*image.gps_longitude, image.gps_longitude_ref)
         except AttributeError as e:
             # print(f'AttributeError: Missing coord metadata, {e} in file {image_file.name}')
+            # print("An error occurred:", str(e), file=sys.stderr)
             raise e
         else:
             try:
@@ -79,19 +77,15 @@ def read_exif(filepath, get_image=False, get_thumbnail=False):
             "datetime": str(datetime_object),
             }
 
-        # files
-        image_b = image.get_file() if get_image else None
-        thumb_b = image.get_thumbnail() if get_thumbnail else None
-
         # delete exif data
         with warnings.catch_warnings():
             # Warning that not all data has been deleted:
-            warnings.filterwarnings('error')
-            try:
-                image.delete_all()
-            except Warning as e:
-                # print(e) - log?
-                pass
+            warnings.filterwarnings('ignore')
+            image.delete_all()
+        
+        # files
+        image_b = image.get_file() if get_image else None
+        thumb_b = image.get_thumbnail() if get_thumbnail else None
 
 
         return (lat, long), props, image_b, thumb_b
