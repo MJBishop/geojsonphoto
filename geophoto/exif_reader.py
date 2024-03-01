@@ -43,7 +43,7 @@ def read_exif(filepath, get_image=False, get_thumbnail=False):
         image = Image(image_file)
         if not image.has_exif:
             # print(f'KeyError: No metadata in file {image_file.name}')
-            raise KeyError
+            raise KeyError('No metadata.')
 
         # coord
         try:

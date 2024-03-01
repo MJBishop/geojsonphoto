@@ -85,6 +85,8 @@ class GeoPhoto(object):
             raise RuntimeError('Error: Images not yet processed.')
         elif self._errors == {}:
             return 'No errors'
+        else:
+            return self._errors
         
         
     def start(self):
@@ -107,8 +109,9 @@ class GeoPhoto(object):
         for filepath in files:
             try:
                 folder, coord, props = self._process_image_file(filepath)
-            except:
-                pass
+            except Exception as e:
+                head, filename = os.path.split(filepath)
+                self._errors[filename] = str(e)
             else:
                 self._geojson_parser.add_feature(folder, *coord, props)
 
