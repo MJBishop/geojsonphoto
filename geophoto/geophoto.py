@@ -86,6 +86,9 @@ class GeoPhoto(object):
         Saves the harvested metadata as geojson to 'out_dir_path`
         Optionally saves images without metadata and thumbnails.
         """
+        if self._in_progress is not None:
+            raise RuntimeError('Error: Too many calls to function')
+        
         self._in_progress = True
         self.status
 

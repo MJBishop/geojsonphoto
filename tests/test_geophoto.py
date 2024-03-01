@@ -185,6 +185,16 @@ class TestGeoPhotoStart(TestGeoPhotoInit):
             geophoto.start()
         out = f.getvalue()
         self.assertEqual('In Progress\nFinished\n', out)
+
+    def test_repeat_calls_to_start_raises_exception(self):
+        test_thumbnail_file = 'EXIF_thumb.jpg'
+        geophoto = GeoPhoto(in_dir_path = self.in_path, 
+                            out_dir_path = self.out_path, 
+                            save_images=False, 
+                            save_thumbnails=True)
+        geophoto.start()
+        with self.assertRaises(RuntimeError) as e:
+            geophoto.start()
         
         
 class TestFolderFilesFromPath(unittest.TestCase):
