@@ -198,12 +198,13 @@ class TestGeoPhotoStatus(TestGeoPhotoInit):
 
 class TestGeoPhotoErrors(TestGeoPhotoInit):
     
-    def test_images_not_processed(self):
-        geophoto = GeoPhoto(in_dir_path = self.in_path, 
-                                 out_dir_path = self.out_path, 
-                                 save_images=False, 
-                                 save_thumbnails=True)
-        self.assertEqual('No images processed.', geophoto.errors)
+    # def test_errors_raises_exception_if_images_not_processed(self):
+    #     geophoto = GeoPhoto(in_dir_path = self.in_path, 
+    #                              out_dir_path = self.out_path, 
+    #                              save_images=False, 
+    #                              save_thumbnails=True)
+    #     with self.assertRaises(RuntimeError):
+    #         geophoto.errors
     
     def test_no_errors(self):
         geophoto = GeoPhoto(in_dir_path = self.in_path, 

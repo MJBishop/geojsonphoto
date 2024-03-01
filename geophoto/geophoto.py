@@ -80,8 +80,10 @@ class GeoPhoto(object):
 
     @property
     def errors(self):
-        if self._in_progress is None:
-            return 'No images processed.'
+        if not self._in_progress:
+            return 'No errors'
+        # elif self._in_progress is None:
+            # raise RuntimeError('Error: Too many calls to function')
         
     def start(self):
         """
