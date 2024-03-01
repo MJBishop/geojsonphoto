@@ -77,6 +77,11 @@ class GeoPhoto(object):
             print('Processing')
         elif not self._in_progress:
             print('Finished')
+
+    @property
+    def errors(self):
+        if self._in_progress is None:
+            return 'No images processed.'
         
     def start(self):
         """

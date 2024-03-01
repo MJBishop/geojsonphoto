@@ -146,25 +146,26 @@ class TestGeoPhotoStart(TestGeoPhotoInit):
             with self.assertRaises(KeyError):
                 jsn['features'][0]['properties']['image_path']
 
+
+class TestGeoPhotoStatus(TestGeoPhotoInit):
+
     def test_ready_status(self):
-        test_thumbnail_file = 'EXIF_thumb.jpg'
         geophoto = GeoPhoto(in_dir_path = self.in_path, 
-                            out_dir_path = self.out_path, 
-                            save_images=False, 
-                            save_thumbnails=True)
-        
+                                 out_dir_path = self.out_path, 
+                                 save_images=False, 
+                                 save_thumbnails=True)
         f = io.StringIO()
         with redirect_stdout(f):
             geophoto.print_status
         out = f.getvalue()
+
         self.assertEqual('Ready\n', out)
 
     def test_finished_status(self):
-        test_thumbnail_file = 'EXIF_thumb.jpg'
         geophoto = GeoPhoto(in_dir_path = self.in_path, 
-                            out_dir_path = self.out_path, 
-                            save_images=False, 
-                            save_thumbnails=True)
+                                 out_dir_path = self.out_path, 
+                                 save_images=False, 
+                                 save_thumbnails=True)
         geophoto.start()
 
         f = io.StringIO()
@@ -174,12 +175,10 @@ class TestGeoPhotoStart(TestGeoPhotoInit):
         self.assertEqual('Finished\n', out)
 
     def test_in_progress_status(self):
-        test_thumbnail_file = 'EXIF_thumb.jpg'
         geophoto = GeoPhoto(in_dir_path = self.in_path, 
-                            out_dir_path = self.out_path, 
-                            save_images=False, 
-                            save_thumbnails=True)
-        
+                                 out_dir_path = self.out_path, 
+                                 save_images=False, 
+                                 save_thumbnails=True)
         f = io.StringIO()
         with redirect_stdout(f):
             geophoto.start()
@@ -187,14 +186,32 @@ class TestGeoPhotoStart(TestGeoPhotoInit):
         self.assertEqual('Processing\nFinished\n', out)
 
     def test_repeat_calls_to_start_raises_exception(self):
-        test_thumbnail_file = 'EXIF_thumb.jpg'
         geophoto = GeoPhoto(in_dir_path = self.in_path, 
-                            out_dir_path = self.out_path, 
-                            save_images=False, 
-                            save_thumbnails=True)
+                                 out_dir_path = self.out_path, 
+                                 save_images=False, 
+                                 save_thumbnails=True)
         geophoto.start()
-        with self.assertRaises(RuntimeError) as e:
+        with self.assertRaises(RuntimeError):
             geophoto.start()
+
+
+
+class TestGeoPhotoErrors(TestGeoPhotoInit):
+    
+    def test_images_not_processed(self):
+        geophoto = GeoPhoto(in_dir_path = self.in_path, 
+                                 out_dir_path = self.out_path, 
+                                 save_images=False, 
+                                 save_thumbnails=True)
+        self.assertEqual('No images processed.', geophoto.errors)
+    
+    def test_no_errors(self):
+        geophoto = GeoPhoto(in_dir_path = self.in_path, 
+                                 out_dir_path = self.out_path, 
+                                 save_images=False, 
+                                 save_thumbnails=True)
+        geophoto.start()
+        self.assertEqual('No errors', geophoto.errors)
         
         
 class TestFolderFilesFromPath(unittest.TestCase):
