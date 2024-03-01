@@ -4,7 +4,9 @@
 from exif import Image
 from datetime import datetime
 import warnings 
+import threading
 import sys
+
 from geophoto.dms_conversion import dms_to_decimal
 
 
@@ -78,11 +80,12 @@ def read_exif(filepath, get_image=False, get_thumbnail=False):
             }
 
         # delete exif data
-        with warnings.catch_warnings():
-            # Warning that not all data has been deleted:
-            warnings.filterwarnings('ignore')
-            image.delete_all()
-        
+        with threading.RLock():
+            # Catch warning that not all data has been deleted:
+            with warnings.catch_warnings():
+                warnings.simplefilter('ignore')
+                image.delete_all()
+            
         # files
         image_b = image.get_file() if get_image else None
         thumb_b = image.get_thumbnail() if get_thumbnail else None

@@ -36,8 +36,9 @@ class TestExif(unittest.TestCase):
     def test_read_exif_image_file_strips_exif_gps_data(self):
         coord, props, image_b, thumb_b = read_exif(self.filepath, get_image=True, get_thumbnail=False)
         image = Image(image_b)
-        with self.assertRaises(AttributeError) as e:
+        with self.assertRaises(AttributeError):
             image.gps_latitude
+
 
 class TestExifFromImageTypes(unittest.TestCase):
 
