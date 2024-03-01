@@ -33,6 +33,7 @@ class GeoPhoto(object):
         self._save_thumbnails = save_thumbnails
         self._geojson_parser = GeoJSONParser()
         self._in_progress = None
+        self._errors = {}
 
         # Make Output Directories
         dir_paths = [self.geojson_dir_path]
@@ -82,7 +83,7 @@ class GeoPhoto(object):
     def errors(self):
         if self._in_progress or self._in_progress is None:
             raise RuntimeError('Error: Images not yet processed.')
-        else:
+        elif self._errors == {}:
             return 'No errors'
         
         
