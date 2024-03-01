@@ -4,6 +4,7 @@
 import os
 import glob
 import json
+import concurrent.futures
 
 from geophoto.geojson_parser import GeoJSONParser
 from geophoto.exif_reader import read_exif
@@ -106,14 +107,18 @@ class GeoPhoto(object):
 
         files = glob.iglob(f'{self.in_dir_path}**/*.[Jj][Pp][Gg]')
 
-        for filepath in files:
-            try:
-                folder, coord, props = self._process_image_file(filepath)
-            except Exception as e:
-                head, filename = os.path.split(filepath)
-                self._errors[filename] = str(e)
-            else:
-                self._geojson_parser.add_feature(folder, *coord, props)
+        # Concurrent processing
+        with concurrent.futures.ThreadPoolExecutor() as executor:
+            future_to_path = {executor.submit(self._process_image_file, filepath): filepath for filepath in files}
+            for future in concurrent.futures.as_completed(future_to_path):
+                filepath = future_to_path[future]
+                try:
+                    folder, coord, props = future.result()
+                except Exception as e:
+                    head, filename = os.path.split(filepath)
+                    self._errors[filename] = str(e)
+                else:
+                    self._geojson_parser.add_feature(folder, *coord, props)
 
         # Save geojson
         for title, feature_collection in self._geojson_parser:
