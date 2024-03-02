@@ -43,6 +43,8 @@ class GeoPhoto(object):
         self._geojson_parser = GeoJSONParser()
         self._timer = None
         self._errors = {}
+        self._total_count = 0
+        self._success_count = 0
 
         # Make Output Directories
         dir_paths = [self.geojson_dir_path]
@@ -86,6 +88,11 @@ class GeoPhoto(object):
         else:
             return self._errors
         
+    @property
+    def summary(self):
+        """."""
+        return f'({self._success_count} / {self._total_count}) completed successfully'
+
     def start(self):
         """
         Read and process the images from `in_dir_path`.
@@ -104,12 +111,14 @@ class GeoPhoto(object):
             future_to_path = {executor.submit(self._process_image_file, filepath): filepath for filepath in files}
             for future in concurrent.futures.as_completed(future_to_path):
                 filepath = future_to_path[future]
+                self._total_count += 1
                 try:
                     folder, coord, props = future.result()
                 except Exception as e:
                     self._add_file_to_errors_with_exception_string(filepath, str(e))
                 else:
                     self._geojson_parser.add_feature(folder, *coord, props)
+                    self._success_count += 1
 
         # Save geojson
         for title, feature_collection in self._geojson_parser:
@@ -128,7 +137,6 @@ class GeoPhoto(object):
             raise e
         else:
             props['original_image_absolute_path'] = filepath
-
             folder, filename = GeoPhoto.folder_and_filename_from_filepath(filepath)
 
             # image 

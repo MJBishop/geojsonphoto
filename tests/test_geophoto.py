@@ -205,6 +205,17 @@ class TestGeoPhotoErrors(TestGeoPhotoInit):
             test_folder_file:"'No metadata.'"
         }
         self.assertEqual(test_error_dictionary, geophoto.errors)
+
+
+class TestGeoPhotoSummary(TestGeoPhotoInit):
+
+    def test_summary(self):
+        geophoto = GeoPhoto(in_dir_path = self.in_path, 
+                            out_dir_path = self.out_path, 
+                            save_images=False, 
+                            save_thumbnails=True)
+        geophoto.start()
+        self.assertEqual('(1 / 1) completed successfully', geophoto.summary)
         
         
 class TestFolderFilesFromPath(unittest.TestCase):
