@@ -70,11 +70,6 @@ class GeoPhoto(object):
     def image_dir_path(self):
         """Return the path to the image directory."""
         return os.path.join(self.out_dir_path, OUT_DIR, IMAGE_DIR)
-    
-    @property
-    def print_status(self):
-        """Print the current status."""
-        self._timer.status() if self._timer else print('Ready')
 
     @property
     def errors(self):
@@ -85,7 +80,6 @@ class GeoPhoto(object):
             return 'No errors'
         else:
             return self._errors
-        
         
     def start(self):
         """

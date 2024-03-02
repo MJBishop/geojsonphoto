@@ -149,31 +149,6 @@ class TestGeoPhotoStart(TestGeoPhotoInit):
 
 class TestGeoPhotoStatus(TestGeoPhotoInit):
 
-    def test_ready_status(self):
-        geophoto = GeoPhoto(in_dir_path = self.in_path, 
-                                 out_dir_path = self.out_path, 
-                                 save_images=False, 
-                                 save_thumbnails=True)
-        f = io.StringIO()
-        with redirect_stdout(f):
-            geophoto.print_status
-        out = f.getvalue()
-
-        self.assertEqual('Ready\n', out)
-
-    def test_finished_status(self):
-        geophoto = GeoPhoto(in_dir_path = self.in_path, 
-                                 out_dir_path = self.out_path, 
-                                 save_images=False, 
-                                 save_thumbnails=True)
-        geophoto.start()
-
-        f = io.StringIO()
-        with redirect_stdout(f):
-            geophoto.print_status
-        out = f.getvalue()
-        self.assertIn('Finished in ', out)
-
     def test_in_progress_status(self):
         geophoto = GeoPhoto(in_dir_path = self.in_path, 
                                  out_dir_path = self.out_path, 
