@@ -188,9 +188,9 @@ class TestGeoPhotoErrors(TestGeoPhotoInit):
                             save_images=False, 
                             save_thumbnails=True)
         geophoto.start()
-        test_file = 'NO_EXIF.jpg'
+        test_folder_file = 'test_folder/NO_EXIF.jpg'
         test_error_dictionary = {
-            test_file:"'No metadata.'"
+            test_folder_file:"'No metadata.'"
         }
         self.assertEqual(test_error_dictionary, geophoto.errors)
         

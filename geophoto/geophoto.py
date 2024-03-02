@@ -105,8 +105,9 @@ class GeoPhoto(object):
                 try:
                     folder, coord, props = future.result()
                 except Exception as e:
-                    head, filename = os.path.split(filepath)
-                    self._errors[filename] = str(e)
+                    folder, filename = GeoPhoto.folder_and_filename_from_filepath(filepath)
+                    key = os.path.join(folder, filename)
+                    self._errors[key] = str(e)
                 else:
                     self._geojson_parser.add_feature(folder, *coord, props)
 
@@ -121,14 +122,9 @@ class GeoPhoto(object):
             coord, props, image_b, thumb_b = read_exif(filepath, 
                                                        get_image=self._save_images, 
                                                        get_thumbnail=self._save_thumbnails)
-        except KeyError as e:
-            # record failure: No exif data
-            raise e
-        except AttributeError as e:
-            # record failure: Missing exif data
-            raise e
-        except ValueError as e:
-            # record failure: Invalid exif data
+        except FileNotFoundError as e:
+            raise FileNotFoundError('FileNotFoundError: No such file or directory') from e
+        except Exception as e:
             raise e
         else:
             folder, filename = GeoPhoto.folder_and_filename_from_filepath(filepath)
