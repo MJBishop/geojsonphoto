@@ -98,7 +98,7 @@ class TestMissingDatetime(unittest.TestCase):
         self.assertEqual('image does not have attribute datetime_original', str(e.exception))
 
 
-class TestCorruptedExif(unittest.TestCase):
+class TestCorruptedGPSExif(unittest.TestCase):
     
     def setUp(self):
         self.in_path = 'tests/test_files/test_images/test_corrupted_exif/'
@@ -106,8 +106,9 @@ class TestCorruptedExif(unittest.TestCase):
         self.filepath = os.path.join(self.in_path, self.file_dir)
 
     def test_read_corrupted_gps(self):
-        with self.assertRaises(ValueError):
+        with self.assertRaises(ValueError) as e:
             coord, props, image_b, thumb_b = read_exif(self.filepath)
+        self.assertEqual('ValueError: Invalid GPS Reference X, Expecting N, S, E or W', str(e.exception))
 
 
 class TestCorruptedDatetime(unittest.TestCase):
