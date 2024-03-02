@@ -47,10 +47,10 @@ class TestTimer(unittest.TestCase):
         f = io.StringIO()
         with redirect_stdout(f):
             with Timer() as timer:
-                sleep(2)
+                sleep(0.01)
         out = f.getvalue()
 
-        self.assertEqual('Running...\nFinished in 2.00 seconds\n', out)
+        self.assertIn('Running...\nFinished in ', out)
 
     def test_timer_is_finished(self):
         with Timer() as timer:

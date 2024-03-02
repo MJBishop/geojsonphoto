@@ -5,7 +5,6 @@ from exif import Image
 from datetime import datetime
 import warnings 
 import threading
-import sys
 
 from geophoto.dms_conversion import dms_to_decimal
 
@@ -51,7 +50,6 @@ def read_exif(filepath, get_image=False, get_thumbnail=False):
             dms_long = (*image.gps_longitude, image.gps_longitude_ref)
         except AttributeError as e:
             # print(f'AttributeError: Missing coord metadata, {e} in file {image_file.name}')
-            # print("An error occurred:", str(e), file=sys.stderr)
             raise e
         else:
             try:

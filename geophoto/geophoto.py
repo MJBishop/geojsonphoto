@@ -8,6 +8,7 @@ import concurrent.futures
 
 from geophoto.geojson_parser import GeoJSONParser
 from geophoto.exif_reader import read_exif
+from geophoto.timer import Timer
 
 DEFAULT_OUT_DIR_PATH = './'
 OUT_DIR = 'geophoto_output/'
@@ -33,7 +34,7 @@ class GeoPhoto(object):
         self._save_images = save_images
         self._save_thumbnails = save_thumbnails
         self._geojson_parser = GeoJSONParser()
-        self._in_progress = None
+        self._timer = None
         self._errors = {}
 
         # Make Output Directories
@@ -73,16 +74,12 @@ class GeoPhoto(object):
     @property
     def print_status(self):
         """Print the current status."""
-        if self._in_progress is None:
-            print('Ready')
-        elif self._in_progress:
-            print('Processing')
-        elif not self._in_progress:
-            print('Finished')
+        self._timer.status() if self._timer else print('Ready')
 
     @property
     def errors(self):
-        if self._in_progress or self._in_progress is None:
+        """."""
+        if self._timer is None or not self._timer.is_finished:
             raise RuntimeError('Error: Images not yet processed.')
         elif self._errors == {}:
             return 'No errors'
@@ -99,15 +96,16 @@ class GeoPhoto(object):
         Saves the harvested metadata as geojson to 'out_dir_path`
         Optionally saves images without metadata and thumbnails.
         """
-        if self._in_progress is not None:
+        if self._timer is not None:
             raise RuntimeError('Error: Too many calls to function')
         
-        self._in_progress = True
-        self.print_status
-
+        with Timer() as self._timer:
+            self._process_files()
+            
+    def _process_files(self):
         files = glob.iglob(f'{self.in_dir_path}**/*.[Jj][Pp][Gg]')
 
-        # Concurrent processing
+        # Concurrent processing of images
         with concurrent.futures.ThreadPoolExecutor() as executor:
             future_to_path = {executor.submit(self._process_image_file, filepath): filepath for filepath in files}
             for future in concurrent.futures.as_completed(future_to_path):
@@ -125,9 +123,6 @@ class GeoPhoto(object):
             geojson_file_path = os.path.join(self.geojson_dir_path, f'{title}.geojson')
             with open(geojson_file_path, 'w') as f:
                 json.dump(feature_collection, f)
-        
-        self._in_progress = False
-        self.print_status
 
     def _process_image_file(self, filepath):
         try:

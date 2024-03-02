@@ -172,7 +172,7 @@ class TestGeoPhotoStatus(TestGeoPhotoInit):
         with redirect_stdout(f):
             geophoto.print_status
         out = f.getvalue()
-        self.assertEqual('Finished\n', out)
+        self.assertIn('Finished in ', out)
 
     def test_in_progress_status(self):
         geophoto = GeoPhoto(in_dir_path = self.in_path, 
@@ -183,7 +183,7 @@ class TestGeoPhotoStatus(TestGeoPhotoInit):
         with redirect_stdout(f):
             geophoto.start()
         out = f.getvalue()
-        self.assertEqual('Processing\nFinished\n', out)
+        self.assertIn('Running...\nFinished in ', out)
 
     def test_repeat_calls_to_start_raises_exception(self):
         geophoto = GeoPhoto(in_dir_path = self.in_path, 
