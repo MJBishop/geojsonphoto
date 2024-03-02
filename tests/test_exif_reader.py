@@ -93,8 +93,9 @@ class TestMissingDatetime(unittest.TestCase):
         self.filepath = os.path.join(self.in_path, self.file_dir)
 
     def test_read_missing_datetime(self):
-        with self.assertRaises(AttributeError):
+        with self.assertRaises(AttributeError) as e:
             coord, props, image_b, thumb_b = read_exif(self.filepath, get_image=False, get_thumbnail=False)
+        self.assertEqual('image does not have attribute datetime_original', str(e.exception))
 
 
 class TestCorruptedExif(unittest.TestCase):
