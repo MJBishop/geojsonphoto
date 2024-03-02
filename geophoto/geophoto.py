@@ -127,6 +127,8 @@ class GeoPhoto(object):
         except Exception as e:
             raise e
         else:
+            props['original_image_absolute_path'] = filepath
+
             folder, filename = GeoPhoto.folder_and_filename_from_filepath(filepath)
 
             # image 

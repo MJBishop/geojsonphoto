@@ -146,6 +146,19 @@ class TestGeoPhotoStart(TestGeoPhotoInit):
             with self.assertRaises(KeyError):
                 jsn['features'][0]['properties']['rel_image_path']
 
+    def test_geojson_start_original_image_absolute_path(self):
+        test_thumbnail_file = 'EXIF_thumb.jpg'
+        geophoto = GeoPhoto(in_dir_path = self.in_path, 
+                            out_dir_path = self.out_path, 
+                            save_images=False, 
+                            save_thumbnails=False)
+        geophoto.start()
+
+        geojson_path = os.path.join(self.geojson_dir_path, self.test_geojson_file_name)
+        with open(geojson_path, 'r') as f:
+            jsn = json.load(f)
+            self.assertIsNotNone(jsn['features'][0]['properties']['original_image_absolute_path'])
+
 
 class TestGeoPhotoStatus(TestGeoPhotoInit):
 
