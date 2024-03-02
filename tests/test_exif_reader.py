@@ -119,8 +119,9 @@ class TestCorruptedDatetime(unittest.TestCase):
         self.filepath = os.path.join(self.in_path, self.file_dir)
 
     def test_read_corrupted_datetime(self):
-        with self.assertRaises(ValueError):
+        with self.assertRaises(ValueError) as e:
             coord, props, image_b, thumb_b = read_exif(self.filepath, get_image=False, get_thumbnail=False)
+        self.assertEqual("time data 'corrupted' does not match format '%Y:%m:%d %H:%M:%S'", str(e.exception))
 
 
 
