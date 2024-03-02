@@ -180,14 +180,6 @@ class TestGeoPhotoErrors(TestGeoPhotoInit):
                             save_thumbnails=True)
         geophoto.start()
         self.assertEqual('No errors', geophoto.errors)
-
-    def test_errors_raises_exception_if_images_not_processed(self):
-        geophoto = GeoPhoto(in_dir_path = self.in_path,
-                            out_dir_path = self.out_path, 
-                            save_images=False, 
-                            save_thumbnails=True)
-        with self.assertRaises(RuntimeError):
-            geophoto.errors
     
     def test_errors(self):
         in_path = 'tests/test_files/test_images/test_no_exif/'

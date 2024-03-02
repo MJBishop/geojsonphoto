@@ -74,9 +74,7 @@ class GeoPhoto(object):
     @property
     def errors(self):
         """."""
-        if self._timer is None or not self._timer.is_finished:
-            raise RuntimeError('Error: Images not yet processed.')
-        elif self._errors == {}:
+        if self._errors == {}:
             return 'No errors'
         else:
             return self._errors
