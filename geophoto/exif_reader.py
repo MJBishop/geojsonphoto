@@ -60,7 +60,6 @@ def read_exif(filepath, get_image=False, get_thumbnail=False):
         try:
             datetime_str = image.datetime_original
         except AttributeError as e:
-            # print(f'AttributeError: Missing metadata, {e} in file {image_file.name}')
             raise AttributeError(f'AttributeError: {e}') from e
         else:
             try:
@@ -74,11 +73,12 @@ def read_exif(filepath, get_image=False, get_thumbnail=False):
             }
 
         # delete exif data
-        with threading.RLock():
-            # Catch warning that not all data has been deleted:
-            with warnings.catch_warnings():
-                warnings.simplefilter('ignore')
-                image.delete_all()
+        if get_image:
+            with threading.RLock():
+                # Catch warning that not all data has been deleted:
+                with warnings.catch_warnings():
+                    warnings.simplefilter('ignore')
+                    image.delete_all()
             
         # files
         image_b = image.get_file() if get_image else None

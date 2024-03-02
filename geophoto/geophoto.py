@@ -28,11 +28,18 @@ class GeoPhoto(object):
                  save_thumbnails=False):
         """
         Initialise Geophoto
+
+
+        Notes
+        -----
+        Saves the harvested metadata as geojson to 'out_dir_path`
+        Optionally saves images without metadata and thumbnails.
         """
         self._in_dir_path = in_dir_path
         self._out_dir_path = out_dir_path
         self._save_images = save_images
         self._save_thumbnails = save_thumbnails
+
         self._geojson_parser = GeoJSONParser()
         self._timer = None
         self._errors = {}
@@ -83,10 +90,6 @@ class GeoPhoto(object):
         """
         Read and process the images from `in_dir_path`.
 
-        Notes
-        -----
-        Saves the harvested metadata as geojson to 'out_dir_path`
-        Optionally saves images without metadata and thumbnails.
         """
         if self._timer is not None:
             raise RuntimeError('Error: Too many calls to function')
@@ -95,9 +98,9 @@ class GeoPhoto(object):
             self._process_files()
             
     def _process_files(self):
+        """."""
+        # Concurrent processing of image files
         files = glob.iglob(f'{self.in_dir_path}**/*.[Jj][Pp][Gg]')
-
-        # Concurrent processing of images
         with concurrent.futures.ThreadPoolExecutor() as executor:
             future_to_path = {executor.submit(self._process_image_file, filepath): filepath for filepath in files}
             for future in concurrent.futures.as_completed(future_to_path):
@@ -105,9 +108,7 @@ class GeoPhoto(object):
                 try:
                     folder, coord, props = future.result()
                 except Exception as e:
-                    folder, filename = GeoPhoto.folder_and_filename_from_filepath(filepath)
-                    key = os.path.join(folder, filename)
-                    self._errors[key] = str(e)
+                    self._add_file_to_errors_with_exception_string(filepath, str(e))
                 else:
                     self._geojson_parser.add_feature(folder, *coord, props)
 
@@ -148,6 +149,11 @@ class GeoPhoto(object):
                     props["thumbnail_path"] = rel_thumbnail_path
 
             return folder, coord, props
+        
+    def _add_file_to_errors_with_exception_string(self, filepath, exception_string):
+        folder, filename = GeoPhoto.folder_and_filename_from_filepath(filepath)
+        key = os.path.join(folder, filename)
+        self._errors[key] = exception_string
 
     def _rel_image_path(self, filename):
         # Return the relative path to the image filename.
