@@ -24,6 +24,7 @@ class TestTimer(unittest.TestCase):
     def test_timer_status_running(self):
         timer = Timer()
         timer._in_progress = True
+
         f = io.StringIO()
         with redirect_stdout(f):
             timer.status()
@@ -34,6 +35,7 @@ class TestTimer(unittest.TestCase):
     def test_timer_status_finished(self):
         timer = Timer()
         timer._in_progress = False
+
         f = io.StringIO()
         with redirect_stdout(f):
             timer.status()
@@ -41,7 +43,7 @@ class TestTimer(unittest.TestCase):
 
         self.assertEqual('Finished in 0.00 seconds\n', out)
 
-    def test_timer_with(self):
+    def test_timer_context_manager(self):
         f = io.StringIO()
         with redirect_stdout(f):
             with Timer() as timer:
@@ -49,3 +51,8 @@ class TestTimer(unittest.TestCase):
         out = f.getvalue()
 
         self.assertEqual('Running...\nFinished in 2.00 seconds\n', out)
+
+    def test_timer_is_finished(self):
+        with Timer() as timer:
+            pass
+        self.assertTrue(timer.is_finished)

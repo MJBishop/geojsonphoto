@@ -29,3 +29,7 @@ class Timer(object):
         elif not self._in_progress:
             t = format(self.elapsed_time, '.2f')
             print(f'Finished in {t} seconds')
+
+    @property
+    def is_finished(self):
+        return not self._in_progress
