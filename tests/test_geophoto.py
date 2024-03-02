@@ -118,10 +118,10 @@ class TestGeoPhotoStart(TestGeoPhotoInit):
         with open(geojson_path, 'r') as f:
             jsn = json.load(f)
             self.assertIsNotNone(jsn['features'][0]['properties']['datetime'])
-            self.assertIsNotNone(jsn['features'][0]['properties']['image_path'])
+            self.assertIsNotNone(jsn['features'][0]['properties']['rel_image_path'])
 
             with self.assertRaises(KeyError):
-                jsn['features'][0]['properties']['thumbnail_path']
+                jsn['features'][0]['properties']['rel_thumbnail_path']
 
     def test_geophoto_start_creates_thumbnail_file(self):
         test_thumbnail_file = 'EXIF_thumb.jpg'
@@ -141,10 +141,10 @@ class TestGeoPhotoStart(TestGeoPhotoInit):
         with open(geojson_path, 'r') as f:
             jsn = json.load(f)
             self.assertIsNotNone(jsn['features'][0]['properties']['datetime'])
-            self.assertIsNotNone(jsn['features'][0]['properties']['thumbnail_path'])
+            self.assertIsNotNone(jsn['features'][0]['properties']['rel_thumbnail_path'])
 
             with self.assertRaises(KeyError):
-                jsn['features'][0]['properties']['image_path']
+                jsn['features'][0]['properties']['rel_image_path']
 
 
 class TestGeoPhotoStatus(TestGeoPhotoInit):
@@ -168,7 +168,6 @@ class TestGeoPhotoStatus(TestGeoPhotoInit):
         geophoto.start()
         with self.assertRaises(RuntimeError):
             geophoto.start()
-
 
 
 class TestGeoPhotoErrors(TestGeoPhotoInit):

@@ -80,7 +80,7 @@ class GeoPhoto(object):
 
     @property
     def errors(self):
-        """."""
+        """Return the error dictionary or 'No errors'."""
         if self._errors == {}:
             return 'No errors'
         else:
@@ -98,8 +98,7 @@ class GeoPhoto(object):
             self._process_files()
             
     def _process_files(self):
-        """."""
-        # Concurrent processing of image files
+        # Processing image files concurrently
         files = glob.iglob(f'{self.in_dir_path}**/*.[Jj][Pp][Gg]')
         with concurrent.futures.ThreadPoolExecutor() as executor:
             future_to_path = {executor.submit(self._process_image_file, filepath): filepath for filepath in files}
@@ -137,7 +136,7 @@ class GeoPhoto(object):
 
                 with open(image_path, 'wb') as im:
                     im.write(image_b)
-                    props["image_path"] = rel_image_path
+                    props["rel_image_path"] = rel_image_path
 
             # thumbnail 
             if self._save_thumbnails and thumb_b is not None:
@@ -146,7 +145,7 @@ class GeoPhoto(object):
 
                 with open(thumbnail_path, 'wb') as im:
                     im.write(thumb_b)
-                    props["thumbnail_path"] = rel_thumbnail_path
+                    props["rel_thumbnail_path"] = rel_thumbnail_path
 
             return folder, coord, props
         
