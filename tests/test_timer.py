@@ -1,4 +1,5 @@
 import unittest
+from time import sleep
 import io
 from contextlib import redirect_stdout
 
@@ -38,4 +39,13 @@ class TestTimer(unittest.TestCase):
             timer.status()
         out = f.getvalue()
 
-        self.assertEqual('Finished in 0 seconds\n', out)
+        self.assertEqual('Finished in 0.00 seconds\n', out)
+
+    def test_timer_with(self):
+        f = io.StringIO()
+        with redirect_stdout(f):
+            with Timer() as timer:
+                sleep(2)
+        out = f.getvalue()
+
+        self.assertEqual('Running...\nFinished in 2.00 seconds\n', out)
