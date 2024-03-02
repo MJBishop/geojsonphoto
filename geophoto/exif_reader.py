@@ -41,7 +41,6 @@ def read_exif(filepath, get_image=False, get_thumbnail=False):
     with open(filepath, 'rb') as image_file:
         image = Image(image_file)
         if not image.has_exif:
-            # print(f'KeyError: No metadata in file {image_file.name}')
             raise KeyError('No metadata.')
 
         # coord
