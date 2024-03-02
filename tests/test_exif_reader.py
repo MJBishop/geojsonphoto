@@ -39,6 +39,13 @@ class TestExif(unittest.TestCase):
         with self.assertRaises(AttributeError):
             image.gps_latitude
 
+    def test_read_exif_raises_exception_for_unknown_file(self):
+        file_dir = 'test_folder/NO_EXIST.jpg'
+        filepath = os.path.join(self.in_path, file_dir)
+        with self.assertRaises(FileNotFoundError) as e:
+            coord, props, image_b, thumb_b = read_exif(filepath, get_image=False, get_thumbnail=False)
+        self.assertIn('No such file or directory:', str(e.exception))
+
 
 class TestExifFromImageTypes(unittest.TestCase):
 
