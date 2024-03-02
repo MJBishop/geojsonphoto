@@ -82,7 +82,7 @@ class TestMissingExif(unittest.TestCase):
     def test_read_missing_exif(self):
         with self.assertRaises(AttributeError) as e:
             coord, props, image_b, thumb_b = read_exif(self.filepath, get_image=False, get_thumbnail=False)
-        self.assertEqual('image does not have attribute gps_latitude', str(e.exception))
+        self.assertEqual('AttributeError: image does not have attribute gps_latitude', str(e.exception))
 
 
 class TestMissingDatetime(unittest.TestCase):
@@ -95,7 +95,7 @@ class TestMissingDatetime(unittest.TestCase):
     def test_read_missing_datetime(self):
         with self.assertRaises(AttributeError) as e:
             coord, props, image_b, thumb_b = read_exif(self.filepath, get_image=False, get_thumbnail=False)
-        self.assertEqual('image does not have attribute datetime_original', str(e.exception))
+        self.assertEqual('AttributeError: image does not have attribute datetime_original', str(e.exception))
 
 
 class TestCorruptedGPSExif(unittest.TestCase):
@@ -121,7 +121,7 @@ class TestCorruptedDatetime(unittest.TestCase):
     def test_read_corrupted_datetime(self):
         with self.assertRaises(ValueError) as e:
             coord, props, image_b, thumb_b = read_exif(self.filepath, get_image=False, get_thumbnail=False)
-        self.assertEqual("time data 'corrupted' does not match format '%Y:%m:%d %H:%M:%S'", str(e.exception))
+        self.assertEqual("ValueError: time data 'corrupted' does not match format '%Y:%m:%d %H:%M:%S'", str(e.exception))
 
 
 

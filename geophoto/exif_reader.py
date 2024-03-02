@@ -48,14 +48,12 @@ def read_exif(filepath, get_image=False, get_thumbnail=False):
             dms_lat = (*image.gps_latitude, image.gps_latitude_ref)
             dms_long = (*image.gps_longitude, image.gps_longitude_ref)
         except AttributeError as e:
-            # print(f'AttributeError: Missing coord metadata, {e} in file {image_file.name}')
-            raise e
+            raise AttributeError(f'AttributeError: {e}') from e
         else:
             try:
                 lat = dms_to_decimal(*dms_lat)
                 long = dms_to_decimal(*dms_long)
             except ValueError as e:
-                # print(f'{e}, in file {image_file.name}')
                 raise e
         
         # datetime
@@ -63,13 +61,12 @@ def read_exif(filepath, get_image=False, get_thumbnail=False):
             datetime_str = image.datetime_original
         except AttributeError as e:
             # print(f'AttributeError: Missing metadata, {e} in file {image_file.name}')
-            raise e
+            raise AttributeError(f'AttributeError: {e}') from e
         else:
             try:
                 datetime_object = datetime.strptime(datetime_str, '%Y:%m:%d %H:%M:%S')
             except ValueError as e:
-                # print(f'ValueError: {e}, in file {image_file.name}')
-                raise e
+                raise ValueError(f'ValueError: {e}') from e
 
         # props 
         props = { 
