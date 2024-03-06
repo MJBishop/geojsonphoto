@@ -1,20 +1,30 @@
 
+"""
+
+"""
 from time import perf_counter
 
 
 class Timer(object):
+    """
+
+
+    """
 
     def __init__(self):
+        """."""
         self.elapsed_time = 0
         self._in_progress = None
 
     def __enter__(self):
+        """."""
         self.start = perf_counter()
         self._in_progress = True
         self.status()
         return self
     
     def __exit__(self, exc_type, exc_value, exc_traceback):
+        """."""
         self.stop = perf_counter()
         self._in_progress = False
         self.elapsed_time = self.stop - self.start
@@ -22,6 +32,7 @@ class Timer(object):
         return False
 
     def status(self):
+        """Print the current status."""
         if self._in_progress is None:
             print('Ready')
         elif self._in_progress:
@@ -32,4 +43,5 @@ class Timer(object):
 
     @property
     def is_finished(self):
-        return not self._in_progress
+        """Return True if timer has finished."""
+        return self._in_progress is not None and not self._in_progress

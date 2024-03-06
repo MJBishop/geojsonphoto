@@ -56,3 +56,7 @@ class TestTimer(unittest.TestCase):
         with Timer() as timer:
             pass
         self.assertTrue(timer.is_finished)
+
+    def test_timer_is_not_finished(self):
+        timer = Timer()
+        self.assertFalse(timer.is_finished)
