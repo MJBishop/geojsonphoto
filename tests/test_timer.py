@@ -16,7 +16,7 @@ class TestTimer(unittest.TestCase):
         timer = Timer()
         f = io.StringIO()
         with redirect_stdout(f):
-            timer.status()
+            timer.print_status()
         out = f.getvalue()
 
         self.assertEqual('Ready\n', out)
@@ -27,7 +27,7 @@ class TestTimer(unittest.TestCase):
 
         f = io.StringIO()
         with redirect_stdout(f):
-            timer.status()
+            timer.print_status()
         out = f.getvalue()
 
         self.assertEqual('Running...\n', out)
@@ -38,7 +38,7 @@ class TestTimer(unittest.TestCase):
 
         f = io.StringIO()
         with redirect_stdout(f):
-            timer.status()
+            timer.print_status()
         out = f.getvalue()
 
         self.assertEqual('Finished in 0.00 seconds\n', out)

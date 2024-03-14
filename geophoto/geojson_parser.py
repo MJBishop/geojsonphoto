@@ -1,18 +1,16 @@
 """
-
+GeoJSONParser
 """
 import geojson
 
 
 class GeoJSONParser(object):
     """
+    Create a GeoJSONParser object.
     
     """
 
     def __init__(self):
-        """
-        
-        """
         self._collections_dict = {}
 
     def __iter__(self):
@@ -21,7 +19,18 @@ class GeoJSONParser(object):
 
     def add_feature(self, title, lat, long, properties={}):
         """
-        
+        Add a `Feature' to `_collections_dict`.
+
+        Parameters
+        ----------
+        title : str
+            The `FeatureCollection` title.
+        lat : float
+            The latitude of the Feature.
+        long : float
+            The longitude of the Feature.
+        properties : dict
+            The Feature properties.
         """
         point = geojson.Point((lat, long))
         feature = geojson.Feature(

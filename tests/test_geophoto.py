@@ -7,8 +7,6 @@ from contextlib import redirect_stdout
 from geophoto.geophoto import *
 
 
-
-
 class TestGeoPhotoInit(unittest.TestCase):
 
     def setUp(self):

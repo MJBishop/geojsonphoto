@@ -18,7 +18,14 @@ IMAGE_DIR = 'images/'
 
 class GeoPhoto(object):
     """
-    
+    Geophoto
+
+    Attributes
+    ----------
+    Notes
+    -----
+    Saves the harvested metadata as geojson to 'out_dir_path`
+    Optionally saves images without metadata and thumbnails.
     """
 
     def __init__(self, 
@@ -26,15 +33,7 @@ class GeoPhoto(object):
                  out_dir_path=DEFAULT_OUT_DIR_PATH, 
                  save_images=False, 
                  save_thumbnails=False):
-        """
-        Initialise Geophoto
-
-
-        Notes
-        -----
-        Saves the harvested metadata as geojson to 'out_dir_path`
-        Optionally saves images without metadata and thumbnails.
-        """
+        
         self._in_dir_path = in_dir_path
         self._out_dir_path = out_dir_path
         self._save_images = save_images
@@ -62,27 +61,27 @@ class GeoPhoto(object):
 
     @property
     def in_dir_path(self):
-        """Return the path to the input directory."""
+        """str: Return the path to the input directory."""
         return self._in_dir_path
     
     @property
     def out_dir_path(self):
-        """Return the path to the output directory."""
+        """str: Return the path to the output directory."""
         return self._out_dir_path
     
     @property
     def geojson_dir_path(self):
-        """Return the path to the geojson directory."""
+        """str: Return the path to the geojson directory."""
         return os.path.join(self.out_dir_path, OUT_DIR, GEOJSON_DIR)
     
     @property
     def image_dir_path(self):
-        """Return the path to the image directory."""
+        """str: Return the path to the image directory."""
         return os.path.join(self.out_dir_path, OUT_DIR, IMAGE_DIR)
 
     @property
     def errors(self):
-        """Return the error dictionary or 'No errors'."""
+        """dict: Return the error dictionary or 'No errors'."""
         if self._errors == {}:
             return 'No errors'
         else:
@@ -90,7 +89,7 @@ class GeoPhoto(object):
         
     @property
     def summary(self):
-        """."""
+        """str: Return the summary string."""
         return f'({self._success_count} / {self._total_count}) completed successfully'
 
     def start(self):
@@ -105,7 +104,7 @@ class GeoPhoto(object):
             self._process_files()
             
     def _process_files(self):
-        # Processing image files concurrently
+        # Process image files concurrently
         files = glob.iglob(f'{self.in_dir_path}**/*.[Jj][Pp][Gg]')
         with concurrent.futures.ThreadPoolExecutor() as executor:
             future_to_path = {executor.submit(self._process_image_file, filepath): filepath for filepath in files}
@@ -175,13 +174,13 @@ class GeoPhoto(object):
 
     @staticmethod
     def folder_and_filename_from_filepath(filepath):
-        """Split the filepath and return the folder and filename."""
+        """tuple of str: Split the filepath and return the folder and filename."""
         head, filename = os.path.split(filepath)
         head, folder = os.path.split(head)
         return folder, filename
     
     @staticmethod
     def thumbnail_filename_from_image_filename(filename):
-        """Split the image filename and return the thumbnail filename."""
+        """str: Split the image filename and return the thumbnail filename."""
         f_name, f_type  = filename.split('.')
         return f_name + '_thumb.' + f_type

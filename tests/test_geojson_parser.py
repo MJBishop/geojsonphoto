@@ -41,8 +41,6 @@ class TestGeoJSONParser(unittest.TestCase):
         )
         self.assertEqual(1, len(geojson_parser._collections_dict[test_title1]['features']))
         self.assertEqual(1, len(geojson_parser._collections_dict[test_title2]['features']))
-
-# TODO - test invalid...    lat, long: ValueError; this is checked in conversion    properties, title: isValid
         
     def test_geojson_parser_iterator(self):
         geojson_parser = GeoJSONParser()

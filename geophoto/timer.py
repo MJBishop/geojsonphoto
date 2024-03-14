@@ -1,37 +1,42 @@
 
 """
-
+Timer
 """
 from time import perf_counter
 
 
 class Timer(object):
     """
+    Create a Timer object.
 
+    A context manager Timer object.
 
+    Attributes
+    ----------
+    elapsed_time : int
+        The elapsed time of the timer.
     """
 
     def __init__(self):
-        """."""
         self.elapsed_time = 0
         self._in_progress = None
 
     def __enter__(self):
-        """."""
-        self.start = perf_counter()
+        """Enter the runtime context related to this object."""
+        self._start = perf_counter()
         self._in_progress = True
-        self.status()
+        self.print_status()
         return self
     
     def __exit__(self, exc_type, exc_value, exc_traceback):
-        """."""
-        self.stop = perf_counter()
+        """bool: Exit the runtime context related to this object."""
+        self._stop = perf_counter()
         self._in_progress = False
-        self.elapsed_time = self.stop - self.start
-        self.status()
+        self.elapsed_time = self._stop - self._start
+        self.print_status()
         return False
 
-    def status(self):
+    def print_status(self):
         """Print the current status."""
         if self._in_progress is None:
             print('Ready')
@@ -43,5 +48,5 @@ class Timer(object):
 
     @property
     def is_finished(self):
-        """Return True if timer has finished."""
+        """bool: Return True if timer has finished."""
         return self._in_progress is not None and not self._in_progress

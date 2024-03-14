@@ -1,14 +1,5 @@
 """
-1. summary
-2. extended summary
-3. routine listings
-Notes
------
-DMS notation - sexagesimal unit subdivisions:
-    One degree is divided into 60 minutes (of arc).
-    One minute into 60 seconds (of arc).    
-6. references
-7. examples
+Convert latitude / longitude DMS representation to decimal.
 """
 from decimal import Decimal, getcontext
 getcontext().prec = 9
@@ -25,11 +16,11 @@ MAX_LONG_DEGREES = 180
 
 
 def is_latitude(ref):
-    """Return True if `ref` is 'N' or 'S'."""
+    """bool: Return True if `ref` is 'N' or 'S'."""
     return (ref == NORTH_REF or ref == SOUTH_REF)
 
 def is_longitude(ref):
-    """Return True if `ref` is 'E' or 'W'."""
+    """bool: Return True if `ref` is 'E' or 'W'."""
     return (ref == EAST_REF or ref == WEST_REF)
 
 def dms_to_decimal(deg, min, sec, ref):
@@ -39,11 +30,11 @@ def dms_to_decimal(deg, min, sec, ref):
     Parameters
     ----------
     deg : float
-        The dividend.
+        Degrees.
     min : float
-        The divisor.
+        Minutes.
     sec : float
-        The 
+        Seconds 
     ref : str
         The compass reference.
  
