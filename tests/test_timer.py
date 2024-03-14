@@ -3,7 +3,7 @@ from time import sleep
 import io
 from contextlib import redirect_stdout
 
-from geophoto.timer import Timer
+from src.geophoto.timer import Timer
 
 
 class TestTimer(unittest.TestCase):

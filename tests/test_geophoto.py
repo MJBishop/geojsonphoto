@@ -4,7 +4,7 @@ import shutil
 import io
 from contextlib import redirect_stdout
 
-from geophoto.geophoto import *
+from src.geophoto.geophoto import *
 
 
 class TestGeoPhotoInit(unittest.TestCase):

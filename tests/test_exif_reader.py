@@ -3,7 +3,7 @@ import os
 
 from exif import Image
 
-from geophoto.exif_reader import read_exif
+from src.geophoto.exif_reader import read_exif
 
 
 class TestExif(unittest.TestCase):
