@@ -1,0 +1,6 @@
+exif==1.6.0
+geojson==3.1.0
+pip==23.3.1
+plum-py==0.8.7
+setuptools==68.2.2
+wheel==0.41.2
