@@ -7,7 +7,7 @@ from time import sleep
 import io
 from contextlib import redirect_stdout
 
-from src.geophoto.timer import Timer
+from src.geojsonphoto.timer import Timer
 
 
 class TestTimer(unittest.TestCase):

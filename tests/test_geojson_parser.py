@@ -3,7 +3,7 @@ Tests for geojson_parser
 """
 
 import unittest
-from src.geophoto.geojson_parser import GeoJSONParser
+from src.geojsonphoto.geojson_parser import GeoJSONParser
 import geojson
 
 
