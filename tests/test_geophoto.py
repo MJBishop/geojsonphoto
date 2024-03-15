@@ -97,6 +97,7 @@ class TestGeoPhotoStart(TestGeoPhotoInit):
 
             with self.assertRaises(KeyError):
                 jsn['features'][0]['properties']['image_path']
+            with self.assertRaises(KeyError):
                 jsn['features'][0]['properties']['thumbnail_path']
 
     def test_geophoto_start_creates_image_file(self):
