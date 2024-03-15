@@ -1,5 +1,5 @@
 """
-Tests for geophoto
+Tests for geojsonphoto
 """
 
 import unittest
