@@ -60,3 +60,8 @@ class TestTimer(unittest.TestCase):
     def test_timer_is_not_finished(self):
         timer = Timer()
         self.assertFalse(timer.is_finished)
+
+
+
+if __name__ == '__main__':
+    unittest.main()
