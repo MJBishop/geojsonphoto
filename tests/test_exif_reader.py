@@ -1,3 +1,7 @@
+"""
+Tests for exif_reader
+"""
+
 import unittest
 import os
 
@@ -132,5 +136,5 @@ class TestCorruptedDatetime(unittest.TestCase):
 
 
 
-if __name__ == '__main__':      # pragma: no cover
-    unittest.main()
+if __name__ == '__main__':
+    unittest.main()             # pragma: no cover

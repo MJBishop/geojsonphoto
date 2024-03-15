@@ -1,3 +1,7 @@
+"""
+Tests for timer
+"""
+
 import unittest
 from time import sleep
 import io
@@ -63,5 +67,5 @@ class TestTimer(unittest.TestCase):
 
 
 
-if __name__ == '__main__':  # pragma: no cover
-    unittest.main()
+if __name__ == '__main__':  
+    unittest.main()             # pragma: no cover

@@ -1,5 +1,5 @@
 """
-GeoJSONParser
+Parse GPS data into GeoJSON Features
 """
 import geojson
 

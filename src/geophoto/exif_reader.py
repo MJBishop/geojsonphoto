@@ -1,5 +1,5 @@
 """
-
+Read Exif metadata from image
 """
 from exif import Image
 from datetime import datetime
@@ -25,7 +25,7 @@ def read_exif(filepath, get_image=False, get_thumbnail=False):
     props : dictionary
         Dictionary containing the date the image was captured.
     image_b : bytes
-        The image.
+        The image stripped of exif metadata.
     thumb_b : bytes
         The thumbnail.
     

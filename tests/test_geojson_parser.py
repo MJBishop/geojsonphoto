@@ -1,3 +1,7 @@
+"""
+Tests for geojson_parser
+"""
+
 import unittest
 from src.geophoto.geojson_parser import GeoJSONParser
 import geojson
@@ -73,5 +77,5 @@ class TestGeoJSONParser(unittest.TestCase):
             next(it)
 
 
-if __name__ == '__main__':    # pragma: no cover
-    unittest.main()
+if __name__ == '__main__':
+    unittest.main()             # pragma: no cover

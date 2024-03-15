@@ -1,3 +1,7 @@
+"""
+Tests for dms_conversion
+"""
+
 import unittest
 from src.geophoto.dms_conversion import dms_to_decimal
 
@@ -73,5 +77,5 @@ class TestDMSToDecimal(unittest.TestCase):
             dms_to_decimal(-1, 1, 1, 'N')
 
 
-if __name__ == '__main__':    # pragma: no cover
-    unittest.main()
+if __name__ == '__main__':
+    unittest.main()             # pragma: no cover
