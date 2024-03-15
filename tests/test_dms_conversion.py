@@ -73,5 +73,5 @@ class TestDMSToDecimal(unittest.TestCase):
             dms_to_decimal(-1, 1, 1, 'N')
 
 
-if __name__ == '__main__':
+if __name__ == '__main__':    # pragma: no cover
     unittest.main()
