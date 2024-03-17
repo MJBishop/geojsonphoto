@@ -1,0 +1,38 @@
+[build-system]
+requires = ["setuptools>=61.0"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "geojsonphoto"
+version = "0.0.6"
+authors = [
+  { name="Michael Bishop", email="mbishop@tutanota.com" },
+]
+description = "GeoJSON from image metadata"
+keywords = ["GeoJSON", "Image", "GPS metadata"]
+readme = "README.md"
+requires-python = ">=3.8"
+classifiers = [
+    "Development Status :: 4 - Beta", 
+    "Intended Audience :: Developers",
+    "Programming Language :: Python :: 3",
+    "License :: OSI Approved :: MIT License",
+    "Operating System :: OS Independent",
+]
+dependencies = [
+  "exif>=1.6.0",
+  "geojson>=3.1.0",
+]
+
+[tool.setuptools.packages.find]
+# All the following settings are optional:
+where = ["src"]
+
+[project.scripts]
+gph.GeoJSONPhoto = "geojsonphoto.geojsonphoto.GeoJSONPhoto"
+
+[project.urls]
+Homepage = "https://github.com/pypa/sampleproject"
+Documentation = "https://docs.your.project"
+Repository = "http://github.com/you/your.project"
+Issues = "https://github.com/pypa/sampleproject/issues"
