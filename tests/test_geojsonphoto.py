@@ -8,7 +8,7 @@ import shutil
 import io
 from contextlib import redirect_stdout
 
-from geojsonphoto.geojsonphoto import *
+from src.geojsonphoto.geojsonphoto import *
 
 
 class TestGeoJSONPhotoInit(unittest.TestCase):
