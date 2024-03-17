@@ -4,7 +4,7 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "geojsonphoto"
-version = "0.0.6"
+version = "0.0.7"
 authors = [
   { name="Michael Bishop", email="mbishop@tutanota.com" },
 ]
@@ -25,11 +25,7 @@ dependencies = [
 ]
 
 [tool.setuptools.packages.find]
-# All the following settings are optional:
 where = ["src"]
-
-[project.scripts]
-gph.GeoJSONPhoto = "geojsonphoto.geojsonphoto.GeoJSONPhoto"
 
 [project.urls]
 Homepage = "https://github.com/pypa/sampleproject"
