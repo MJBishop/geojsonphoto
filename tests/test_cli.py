@@ -38,8 +38,16 @@ class TestParserArguments(unittest.TestCase):
         self.assertEqual('testing', parsed.in_path)
 
     def test_parser_in_path(self):
-        parsed = self.parser.parse_args(['--in_path', 'testing'])
-        self.assertEqual('testing', parsed.in_path)
+        parsed = self.parser.parse_args(['--in_path', 'testing/in'])
+        self.assertEqual('testing/in', parsed.in_path)
+
+    def test_parser_short_out_path(self):
+        parsed = self.parser.parse_args(['-o', 'testing/out'])
+        self.assertEqual('testing/out', parsed.out_path)
+
+    def test_parser_out_path(self):
+        parsed = self.parser.parse_args(['--out_path', 'testing/out'])
+        self.assertEqual('testing/out', parsed.out_path)
 
     # def test_parse(self):
     #     parsed = self.parser.parse_args(['--something', 'test'])
