@@ -10,6 +10,7 @@ from .geojson_parser import GeoJSONParser
 from .exif_reader import read_exif
 from .timer import Timer
 
+DEFAULT_IN_DIR_PATH = './'
 DEFAULT_OUT_DIR_PATH = './'
 OUT_DIR = 'im2geojson_output/'
 GEOJSON_DIR = 'geojson/'
@@ -29,7 +30,7 @@ class ImageToGeoJSON(object):
     """
 
     def __init__(self, 
-                 in_dir_path, 
+                 in_dir_path=DEFAULT_IN_DIR_PATH, 
                  out_dir_path=DEFAULT_OUT_DIR_PATH, 
                  save_images=False, 
                  save_thumbnails=False):

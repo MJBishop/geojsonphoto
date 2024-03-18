@@ -14,6 +14,7 @@ from im2geojson.im2geojson import *
 class TestImageToGeoJSONInit(unittest.TestCase):
 
     def setUp(self):
+        self.default_in_path = "./"
         self.in_path = 'tests/test_files/test_images/test_exif/'
         self.out_path = 'tests/test_out_path/'
         self.geojson_dir_path = os.path.join(self.out_path, OUT_DIR, GEOJSON_DIR)
@@ -31,6 +32,10 @@ class TestImageToGeoJSONInit(unittest.TestCase):
     def test_in_path(self):
         im2geojson = ImageToGeoJSON(in_dir_path = self.in_path)
         self.assertEqual(self.in_path, im2geojson.in_dir_path)
+
+    def test_default_in_path(self):
+        im2geojson = ImageToGeoJSON()
+        self.assertEqual(self.default_in_path, im2geojson.in_dir_path)
     
     def test_out_path(self):
         im2geojson = ImageToGeoJSON(in_dir_path = self.in_path, out_dir_path = self.out_path)
