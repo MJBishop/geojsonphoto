@@ -6,7 +6,7 @@ from datetime import datetime
 import warnings 
 import threading
 
-from geojsonphoto.dms_conversion import dms_to_decimal
+from .dms_conversion import dms_to_decimal
 
 
 def read_exif(filepath, get_image=False, get_thumbnail=False):

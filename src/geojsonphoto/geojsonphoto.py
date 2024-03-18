@@ -6,9 +6,9 @@ import glob
 import json
 import concurrent.futures
 
-from geojsonphoto.geojson_parser import GeoJSONParser
-from geojsonphoto.exif_reader import read_exif
-from geojsonphoto.timer import Timer
+from .geojson_parser import GeoJSONParser
+from .exif_reader import read_exif
+from .timer import Timer
 
 DEFAULT_OUT_DIR_PATH = './'
 OUT_DIR = 'geophoto_output/'
