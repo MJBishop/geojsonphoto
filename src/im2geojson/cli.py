@@ -11,6 +11,6 @@ def create_parser():
         description='Geojson from image metadata',
         epilog='Text at the bottom of help')
     
-    parser.add_argument('in_path')
+    parser.add_argument('-i', '--in_path', help='The path to images', type=str)
 
     return parser
