@@ -18,15 +18,6 @@ class TestParserCreate(unittest.TestCase):
         self.assertEqual('im2geojson', parser.prog)
         self.assertEqual('Geojson from image metadata', parser.description)
 
-    # def test_create_parser_help(self):
-    #     parser = create_parser()
-    #     self.assertEqual('im2geojson', parser.format_help())
-
-    # def test_create_parser_usage(self):
-    #     parser = create_parser()
-    #     self.assertEqual('im2geojson', parser.format_usage())
-
-
     
 class TestParserArguments(unittest.TestCase):
 
@@ -34,20 +25,20 @@ class TestParserArguments(unittest.TestCase):
         self.parser = create_parser()
 
     def test_parser_short_in_path(self):
-        parsed = self.parser.parse_args(['-i', 'testing'])
-        self.assertEqual('testing', parsed.in_path)
+        parsed = self.parser.parse_args(['-i', 'testing/in'])
+        self.assertEqual('testing/in', parsed.in_dir_path)
 
     def test_parser_in_path(self):
-        parsed = self.parser.parse_args(['--in_path', 'testing/in'])
-        self.assertEqual('testing/in', parsed.in_path)
+        parsed = self.parser.parse_args(['--in_dir_path', 'testing/in'])
+        self.assertEqual('testing/in', parsed.in_dir_path)
 
     def test_parser_short_out_path(self):
         parsed = self.parser.parse_args(['-o', 'testing/out'])
-        self.assertEqual('testing/out', parsed.out_path)
+        self.assertEqual('testing/out', parsed.out_dir_path)
 
     def test_parser_out_path(self):
-        parsed = self.parser.parse_args(['--out_path', 'testing/out'])
-        self.assertEqual('testing/out', parsed.out_path)
+        parsed = self.parser.parse_args(['--out_dir_path', 'testing/out'])
+        self.assertEqual('testing/out', parsed.out_dir_path)
 
     def test_parser_short_save_images(self):
         parsed = self.parser.parse_args(['-s'])
@@ -75,10 +66,16 @@ class TestParserArguments(unittest.TestCase):
 
     def test_parser_defaults(self):
         parsed = self.parser.parse_args([])
-        self.assertIsNone(parsed.in_path)
-        self.assertIsNone(parsed.out_path)
-        self.assertIsNone(parsed.save_images)
-        self.assertIsNone(parsed.save_thumbnails)
+        with self.assertRaises(AttributeError):
+            parsed.in_dir_path
+        with self.assertRaises(AttributeError):
+            parsed.out_dir_path
+        with self.assertRaises(AttributeError):
+            parsed.save_images
+        with self.assertRaises(AttributeError):
+            parsed.save_thumbnails
+
+
 
 
     
