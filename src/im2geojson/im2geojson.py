@@ -16,7 +16,7 @@ GEOJSON_DIR = 'geojson/'
 IMAGE_DIR = 'images/'
 
 
-class GeoJSONPhoto(object):
+class ImageToGeoJSON(object):
     """
     Geophoto
 
@@ -136,7 +136,7 @@ class GeoJSONPhoto(object):
             raise e
         else:
             props['original_image_absolute_path'] = filepath
-            folder, filename = GeoJSONPhoto.folder_and_filename_from_filepath(filepath)
+            folder, filename = ImageToGeoJSON.folder_and_filename_from_filepath(filepath)
 
             # image 
             if self._save_images and image_b is not None:
@@ -159,7 +159,7 @@ class GeoJSONPhoto(object):
             return folder, coord, props
         
     def _add_file_to_errors_with_exception_string(self, filepath, exception_string):
-        folder, filename = GeoJSONPhoto.folder_and_filename_from_filepath(filepath)
+        folder, filename = ImageToGeoJSON.folder_and_filename_from_filepath(filepath)
         key = os.path.join(folder, filename)
         self._errors[key] = exception_string
 
@@ -169,7 +169,7 @@ class GeoJSONPhoto(object):
     
     def _rel_thumbnail_path(self, filename):
         # Return the relative path to the thumbnail image filename.
-        thumb_file_name = GeoJSONPhoto.thumbnail_filename_from_image_filename(filename)
+        thumb_file_name = ImageToGeoJSON.thumbnail_filename_from_image_filename(filename)
         return os.path.join(OUT_DIR, IMAGE_DIR, thumb_file_name)
 
     @staticmethod

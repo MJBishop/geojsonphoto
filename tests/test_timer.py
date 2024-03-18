@@ -7,7 +7,7 @@ from time import sleep
 import io
 from contextlib import redirect_stdout
 
-from src.geojsonphoto.timer import Timer
+from im2geojson.timer import Timer
 
 
 class TestTimer(unittest.TestCase):

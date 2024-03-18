@@ -7,7 +7,7 @@ import os
 
 from exif import Image
 
-from src.geojsonphoto.exif_reader import read_exif
+from im2geojson.exif_reader import read_exif
 
 
 class TestExif(unittest.TestCase):
