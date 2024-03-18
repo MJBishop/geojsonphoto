@@ -102,6 +102,7 @@ class ImageToGeoJSON(object):
         
         with Timer() as self._timer:
             self._process_files()
+        print(self.summary)
             
     def _process_files(self):
         # Process image files concurrently
