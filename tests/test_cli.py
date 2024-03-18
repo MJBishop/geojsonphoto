@@ -75,6 +75,15 @@ class TestParserArguments(unittest.TestCase):
         with self.assertRaises(AttributeError):
             parsed.save_thumbnails
 
+    def test_parser_namespace_dict(self):
+        args = ['-i', 'testing/in', '-o', 'testing/out', '-s', '-t']
+        parsed = self.parser.parse_args(args)
+        args_dict = vars(parsed)
+        expected = {'in_dir_path': 'testing/in', 
+                    'out_dir_path': 'testing/out', 
+                    'save_images': True, 
+                    'save_thumbnails': True}
+        self.assertEqual(expected, args_dict)
 
 
 
