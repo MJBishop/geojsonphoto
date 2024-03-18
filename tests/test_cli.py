@@ -49,10 +49,15 @@ class TestParserArguments(unittest.TestCase):
         parsed = self.parser.parse_args(['--out_path', 'testing/out'])
         self.assertEqual('testing/out', parsed.out_path)
 
-    # def test_parse(self):
-    #     parsed = self.parser.parse_args(['--something', 'test'])
-    #     with self.assertRaises:
-    #         self.assertEqual('test', parsed.something)
+    def test_parser_short_save_images(self):
+        parsed = self.parser.parse_args(['-s'])
+        self.assertTrue(parsed.save_images == True)
+
+    def test_parser_save_images(self):
+        parsed = self.parser.parse_args(['--save_images'])
+        self.assertTrue(parsed.save_images == True)
+
+
 
     
 
