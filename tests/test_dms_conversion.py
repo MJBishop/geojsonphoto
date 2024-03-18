@@ -3,7 +3,7 @@ Tests for dms_conversion
 """
 
 import unittest
-from src.geojsonphoto.dms_conversion import dms_to_decimal
+from geojsonphoto.dms_conversion import dms_to_decimal
 
 
 class TestDMSToDecimal(unittest.TestCase):
