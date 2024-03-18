@@ -1,5 +1,5 @@
 """
-GeoPhoto
+im2geojson
 """
 import os
 import glob
@@ -11,14 +11,14 @@ from .exif_reader import read_exif
 from .timer import Timer
 
 DEFAULT_OUT_DIR_PATH = './'
-OUT_DIR = 'geophoto_output/'
+OUT_DIR = 'im2geojson_output/'
 GEOJSON_DIR = 'geojson/'
 IMAGE_DIR = 'images/'
 
 
 class ImageToGeoJSON(object):
     """
-    Geophoto
+    ImageToGeoJSON
 
     Attributes
     ----------
