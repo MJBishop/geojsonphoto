@@ -20,16 +20,14 @@ class TestParserCreate(unittest.TestCase):
         # self.assertEqual('', parser.epilog)
 
     
+class TestParserArguments(unittest.TestCase):
 
+    def setUp(self):
+        self.parser = create_parser()
 
-# class TestParser(unittest.TestCase):
-
-#     def setUp(self):
-#         self.parser = create_parser()
-
-#     def test_parser_prog(self):
-#         parsed = self.parser.parse_args()
-#         self.assertEqual('im2geophoto', parsed)
+    def test_parser_in_path(self):
+        parsed = self.parser.parse_args(['testing'])
+        self.assertEqual('testing', parsed.in_path)
 
     # def test_parse(self):
     #     parsed = self.parser.parse_args(['--something', 'test'])
