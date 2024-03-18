@@ -73,6 +73,12 @@ class TestParserArguments(unittest.TestCase):
         parsed = self.parser.parse_args(['--no-save_thumbnails'])
         self.assertFalse(parsed.save_thumbnails)
 
+    def test_parser_defaults(self):
+        parsed = self.parser.parse_args([])
+        self.assertIsNone(parsed.in_path)
+        self.assertIsNone(parsed.out_path)
+        self.assertIsNone(parsed.save_images)
+        self.assertIsNone(parsed.save_thumbnails)
 
 
     
