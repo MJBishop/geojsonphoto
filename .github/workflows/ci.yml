@@ -1,36 +1,20 @@
-name: Unittests
+name: Testing
 on: push
 
 jobs:
   test_project:
-    strategy:
-      matrix:
-        os: [macos-latest, ubuntu-latest]
-    runs-on: ${{ matrix.os }}
+    runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@v4
     - name: Install dependencies
       run: |
-        python -m pip install pip --upgrade 
+        python -m pip install --upgrade pip
         pip install -r requirements.txt
     - name: Run unittest
       run: |
         python -m unittest -b
-    - name: Upload coverage data to coveralls.io
-      run: coveralls --service=github-actions
+    - name: Coveralls upload
       env:
-        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        COVERALLS_FLAG_NAME: ${{ matrix.os }}
-        COVERALLS_PARALLEL: true
-  coveralls:
-    name: Indicate completion to coveralls.io
-    needs: test_project
-    runs-on: ubuntu-latest
-    container: python:3-slim
-    steps:
-    - name: Finished
+        COVERALLS_REPO_TOKEN: ${{ secrets.COVERALLS_REPO_TOKEN }}
       run: |
-        pip3 install --upgrade coveralls
-        coveralls --service=github-actions --finish
-      env:
-        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        python3 -m coveralls
