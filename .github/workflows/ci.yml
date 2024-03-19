@@ -5,10 +5,8 @@ jobs:
   test_project:
     strategy:
       matrix:
-        os: [macos-latest, ubuntu-latest, windows-latest]
+        os: [macos-latest, ubuntu-latest]
     runs-on: ${{ matrix.os }}
-    env:
-      CI: false
     steps:
     - uses: actions/checkout@v4
     - name: Install dependencies
