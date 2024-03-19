@@ -1,5 +1,5 @@
 """
-cli
+cli.py
 """
 
 import argparse

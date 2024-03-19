@@ -1,5 +1,5 @@
 """
-im2geojson
+im2geojson.py
 """
 import os
 import glob
