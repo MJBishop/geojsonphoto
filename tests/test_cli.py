@@ -3,8 +3,9 @@ Tests for cli
 """
 
 import unittest
+import argparse
 
-from im2geojson.cli import create_parser
+from im2geojson.cli import create_parser, parse_args_to_dict, main
 
 
 class TestParserCreate(unittest.TestCase):
@@ -67,20 +68,23 @@ class TestParserArguments(unittest.TestCase):
         with self.assertRaises(AttributeError):
             parsed.save_thumbnails
 
-    def test_parser_namespace_dict(self):
+
+class TestParseArgs(unittest.TestCase):
+
+    def test_parsed_args_dict(self):
         args = ['-i', 'testing/in', '-o', 'testing/out', '-s', '-t']
-        parsed = self.parser.parse_args(args)
-        args_dict = vars(parsed)
+        parsed_args_dict = parse_args_to_dict(args)
         expected = {'in_dir_path': 'testing/in', 
                     'out_dir_path': 'testing/out', 
                     'save_images': True, 
                     'save_thumbnails': True}
-        self.assertEqual(expected, args_dict)
+        self.assertEqual(expected, parsed_args_dict)
 
-
-
+# class TestCLIMain(unittest.TestCase):
     
-
+#     def test_unknown_arguments_raises_exception(self):
+#         with self.assertRaises(argparse.ArgumentError):
+#             main('throw')
 
 
 if __name__ == '__main__':  
