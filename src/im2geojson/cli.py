@@ -29,13 +29,13 @@ def create_parser():
         '-s', 
         '--save_images', 
         help='Save Images stripped of metadata', 
-        action=argparse.BooleanOptionalAction
+        action='store_true'
         )
     parser.add_argument(
         '-t', 
         '--save_thumbnails', 
         help='Save thumbnail images', 
-        action=argparse.BooleanOptionalAction
+        action='store_true'
         )
 
     return parser

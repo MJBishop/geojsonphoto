@@ -48,10 +48,6 @@ class TestParserArguments(unittest.TestCase):
         parsed = self.parser.parse_args(['--save_images'])
         self.assertTrue(parsed.save_images)
 
-    def test_parser_no_save_images(self):
-        parsed = self.parser.parse_args(['--no-save_images'])
-        self.assertFalse(parsed.save_images)
-
     def test_parser_short_save_thumbnails(self):
         parsed = self.parser.parse_args(['-t'])
         self.assertTrue(parsed.save_thumbnails)
@@ -59,10 +55,6 @@ class TestParserArguments(unittest.TestCase):
     def test_parser_save_thumbnails(self):
         parsed = self.parser.parse_args(['--save_thumbnails'])
         self.assertTrue(parsed.save_thumbnails)
-
-    def test_parser_no_save_thumbnails(self):
-        parsed = self.parser.parse_args(['--no-save_thumbnails'])
-        self.assertFalse(parsed.save_thumbnails)
 
     def test_parser_defaults(self):
         parsed = self.parser.parse_args([])
