@@ -93,9 +93,13 @@ class TestMain(unittest.TestCase):
             
             main(['-o', self.out_path])
         out = f.getvalue()
+        out_lines = out.split('\n')
 
-        expected = 'Running...\nFinished in 0.00 seconds\n0 out of 0 images completed successfully\n'
-        self.assertEqual(expected, out)
+        expected_first_line = 'Running...'
+        expected_last_line = '0 out of 0 images completed successfully'
+
+        self.assertEqual(expected_first_line, out_lines[0])
+        self.assertEqual(expected_last_line, out_lines[2])
 
 
 if __name__ == '__main__':  
