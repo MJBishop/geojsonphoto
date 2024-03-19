@@ -47,7 +47,7 @@ def parse_args_to_dict(args):
     return parsed_args_dict
 
 def main(args=None):
-    parsed_args_dict = parse_args(args)
+    parsed_args_dict = parse_args_to_dict(args)
     im2geo = ImageToGeoJSON(**parsed_args_dict)
     im2geo.start()
 

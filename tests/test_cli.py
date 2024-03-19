@@ -3,7 +3,8 @@ Tests for cli
 """
 
 import unittest
-import argparse
+import io
+from contextlib import redirect_stdout
 
 from im2geojson.cli import create_parser, parse_args_to_dict, main
 
@@ -80,11 +81,21 @@ class TestParseArgs(unittest.TestCase):
                     'save_thumbnails': True}
         self.assertEqual(expected, parsed_args_dict)
 
-# class TestCLIMain(unittest.TestCase):
+
+class TestMain(unittest.TestCase):
+
+    def setUp(self):
+        self.out_path = 'tests/test_out_path/'
     
-#     def test_unknown_arguments_raises_exception(self):
-#         with self.assertRaises(argparse.ArgumentError):
-#             main('throw')
+    def test_main(self):
+        f = io.StringIO()
+        with redirect_stdout(f):
+            
+            main(['-o', self.out_path])
+        out = f.getvalue()
+
+        expected = 'Running...\nFinished in 0.00 seconds\n0 out of 0 images completed successfully\n'
+        self.assertEqual(expected, out)
 
 
 if __name__ == '__main__':  
