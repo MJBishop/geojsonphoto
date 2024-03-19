@@ -3,7 +3,10 @@ on: push
 
 jobs:
   test_project:
-    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        os: [macos-latest, ubuntu-latest]
+    runs-on: ${{ matrix.os }}
     steps:
     - uses: actions/checkout@v4
     - name: Install dependencies
@@ -13,8 +16,3 @@ jobs:
     - name: Run unittest
       run: |
         python -m unittest -b
-    - name: Coveralls upload
-      env:
-        COVERALLS_REPO_TOKEN: ${{ secrets.COVERALLS_REPO_TOKEN }}
-      run: |
-        python3 -m coveralls
