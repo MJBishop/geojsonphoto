@@ -6,7 +6,7 @@ im2geojson is a python package for parsing GeoJSON from image metadata.
 - Images are parsed to GeoJSON Features.
 
 
-[![Unittests](https://github.com/MJBishop/im2geojson/actions/workflows/ci.yml/badge.svg)](https://github.com/MJBishop/im2geojson/actions/workflows/ci.yml)
+[![Unittests](https://github.com/MJBishop/im2geojson/actions/workflows/test.yml/badge.svg)](https://github.com/MJBishop/im2geojson/actions/workflows/test.yml)
 [![codecov](https://codecov.io/gh/MJBishop/im2geojson/graph/badge.svg?token=9C03IBN0Z3)](https://codecov.io/gh/MJBishop/im2geojson)
 
 

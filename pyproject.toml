@@ -4,7 +4,7 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "im2geojson"
-version = "0.0.3"
+version = "0.1.1"
 authors = [
   { name="Michael Bishop", email="mbishop@tutanota.com" },
 ]
@@ -28,7 +28,6 @@ dependencies = [
 where = ["src"]
 
 [project.urls]
-Homepage = "https://github.com/pypa/sampleproject"
-Documentation = "https://docs.your.project"
-Repository = "http://github.com/you/your.project"
-Issues = "https://github.com/pypa/sampleproject/issues"
+Homepage = "https://github.com/MJBishop/im2geojson"
+Documentation = "https://github.com/MJBishop/im2geojson"
+Repository = "https://github.com/MJBishop/im2geojson"
