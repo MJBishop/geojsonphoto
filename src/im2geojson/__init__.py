@@ -1,5 +1,5 @@
 """
-.. include:: ../README.md
+.. include:: ./README.md
 """
 
 from im2geojson.im2geojson import ImageToGeoJSON
