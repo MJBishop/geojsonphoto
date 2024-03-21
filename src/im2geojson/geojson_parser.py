@@ -32,7 +32,7 @@ class GeoJSONParser(object):
         properties : dict
             The Feature properties.
         """
-        point = geojson.Point((lat, long))
+        point = geojson.Point((long, lat))
         feature = geojson.Feature(
             geometry=point, 
             properties=properties
