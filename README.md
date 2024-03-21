@@ -1,5 +1,5 @@
-Image to GeoJSON
-================
+im2geojson
+==========
 
 
 [![Unittests](https://github.com/MJBishop/im2geojson/actions/workflows/test.yml/badge.svg)](https://github.com/MJBishop/im2geojson/actions/workflows/test.yml)
@@ -8,8 +8,6 @@ Image to GeoJSON
 
 
 im2geojson is a python package for parsing GeoJSON from image metadata.
-- Image folders are parsed to a GeoJSON FeatureCollection.
-- Images are parsed to GeoJSON Features.
 
 
 Installation
@@ -22,38 +20,52 @@ The recommended way to install im2geojson is via pip:
 Usage
 -----
 
-#### From the command line:
-`cd` to the parent directory of your image folders.
+From the parent directory of your image folders:
 
     python -m im2geojson
 
+- Any Images from `./`
+- Image folders are parsed to GeoJSON FeatureCollections
+- Images are parsed to GeoJSON Features
+- Parsed GeoJSON will be saved in `./assets/geojson`
 
 Options
 -------
 
-Set the input path with `-i`:
+`-i` or  `--in_dir_path` - Set the input path:
 
     python -m im2geojson -i <path-to-image-folders>
 
+<br>
 
-Set output path with `-o`:
+`-o` or `--out_dir_path` - Set the output path:
 
     python -m im2geojson -o <path-to-output>
 
+<br>
 
-Save images stripped of metadata with `-s`:
+`-s`  or  `--save_images` - Save images stripped of metadata:
 
     python -m im2geojson -s
+- Images saved in `./assets/images/`
+  
+<br>
 
-
-Save image thumbnails with `-t`:
+`-t` or `--save_thumbanails` - Save image thumbnails:
 
     python -m im2geojson -t
+- Thumbnails saved in `./assets/images/`
+  
+<br>
+
+`-h` or `--help` - Display help:
+
+    python -m im2geojson -h
 
 
-Documentation
--------------
+API Documentation
+-----------------
 
 
-License
--------
+Examples
+--------

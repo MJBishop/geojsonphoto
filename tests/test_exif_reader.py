@@ -17,8 +17,10 @@ class TestExif(unittest.TestCase):
         self.file_dir = 'test_folder/EXIF.jpg'
         self.filepath = os.path.join(self.in_path, self.file_dir)
 
-    def test_read_exif_coord(self):
-        test_coord = (-8.631053, 115.095269)
+    def test_read_exif_coord_lat_long(self):
+        lat = -8.631053
+        long = 115.095269
+        test_coord = (lat, long)
         coord, props, image_b, thumb_b = read_exif(self.filepath, get_image=False, get_thumbnail=False)
         self.assertEqual(test_coord, coord)
 

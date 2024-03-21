@@ -1,5 +1,6 @@
 """
 Read Exif metadata from image
+Exchangeable Image File Format
 """
 from exif import Image
 from datetime import datetime

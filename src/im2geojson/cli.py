@@ -11,19 +11,19 @@ def create_parser():
     parser = argparse.ArgumentParser(
         argument_default=argparse.SUPPRESS,
         prog='im2geojson',
-        description='Geojson from image metadata',
+        description='Parse GeoJSON from image metadata',
         # epilog='Text at the bottom of help'
         )
     parser.add_argument(
         '-i', 
         '--in_dir_path', 
-        help='The path to the images to process', 
+        help='Set the path to the images to process', 
         type=str
         )
     parser.add_argument(
         '-o', 
         '--out_dir_path', 
-        help='The path to output', 
+        help='Set the output path', 
         type=str
         )
     parser.add_argument(
@@ -36,7 +36,7 @@ def create_parser():
         '-t', 
         '--save_thumbnails', 
         help='Save thumbnail images', 
-        action=argparse.BooleanOptionalAction
+        action='store_true'
         )
     return parser
 

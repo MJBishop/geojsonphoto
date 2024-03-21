@@ -243,7 +243,7 @@ class TestFolderFilesFromPath(unittest.TestCase):
         self.assertEqual(self.test_folder_name, folder)
 
     def test_thumbnail_filename_from_image_filename(self):
-        thumbnail_filename = ImageToGeoJSON.thumbnail_filename_from_image_filename(self.test_filename)
+        thumbnail_filename = ImageToGeoJSON.thumbnail_filename(self.test_filename)
         self.assertEqual(self.test_folder_filename, thumbnail_filename)
 
 

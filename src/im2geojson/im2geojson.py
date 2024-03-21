@@ -171,7 +171,7 @@ class ImageToGeoJSON(object):
     
     def _rel_thumbnail_path(self, filename):
         # Return the relative path to the thumbnail image filename.
-        thumb_file_name = ImageToGeoJSON.thumbnail_filename_from_image_filename(filename)
+        thumb_file_name = ImageToGeoJSON.thumbnail_filename(filename)
         return os.path.join(OUT_DIR, IMAGE_DIR, thumb_file_name)
 
     @staticmethod
@@ -182,7 +182,7 @@ class ImageToGeoJSON(object):
         return folder, filename
     
     @staticmethod
-    def thumbnail_filename_from_image_filename(filename):
+    def thumbnail_filename(image_filename):
         """str: Split the image filename and return the thumbnail filename."""
-        f_name, f_type  = filename.split('.')
+        f_name, f_type  = image_filename.split('.')
         return f_name + '_thumb.' + f_type
