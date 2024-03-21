@@ -4,8 +4,6 @@ Convert latitude / longitude DMS representation to decimal.
 from decimal import Decimal, getcontext
 getcontext().prec = 9
 
-__all__ = ['is_latitude', 'is_longitude', 'dms_to_decimal']
-
 SIX_PLACES = Decimal(10) **-6 
 NORTH_REF = 'N'
 SOUTH_REF = 'S'
