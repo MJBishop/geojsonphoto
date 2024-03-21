@@ -25,13 +25,13 @@ jobs:
 
       # ADJUST THIS: install all dependencies (including pdoc)
       - run: |
-            pip install -e .
-            pip install pdoc
+          pip install -r requirements.txt
+          pip install pdoc
 
       # ADJUST THIS: build your documentation into docs/.
       # We use a custom build script for pdoc itself, ideally you just run `pdoc -o docs/ ...` here.
     #   - run: python docs/make.py
-      - run: pdoc -o docs/ im2geojson
+      - run: pdoc -o docs/ -t docs/dark-mode im2geojson
 
       - uses: actions/upload-pages-artifact@v3
         with:
