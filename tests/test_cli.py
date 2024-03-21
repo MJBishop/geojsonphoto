@@ -18,7 +18,7 @@ class TestParserCreate(unittest.TestCase):
     def test_create_parser_prog(self):
         parser = create_parser()
         self.assertEqual('im2geojson', parser.prog)
-        self.assertEqual('Geojson from image metadata', parser.description)
+        self.assertEqual('Parse GeoJSON from image metadata', parser.description)
 
     
 class TestParserArguments(unittest.TestCase):
