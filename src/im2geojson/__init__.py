@@ -9,7 +9,7 @@ Quick Start
 -----------
 
 
-Import im2geojson and create an image parser
+Import im2geojson and create an image parser:
 
 ```python
 >>> from im2geojson import ImageToGeoJSON
@@ -19,12 +19,12 @@ Import im2geojson and create an image parser
 ```
 
 
-Start image processing 
+Start image processing:
 
 ```python
 >>> my_image_parser.start()
 ```
-```shell
+```
 Running...
 Finished in 0.31 seconds
 ```
@@ -37,7 +37,7 @@ Summary
 ```python
 >>> my_image_parser.summary
 ```
-```shell
+```s
 '1 out of 6 images processed successfully'
 ```
 <br>
@@ -78,7 +78,7 @@ Errors
 ```python
 >>> my_image_parser.errors_or_none
 ```
-```shell
+```s
 {'my_images/MISSING_EXIF.jpg': 'AttributeError: image does not have attribute gps_latitude',
  'my_images/MISSING_DATETIME.jpg': 'AttributeError: image does not have attribute datetime_original',
  'my_images/CORRUPTED_DATETIME.jpg': "ValueError: time data 'corrupted' does not match format '%Y:%m:%d %H:%M:%S'",
