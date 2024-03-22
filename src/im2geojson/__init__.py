@@ -2,13 +2,16 @@
 
 Parse GeoJSON from image metadata.
 
+<br>
+
 ### Quick Start
 
 
-#### Import package
+#### Import
 ```python
 >>> from im2geojson import ImageToGeoJSON
 ```
+<br>
 
 
 #### Create an image parser
@@ -16,6 +19,7 @@ Parse GeoJSON from image metadata.
 >>> input_directory='./images'
 >>> my_image_parser = ImageToGeoJSON(input_directory=input_directory)
 ```
+<br>
 
 
 #### Start image processing 
@@ -26,6 +30,7 @@ Parse GeoJSON from image metadata.
 Running...
 Finished in 0.31 seconds
 ```
+<br>
 
 
 #### Get the summary
@@ -35,6 +40,7 @@ Finished in 0.31 seconds
 ```shell
 '1 out of 6 images processed successfully'
 ```
+<br>
 
 
 #### Get the error dictionary
@@ -48,6 +54,11 @@ Finished in 0.31 seconds
  'images/CORRUPTED_EXIF.jpg': 'ValueError: Invalid GPS Reference X, Expecting N, S, E or W',
  'images/NO_EXIF.jpg': "'No metadata.'"}
 ```
+<br>
+   
+***
+
+<br>
 
 """
 
