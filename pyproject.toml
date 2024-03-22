@@ -4,7 +4,7 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "im2geojson"
-version = "0.1.4"
+version = "0.1.5"
 authors = [
   { name="Michael Bishop", email="mbishop@tutanota.com" },
 ]
@@ -29,5 +29,5 @@ where = ["src"]
 
 [project.urls]
 Homepage = "https://pypi.org/project/im2geojson/"
-Documentation = "https://mjbishop.github.io/im2geojson/"
+Documentation = "https://mjbishop.github.io/im2geojson/im2geojson.html"
 Repository = "https://github.com/MJBishop/im2geojson"

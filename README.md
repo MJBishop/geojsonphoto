@@ -9,6 +9,7 @@ im2geojson
 
 im2geojson is a python package for parsing GeoJSON from image metadata.
 
+<br>
 
 Installation
 ------------
@@ -16,56 +17,71 @@ The recommended way to install im2geojson is via pip:
 
     pip install im2geojson
 
+<br>
 
 Usage
 -----
 
-From the parent directory of your image folders:
+Simply set the `input_directory` to your image folders with   `--input_directory` or `-i`:
 
-    python -m im2geojson
+    python -m im2geojson -i <path-to-image-folders>
 
-- Any Images from `./`
-- Image folders are parsed to GeoJSON FeatureCollections
-- Images are parsed to GeoJSON Features
-- Parsed GeoJSON will be saved in `./assets/geojson`
+
+Image folders are parsed to GeoJSON FeatureCollections, images are parsed to GeoJSON Features.
+
+
+GeoJSON files are saved to `output_directory` in a folder named `geojson`. 
+
+The default is `./assets/geojson`.
+
+<br>
+
 
 Options
 -------
 
-`-i` or  `--in_dir_path` - Set the input path:
+### Save Images
 
-    python -m im2geojson -i <path-to-image-folders>
+`--save_images`  or  `-s`  will save images stripped of metadata:
 
-<br>
+    python -m im2geojson -i <path-to-image-folders> -s
 
-`-o` or `--out_dir_path` - Set the output path:
+Images are saved to `output_directory` in a folder named `images`. 
 
-    python -m im2geojson -o <path-to-output>
-
-<br>
-
-`-s`  or  `--save_images` - Save images stripped of metadata:
-
-    python -m im2geojson -s
-- Images saved in `./assets/images/`
+The default is `./assets/images/`.
   
 <br>
 
-`-t` or `--save_thumbanails` - Save image thumbnails:
+### Save Thumbnails
 
-    python -m im2geojson -t
-- Thumbnails saved in `./assets/images/`
+`--save_thumbanails`  or  `-t`  will save image thumbnails:
+
+    python -m im2geojson -i <path-to-image-folders> -t
+
+Thumbnails are saved to `output_directory` in a folder named `images`. 
+
+The default is `./assets/images/`.
   
 <br>
 
-`-h` or `--help` - Display help:
+### Output Directory
 
-    python -m im2geojson -h
+`-o` or `--output_directory` will set the `output_directory`:
+
+    python -m im2geojson -i <path-to-image-folders> -o <output_directory>
+
+<br>
+
+For example, to set the `output_directory` to `./output`:
+
+    python -m im2geojson -i <path-to-image-folders> -o ./output
+
+<br>
 
 
 API Documentation
 -----------------
+Take a look at the [API Documentation](https://mjbishop.github.io/im2geojson/im2geojson.html) if you would like to use im2geojson in your own code.
 
+<br>
 
-Examples
---------
