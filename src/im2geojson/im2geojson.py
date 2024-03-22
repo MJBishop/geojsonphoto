@@ -45,9 +45,9 @@ class ImageToGeoJSON(object):
         self._success_count = 0
 
         # Make Output Directories
-        dir_paths = [self.geojson_dir_path]
+        dir_paths = [self._geojson_dir_path]
         if save_images or save_thumbnails:
-            dir_paths.append(self.image_dir_path)
+            dir_paths.append(self._image_dir_path)
         for path in dir_paths:
             try:
                 os.makedirs(path)
@@ -67,22 +67,12 @@ class ImageToGeoJSON(object):
     def output_directory(self):
         """str: Return the path to the output directory."""
         return self._output_directory
-    
-    @property
-    def geojson_dir_path(self):
-        """str: Return the path to the geojson directory."""
-        return os.path.join(self.output_directory, GEOJSON_DIR)
-    
-    @property
-    def image_dir_path(self):
-        """str: Return the path to the image directory."""
-        return os.path.join(self.output_directory, IMAGE_DIR)
 
     @property
-    def errors(self):
-        """dict: Return the error dictionary or 'No errors'."""
+    def errors_or_none(self):
+        """dict: Return the error dictionary or None."""
         if self._errors == {}:
-            return 'No errors'
+            return None
         else:
             return self._errors
         
@@ -121,7 +111,7 @@ class ImageToGeoJSON(object):
 
         # Save geojson
         for title, feature_collection in self._geojson_parser:
-            geojson_file_path = os.path.join(self.geojson_dir_path, f'{title}.geojson')
+            geojson_file_path = os.path.join(self._geojson_dir_path, f'{title}.geojson')
             with open(geojson_file_path, 'w') as f:
                 json.dump(feature_collection, f)
 
@@ -136,7 +126,7 @@ class ImageToGeoJSON(object):
             raise e
         else:
             props['original_image_absolute_path'] = filepath
-            folder, filename = ImageToGeoJSON.folder_and_filename_from_filepath(filepath)
+            folder, filename = ImageToGeoJSON._folder_and_filename_from_filepath(filepath)
 
             # image 
             if self._save_images and image_b is not None:
@@ -159,7 +149,7 @@ class ImageToGeoJSON(object):
             return folder, coord, props
         
     def _add_file_to_errors_with_exception_string(self, filepath, exception_string):
-        folder, filename = ImageToGeoJSON.folder_and_filename_from_filepath(filepath)
+        folder, filename = ImageToGeoJSON._folder_and_filename_from_filepath(filepath)
         key = os.path.join(folder, filename)
         self._errors[key] = exception_string
 
@@ -167,6 +157,16 @@ class ImageToGeoJSON(object):
         # Return the output parent folder
         head, folder = os.path.split(self._output_directory)
         return folder
+    
+    @property
+    def _geojson_dir_path(self):
+        """str: Return the path to the geojson directory."""
+        return os.path.join(self.output_directory, GEOJSON_DIR)
+    
+    @property
+    def _image_dir_path(self):
+        """str: Return the path to the image directory."""
+        return os.path.join(self.output_directory, IMAGE_DIR)
 
     def _rel_image_path(self, filename):
         # Return the relative path to the image filename.
@@ -174,18 +174,18 @@ class ImageToGeoJSON(object):
     
     def _rel_thumbnail_path(self, filename):
         # Return the relative path to the thumbnail image filename.
-        thumb_file_name = ImageToGeoJSON.thumbnail_filename(filename)
+        thumb_file_name = ImageToGeoJSON._thumbnail_filename(filename)
         return os.path.join(IMAGE_DIR, thumb_file_name)
 
     @staticmethod
-    def folder_and_filename_from_filepath(filepath):
+    def _folder_and_filename_from_filepath(filepath):
         """tuple of str: Split the filepath and return the folder and filename."""
         head, filename = os.path.split(filepath)
         head, folder = os.path.split(head)
         return folder, filename
     
     @staticmethod
-    def thumbnail_filename(image_filename):
+    def _thumbnail_filename(image_filename):
         """str: Split the image filename and return the thumbnail filename."""
         f_name, f_type  = image_filename.split('.')
         return f_name + '_thumb.' + f_type

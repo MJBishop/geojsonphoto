@@ -45,11 +45,11 @@ class TestImageToGeoJSONInit(unittest.TestCase):
 
     def test_init_creates_geojsonphoto_dir_path(self):
         im2geojson = ImageToGeoJSON(input_directory = self.input_directory, output_directory = self.output_directory)
-        self.assertEqual(self.geojson_dir_path, im2geojson.geojson_dir_path)
+        self.assertEqual(self.geojson_dir_path, im2geojson._geojson_dir_path)
 
     def test_init_creates_image_dir_path(self):
         im2geojson = ImageToGeoJSON(input_directory = self.input_directory, output_directory = self.output_directory)
-        self.assertEqual(self.image_dir_path, im2geojson.image_dir_path)
+        self.assertEqual(self.image_dir_path, im2geojson._image_dir_path)
     
     def test_init_geojsonphoto_parser(self):
         im2geojson = ImageToGeoJSON(input_directory = self.input_directory, output_directory = self.output_directory)
@@ -201,7 +201,7 @@ class TestImageToGeoJSONErrors(TestImageToGeoJSONInit):
                             save_images=False, 
                             save_thumbnails=True)
         im2geojson.start()
-        self.assertEqual('No errors', im2geojson.errors)
+        self.assertIsNone(im2geojson.errors_or_none)
     
     def test_errors(self):
         in_path = 'tests/test_files/test_images/test_no_exif/'
@@ -214,7 +214,7 @@ class TestImageToGeoJSONErrors(TestImageToGeoJSONInit):
         test_error_dictionary = {
             test_folder_file:"'No metadata.'"
         }
-        self.assertEqual(test_error_dictionary, im2geojson.errors)
+        self.assertEqual(test_error_dictionary, im2geojson.errors_or_none)
 
 
 class TestImageToGeoJSONSummary(TestImageToGeoJSONInit):
@@ -237,15 +237,15 @@ class TestFolderFilesFromPath(unittest.TestCase):
         self.test_in_path = os.path.join('tests/test_files/', self.test_folder_name, self.test_filename)
 
     def test_filename_from_path(self):
-        filename = ImageToGeoJSON.folder_and_filename_from_filepath(self.test_in_path)[1]
+        filename = ImageToGeoJSON._folder_and_filename_from_filepath(self.test_in_path)[1]
         self.assertEqual(self.test_filename, filename )
 
     def test_folder_from_path(self):
-        folder = ImageToGeoJSON.folder_and_filename_from_filepath(self.test_in_path)[0]
+        folder = ImageToGeoJSON._folder_and_filename_from_filepath(self.test_in_path)[0]
         self.assertEqual(self.test_folder_name, folder)
 
     def test_thumbnail_filename_from_image_filename(self):
-        thumbnail_filename = ImageToGeoJSON.thumbnail_filename(self.test_filename)
+        thumbnail_filename = ImageToGeoJSON._thumbnail_filename(self.test_filename)
         self.assertEqual(self.test_folder_filename, thumbnail_filename)
 
 
