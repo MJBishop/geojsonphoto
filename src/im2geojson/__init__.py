@@ -2,43 +2,45 @@
 
 Parse GeoJSON from image metadata.
 
-Quick Start
------------
+### Quick Start
 
 
+#### Import package
 ```python
-from im2geojson import ImageToGeoJSON
-
-input_directory='./images'
-
-# Create an image parser
-my_image_parser = ImageToGeoJSON(input_directory=input_directory)
-
-# Start processing images
-my_image_parser.start()
+>>> from im2geojson import ImageToGeoJSON
 ```
 
 
+#### Create an image parser
+```python
+>>> input_directory='./images'
+>>> my_image_parser = ImageToGeoJSON(input_directory=input_directory)
+```
+
+
+#### Start image processing 
+```python
+>>> my_image_parser.start()
+```
 ```shell
 Running...
 Finished in 0.31 seconds
 ```
 
 
+#### Get the summary
 ```python
-# Get the summary
-my_image_parser.summary
+>>> my_image_parser.summary
 ```
-
 ```shell
 '1 out of 6 images processed successfully'
 ```
 
-```python
-# Get the errors
-my_image_parser.errors_or_none
-```
 
+#### Get the error dictionary
+```python
+>>> my_image_parser.errors_or_none
+```
 ```shell
 {'images/MISSING_EXIF.jpg': 'AttributeError: image does not have attribute gps_latitude',
  'images/MISSING_DATETIME.jpg': 'AttributeError: image does not have attribute datetime_original',
