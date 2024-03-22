@@ -67,7 +67,12 @@ class ImageToGeoJSON(object):
     def output_directory(self):
         """str: Return the path to the output directory."""
         return self._output_directory
-
+        
+    @property
+    def summary(self):
+        """str: Return the summary string."""
+        return f'{self._success_count} out of {self._total_count} images processed successfully'
+    
     @property
     def errors_or_none(self):
         """dict: Return the error dictionary or None."""
@@ -75,11 +80,6 @@ class ImageToGeoJSON(object):
             return None
         else:
             return self._errors
-        
-    @property
-    def summary(self):
-        """str: Return the summary string."""
-        return f'{self._success_count} out of {self._total_count} images processed successfully'
 
     def start(self):
         """
