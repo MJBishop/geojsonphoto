@@ -16,13 +16,13 @@ def create_parser():
         )
     parser.add_argument(
         '-i', 
-        '--in_dir_path', 
+        '--input_directory', 
         help='Set the path to the images to process', 
         type=str
         )
     parser.add_argument(
         '-o', 
-        '--out_dir_path', 
+        '--output_directory', 
         help='Set the output path', 
         type=str
         )

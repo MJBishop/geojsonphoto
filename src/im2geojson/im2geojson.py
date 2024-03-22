@@ -30,13 +30,13 @@ class ImageToGeoJSON(object):
     """
 
     def __init__(self, 
-                 in_dir_path=DEFAULT_IN_DIR_PATH, 
-                 out_dir_path=DEFAULT_OUT_DIR_PATH, 
+                 input_directory=DEFAULT_IN_DIR_PATH, 
+                 output_directory=DEFAULT_OUT_DIR_PATH, 
                  save_images=False, 
                  save_thumbnails=False):
         
-        self._in_dir_path = in_dir_path
-        self._out_dir_path = out_dir_path
+        self._input_directory = input_directory
+        self._output_directory = output_directory
         self._save_images = save_images
         self._save_thumbnails = save_thumbnails
 
@@ -61,24 +61,24 @@ class ImageToGeoJSON(object):
                 pass
 
     @property
-    def in_dir_path(self):
+    def input_directory(self):
         """str: Return the path to the input directory."""
-        return self._in_dir_path
+        return self._input_directory
     
     @property
-    def out_dir_path(self):
+    def output_directory(self):
         """str: Return the path to the output directory."""
-        return self._out_dir_path
+        return self._output_directory
     
     @property
     def geojson_dir_path(self):
         """str: Return the path to the geojson directory."""
-        return os.path.join(self.out_dir_path, OUT_DIR, GEOJSON_DIR)
+        return os.path.join(self.output_directory, OUT_DIR, GEOJSON_DIR)
     
     @property
     def image_dir_path(self):
         """str: Return the path to the image directory."""
-        return os.path.join(self.out_dir_path, OUT_DIR, IMAGE_DIR)
+        return os.path.join(self.output_directory, OUT_DIR, IMAGE_DIR)
 
     @property
     def errors(self):
@@ -107,7 +107,7 @@ class ImageToGeoJSON(object):
             
     def _process_files(self):
         # Process image files concurrently
-        files = glob.iglob(f'{self.in_dir_path}**/*.[Jj][Pp][Gg]')
+        files = glob.iglob(f'{self.input_directory}**/*.[Jj][Pp][Gg]')
         with concurrent.futures.ThreadPoolExecutor() as executor:
             future_to_path = {executor.submit(self._process_image_file, filepath): filepath for filepath in files}
             for future in concurrent.futures.as_completed(future_to_path):
@@ -143,7 +143,7 @@ class ImageToGeoJSON(object):
             # image 
             if self._save_images and image_b is not None:
                 rel_image_path = self._rel_image_path(filename)
-                image_path = os.path.join(self.out_dir_path, rel_image_path)            
+                image_path = os.path.join(self.output_directory, rel_image_path)            
 
                 with open(image_path, 'wb') as im:
                     im.write(image_b)
@@ -152,7 +152,7 @@ class ImageToGeoJSON(object):
             # thumbnail 
             if self._save_thumbnails and thumb_b is not None:
                 rel_thumbnail_path = self._rel_thumbnail_path(filename)
-                thumbnail_path = os.path.join(self.out_dir_path, rel_thumbnail_path)
+                thumbnail_path = os.path.join(self.output_directory, rel_thumbnail_path)
 
                 with open(thumbnail_path, 'wb') as im:
                     im.write(thumb_b)

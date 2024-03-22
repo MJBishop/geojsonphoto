@@ -15,13 +15,13 @@ class TestImageToGeoJSONInit(unittest.TestCase):
 
     def setUp(self):
         self.default_in_path = "./"
-        self.in_path = 'tests/test_files/test_images/test_exif/'
-        self.out_path = 'tests/test_out_path/'
-        self.geojson_dir_path = os.path.join(self.out_path, OUT_DIR, GEOJSON_DIR)
-        self.image_dir_path = os.path.join(self.out_path, OUT_DIR, IMAGE_DIR)
+        self.input_directory = 'tests/test_files/test_images/test_exif/'
+        self.output_directory = 'tests/test_out_path/'
+        self.geojson_dir_path = os.path.join(self.output_directory, OUT_DIR, GEOJSON_DIR)
+        self.image_dir_path = os.path.join(self.output_directory, OUT_DIR, IMAGE_DIR)
 
     def tearDown(self):
-        out_path = os.path.join(self.out_path, OUT_DIR)
+        out_path = os.path.join(self.output_directory, OUT_DIR)
         if os.path.isdir(out_path):
             shutil.rmtree(out_path)
 
@@ -30,43 +30,43 @@ class TestImageToGeoJSONInit(unittest.TestCase):
             shutil.rmtree(default_path)
     
     def test_in_path(self):
-        im2geojson = ImageToGeoJSON(in_dir_path = self.in_path)
-        self.assertEqual(self.in_path, im2geojson.in_dir_path)
+        im2geojson = ImageToGeoJSON(input_directory = self.input_directory)
+        self.assertEqual(self.input_directory, im2geojson.input_directory)
 
     def test_default_in_path(self):
         im2geojson = ImageToGeoJSON()
-        self.assertEqual(self.default_in_path, im2geojson.in_dir_path)
+        self.assertEqual(self.default_in_path, im2geojson.input_directory)
     
     def test_out_path(self):
-        im2geojson = ImageToGeoJSON(in_dir_path = self.in_path, out_dir_path = self.out_path)
-        self.assertEqual(self.out_path, im2geojson.out_dir_path)
+        im2geojson = ImageToGeoJSON(input_directory = self.input_directory, output_directory = self.output_directory)
+        self.assertEqual(self.output_directory, im2geojson.output_directory)
 
     def test_init_creates_geojsonphoto_dir_path(self):
-        im2geojson = ImageToGeoJSON(in_dir_path = self.in_path, out_dir_path = self.out_path)
+        im2geojson = ImageToGeoJSON(input_directory = self.input_directory, output_directory = self.output_directory)
         self.assertEqual(self.geojson_dir_path, im2geojson.geojson_dir_path)
 
     def test_init_creates_image_dir_path(self):
-        im2geojson = ImageToGeoJSON(in_dir_path = self.in_path, out_dir_path = self.out_path)
+        im2geojson = ImageToGeoJSON(input_directory = self.input_directory, output_directory = self.output_directory)
         self.assertEqual(self.image_dir_path, im2geojson.image_dir_path)
     
     def test_init_geojsonphoto_parser(self):
-        im2geojson = ImageToGeoJSON(in_dir_path = self.in_path, out_dir_path = self.out_path)
+        im2geojson = ImageToGeoJSON(input_directory = self.input_directory, output_directory = self.output_directory)
         self.assertTrue(im2geojson._geojson_parser)
     
     def test_default_init_im2geojson_creates_out_directories(self):
-        self.assertFalse(os.path.isdir(os.path.join(self.out_path, OUT_DIR)))
+        self.assertFalse(os.path.isdir(os.path.join(self.output_directory, OUT_DIR)))
 
-        im2geojson = ImageToGeoJSON(in_dir_path = self.in_path, 
-                            out_dir_path = self.out_path)
+        im2geojson = ImageToGeoJSON(input_directory = self.input_directory, 
+                            output_directory = self.output_directory)
 
         self.assertTrue(os.path.isdir(self.geojson_dir_path))
         self.assertFalse(os.path.isdir(self.image_dir_path))
     
     def test_thumbnail_init_im2geojson_creates_out_directories(self):
-        self.assertFalse(os.path.isdir(os.path.join(self.out_path, OUT_DIR)))
+        self.assertFalse(os.path.isdir(os.path.join(self.output_directory, OUT_DIR)))
 
-        im2geojson = ImageToGeoJSON(in_dir_path = self.in_path, 
-                            out_dir_path = self.out_path, 
+        im2geojson = ImageToGeoJSON(input_directory = self.input_directory, 
+                            output_directory = self.output_directory, 
                             save_images=False, 
                             save_thumbnails=True)
 
@@ -74,10 +74,10 @@ class TestImageToGeoJSONInit(unittest.TestCase):
         self.assertTrue(os.path.isdir(self.image_dir_path))
     
     def test_image_init_im2geojson_creates_out_directories(self):
-        self.assertFalse(os.path.isdir(os.path.join(self.out_path, OUT_DIR)))
+        self.assertFalse(os.path.isdir(os.path.join(self.output_directory, OUT_DIR)))
 
-        im2geojson = ImageToGeoJSON(in_dir_path = self.in_path, 
-                            out_dir_path = self.out_path, 
+        im2geojson = ImageToGeoJSON(input_directory = self.input_directory, 
+                            output_directory = self.output_directory, 
                             save_images=True, 
                             save_thumbnails=False)
 
@@ -92,8 +92,8 @@ class TestImageToGeoJSONStart(TestImageToGeoJSONInit):
         self.test_geojson_file_name = 'test_folder.geojson'
 
     def test_im2geojson_start_creates_geojsonphoto_file(self):
-        im2geojson = ImageToGeoJSON(in_dir_path = self.in_path, 
-                            out_dir_path = self.out_path, 
+        im2geojson = ImageToGeoJSON(input_directory = self.input_directory, 
+                            output_directory = self.output_directory, 
                             save_images=False)
         im2geojson.start()
 
@@ -111,8 +111,8 @@ class TestImageToGeoJSONStart(TestImageToGeoJSONInit):
 
     def test_im2geojson_start_creates_image_file(self):
         test_image_file = 'EXIF.jpg'
-        im2geojson = ImageToGeoJSON(in_dir_path = self.in_path, 
-                            out_dir_path = self.out_path, 
+        im2geojson = ImageToGeoJSON(input_directory = self.input_directory, 
+                            output_directory = self.output_directory, 
                             save_images=True)
         im2geojson.start()
 
@@ -133,8 +133,8 @@ class TestImageToGeoJSONStart(TestImageToGeoJSONInit):
 
     def test_im2geojson_start_creates_thumbnail_file(self):
         test_thumbnail_file = 'EXIF_thumb.jpg'
-        im2geojson = ImageToGeoJSON(in_dir_path = self.in_path, 
-                            out_dir_path = self.out_path, 
+        im2geojson = ImageToGeoJSON(input_directory = self.input_directory, 
+                            output_directory = self.output_directory, 
                             save_images=False, 
                             save_thumbnails=True)
         im2geojson.start()
@@ -156,8 +156,8 @@ class TestImageToGeoJSONStart(TestImageToGeoJSONInit):
 
     def test_geojsonphoto_start_original_image_absolute_path(self):
         test_thumbnail_file = 'EXIF_thumb.jpg'
-        im2geojson = ImageToGeoJSON(in_dir_path = self.in_path, 
-                            out_dir_path = self.out_path, 
+        im2geojson = ImageToGeoJSON(input_directory = self.input_directory, 
+                            output_directory = self.output_directory, 
                             save_images=False, 
                             save_thumbnails=False)
         im2geojson.start()
@@ -171,8 +171,8 @@ class TestImageToGeoJSONStart(TestImageToGeoJSONInit):
 class TestImageToGeoJSONStatus(TestImageToGeoJSONInit):
 
     def test_in_progress_status(self):
-        im2geojson = ImageToGeoJSON(in_dir_path = self.in_path, 
-                                 out_dir_path = self.out_path, 
+        im2geojson = ImageToGeoJSON(input_directory = self.input_directory, 
+                                 output_directory = self.output_directory, 
                                  save_images=False, 
                                  save_thumbnails=True)
         f = io.StringIO()
@@ -182,8 +182,8 @@ class TestImageToGeoJSONStatus(TestImageToGeoJSONInit):
         self.assertIn('Running...\nFinished in ', out)
 
     def test_repeat_calls_to_start_raises_exception(self):
-        im2geojson = ImageToGeoJSON(in_dir_path = self.in_path, 
-                                 out_dir_path = self.out_path, 
+        im2geojson = ImageToGeoJSON(input_directory = self.input_directory, 
+                                 output_directory = self.output_directory, 
                                  save_images=False, 
                                  save_thumbnails=True)
         im2geojson.start()
@@ -194,8 +194,8 @@ class TestImageToGeoJSONStatus(TestImageToGeoJSONInit):
 class TestImageToGeoJSONErrors(TestImageToGeoJSONInit):
     
     def test_no_errors(self):
-        im2geojson = ImageToGeoJSON(in_dir_path = self.in_path, 
-                            out_dir_path = self.out_path, 
+        im2geojson = ImageToGeoJSON(input_directory = self.input_directory, 
+                            output_directory = self.output_directory, 
                             save_images=False, 
                             save_thumbnails=True)
         im2geojson.start()
@@ -203,8 +203,8 @@ class TestImageToGeoJSONErrors(TestImageToGeoJSONInit):
     
     def test_errors(self):
         in_path = 'tests/test_files/test_images/test_no_exif/'
-        im2geojson = ImageToGeoJSON(in_dir_path = in_path, 
-                            out_dir_path = self.out_path,
+        im2geojson = ImageToGeoJSON(input_directory = in_path, 
+                            output_directory = self.output_directory,
                             save_images=False, 
                             save_thumbnails=True)
         im2geojson.start()
@@ -218,8 +218,8 @@ class TestImageToGeoJSONErrors(TestImageToGeoJSONInit):
 class TestImageToGeoJSONSummary(TestImageToGeoJSONInit):
 
     def test_summary(self):
-        im2geojson = ImageToGeoJSON(in_dir_path = self.in_path, 
-                            out_dir_path = self.out_path, 
+        im2geojson = ImageToGeoJSON(input_directory = self.input_directory, 
+                            output_directory = self.output_directory, 
                             save_images=False, 
                             save_thumbnails=True)
         im2geojson.start()

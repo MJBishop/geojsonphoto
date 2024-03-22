@@ -28,19 +28,19 @@ class TestParserArguments(unittest.TestCase):
 
     def test_parser_short_in_path(self):
         parsed = self.parser.parse_args(['-i', 'testing/in'])
-        self.assertEqual('testing/in', parsed.in_dir_path)
+        self.assertEqual('testing/in', parsed.input_directory)
 
     def test_parser_in_path(self):
-        parsed = self.parser.parse_args(['--in_dir_path', 'testing/in'])
-        self.assertEqual('testing/in', parsed.in_dir_path)
+        parsed = self.parser.parse_args(['--input_directory', 'testing/in'])
+        self.assertEqual('testing/in', parsed.input_directory)
 
     def test_parser_short_out_path(self):
         parsed = self.parser.parse_args(['-o', 'testing/out'])
-        self.assertEqual('testing/out', parsed.out_dir_path)
+        self.assertEqual('testing/out', parsed.output_directory)
 
     def test_parser_out_path(self):
-        parsed = self.parser.parse_args(['--out_dir_path', 'testing/out'])
-        self.assertEqual('testing/out', parsed.out_dir_path)
+        parsed = self.parser.parse_args(['--output_directory', 'testing/out'])
+        self.assertEqual('testing/out', parsed.output_directory)
 
     def test_parser_short_save_images(self):
         parsed = self.parser.parse_args(['-s'])
@@ -75,8 +75,8 @@ class TestParseArgs(unittest.TestCase):
     def test_parsed_args_dict(self):
         args = ['-i', 'testing/in', '-o', 'testing/out', '-s', '-t']
         parsed_args_dict = parse_args_to_dict(args)
-        expected = {'in_dir_path': 'testing/in', 
-                    'out_dir_path': 'testing/out', 
+        expected = {'input_directory': 'testing/in', 
+                    'output_directory': 'testing/out', 
                     'save_images': True, 
                     'save_thumbnails': True}
         self.assertEqual(expected, parsed_args_dict)
