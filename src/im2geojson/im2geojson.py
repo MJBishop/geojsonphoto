@@ -79,7 +79,7 @@ class ImageToGeoJSON(object):
     @property
     def summary(self):
         """str: Return the summary string."""
-        return f'{self._success_count} out of {self._total_count} images completed successfully'
+        return f'{self._success_count} out of {self._total_count} images processed successfully'
 
     def start(self):
         """

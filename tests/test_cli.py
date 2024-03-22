@@ -103,7 +103,7 @@ class TestMain(unittest.TestCase):
         out_lines = out.split('\n')
 
         expected_first_line = 'Running...'
-        expected_last_line = '0 out of 0 images completed successfully'
+        expected_last_line = '0 out of 0 images processed successfully'
 
         self.assertEqual(expected_first_line, out_lines[0])
         self.assertEqual(expected_last_line, out_lines[2])

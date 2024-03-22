@@ -225,7 +225,7 @@ class TestImageToGeoJSONSummary(TestImageToGeoJSONInit):
                             save_images=False, 
                             save_thumbnails=True)
         im2geojson.start()
-        self.assertEqual('1 out of 1 images completed successfully', im2geojson.summary)
+        self.assertEqual('1 out of 1 images processed successfully', im2geojson.summary)
         
         
 class TestFolderFilesFromPath(unittest.TestCase):
