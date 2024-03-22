@@ -4,22 +4,17 @@ Parse GeoJSON from image metadata.
 
 <br>
 
-### Quick Start
+Quick Start
+-----------
 
 
-#### Import
+#### Import im2geojson and create an image parser
 ```python
 >>> from im2geojson import ImageToGeoJSON
-```
-<br>
 
-
-#### Create an image parser
-```python
->>> input_directory='./images'
+>>> input_directory='./my_images'
 >>> my_image_parser = ImageToGeoJSON(input_directory=input_directory)
 ```
-<br>
 
 
 #### Start image processing 
@@ -33,7 +28,9 @@ Finished in 0.31 seconds
 <br>
 
 
-#### Get the summary
+Summary
+-------
+
 ```python
 >>> my_image_parser.summary
 ```
@@ -42,6 +39,38 @@ Finished in 0.31 seconds
 ```
 <br>
 
+
+Output
+------
+
+```json
+// my_images.geojson
+{
+    "type": "FeatureCollection", 
+    "title": "images", 
+    "features": 
+    [
+        {
+            "type": "Feature", 
+            "geometry": 
+            {
+                "type": "Point", 
+                "coordinates": [115.095269, -8.631053]
+            }, 
+            "properties": 
+            {
+                "datetime": "2023-05-05 06:19:24", 
+                "original_image_absolute_path": "./images/EXIF.jpg"
+            }
+        }
+    ]
+}
+```
+<br>
+
+
+Errors
+------
 
 #### Get the error dictionary
 ```python
@@ -55,6 +84,9 @@ Finished in 0.31 seconds
  'images/NO_EXIF.jpg': "'No metadata.'"}
 ```
 <br>
+
+
+
    
 ***
 
