@@ -4,11 +4,13 @@ Parse GeoJSON from image metadata.
 
 <br>
 
+
 Quick Start
 -----------
 
 
-#### Import im2geojson and create an image parser
+Import im2geojson and create an image parser
+
 ```python
 >>> from im2geojson import ImageToGeoJSON
 
@@ -17,7 +19,8 @@ Quick Start
 ```
 
 
-#### Start image processing 
+Start image processing 
+
 ```python
 >>> my_image_parser.start()
 ```
@@ -72,20 +75,18 @@ Output
 Errors
 ------
 
-#### Get the error dictionary
 ```python
 >>> my_image_parser.errors_or_none
 ```
 ```shell
-{'images/MISSING_EXIF.jpg': 'AttributeError: image does not have attribute gps_latitude',
- 'images/MISSING_DATETIME.jpg': 'AttributeError: image does not have attribute datetime_original',
- 'images/CORRUPTED_DATETIME.jpg': "ValueError: time data 'corrupted' does not match format '%Y:%m:%d %H:%M:%S'",
- 'images/CORRUPTED_EXIF.jpg': 'ValueError: Invalid GPS Reference X, Expecting N, S, E or W',
- 'images/NO_EXIF.jpg': "'No metadata.'"}
+{'my_images/MISSING_EXIF.jpg': 'AttributeError: image does not have attribute gps_latitude',
+ 'my_images/MISSING_DATETIME.jpg': 'AttributeError: image does not have attribute datetime_original',
+ 'my_images/CORRUPTED_DATETIME.jpg': "ValueError: time data 'corrupted' does not match format '%Y:%m:%d %H:%M:%S'",
+ 'my_images/CORRUPTED_EXIF.jpg': 'ValueError: Invalid GPS Reference X, Expecting N, S, E or W',
+ 'my_images/NO_EXIF.jpg': "'No metadata.'"}
 ```
 <br>
-
-
+<br>
 
    
 ***
