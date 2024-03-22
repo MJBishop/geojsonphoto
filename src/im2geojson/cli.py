@@ -50,6 +50,8 @@ def main(args=None):
     parsed_args_dict = parse_args_to_dict(args)
     im2geo = ImageToGeoJSON(**parsed_args_dict)
     im2geo.start()
+    print(im2geo.summary)
+    print(im2geo.errors_or_none)
 
 
 if __name__ == '__main__':

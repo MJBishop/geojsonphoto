@@ -83,7 +83,7 @@ class ImageToGeoJSON(object):
 
     def start(self):
         """
-        Read and process the images from `in_dir_path`.
+        Process the images from `input_directory`.
 
         """
         if self._timer is not None:
@@ -91,7 +91,6 @@ class ImageToGeoJSON(object):
         
         with Timer() as self._timer:
             self._process_files()
-        print(self.summary)
             
     def _process_files(self):
         # Process image files concurrently
@@ -154,7 +153,7 @@ class ImageToGeoJSON(object):
         self._errors[key] = exception_string
 
     def _output_parent_folder(self):
-        # Return the output parent folder
+        """str: Return the output parent folder name."""
         head, folder = os.path.split(self._output_directory)
         return folder
     
@@ -169,11 +168,11 @@ class ImageToGeoJSON(object):
         return os.path.join(self.output_directory, IMAGE_DIR)
 
     def _rel_image_path(self, filename):
-        # Return the relative path to the image filename.
+        """str: Return the relative path to the image filename."""
         return os.path.join(IMAGE_DIR, filename)
     
     def _rel_thumbnail_path(self, filename):
-        # Return the relative path to the thumbnail image filename.
+        """str: Return the relative path to the thumbnail image filename."""
         thumb_file_name = ImageToGeoJSON._thumbnail_filename(filename)
         return os.path.join(IMAGE_DIR, thumb_file_name)
 
