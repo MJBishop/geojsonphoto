@@ -4,9 +4,12 @@ Tests for cli
 
 import unittest
 import io
+import shutil
+import os
 from contextlib import redirect_stdout
 
 from im2geojson.cli import create_parser, parse_args_to_dict, main
+from im2geojson.im2geojson import OUT_DIR
 
 
 class TestParserCreate(unittest.TestCase):
@@ -85,13 +88,19 @@ class TestParseArgs(unittest.TestCase):
 class TestMain(unittest.TestCase):
 
     def setUp(self):
-        self.out_path = 'tests/test_out_path/'
+        self.output_directory = 'tests/test_out_path/'
+
+    def tearDown(self):
+        out_path = os.path.join(self.output_directory, OUT_DIR)
+        if os.path.isdir(out_path):
+            shutil.rmtree(out_path)
+
     
     def test_main(self):
         f = io.StringIO()
         with redirect_stdout(f):
             
-            main(['-o', self.out_path])
+            main(['-i', './', '-o', self.output_directory])
         out = f.getvalue()
         out_lines = out.split('\n')
 

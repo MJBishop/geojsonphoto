@@ -25,7 +25,7 @@ class TestImageToGeoJSONInit(unittest.TestCase):
         if os.path.isdir(out_path):
             shutil.rmtree(out_path)
 
-        default_path = os.path.join(DEFAULT_OUT_DIR_PATH, OUT_DIR)
+        default_path = os.path.join(DEFAULT_OUTPUT_DIRECTORY, OUT_DIR)
         if os.path.isdir(default_path):
             shutil.rmtree(default_path)
     
@@ -33,9 +33,9 @@ class TestImageToGeoJSONInit(unittest.TestCase):
         im2geojson = ImageToGeoJSON(input_directory = self.input_directory)
         self.assertEqual(self.input_directory, im2geojson.input_directory)
 
-    def test_default_in_path(self):
-        im2geojson = ImageToGeoJSON()
-        self.assertEqual(self.default_in_path, im2geojson.input_directory)
+    def test_no_in_path_raises_exception(self):
+        with self.assertRaises(TypeError):
+            im2geojson = ImageToGeoJSON()
     
     def test_out_path(self):
         im2geojson = ImageToGeoJSON(input_directory = self.input_directory, output_directory = self.output_directory)
