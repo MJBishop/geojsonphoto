@@ -10,10 +10,10 @@ from .geojson_parser import GeoJSONParser
 from .exif_reader import read_exif
 from .timer import Timer
 
-DEFAULT_OUTPUT_DIRECTORY = './'
-OUT_DIR = 'im2geojson_output/'
-GEOJSON_DIR = 'geojson/'
-IMAGE_DIR = 'images/'
+DEFAULT_OUTPUT_DIRECTORY = '.'
+OUT_DIR = 'assets'
+GEOJSON_DIR = 'geojson'
+IMAGE_DIR = 'images'
 
 
 class ImageToGeoJSON(object):
@@ -35,7 +35,7 @@ class ImageToGeoJSON(object):
                  save_thumbnails=False):
         
         self._input_directory = input_directory
-        self._output_directory = output_directory
+        self._output_directory = output_directory.rstrip('/')
         self._save_images = save_images
         self._save_thumbnails = save_thumbnails
 
@@ -163,6 +163,11 @@ class ImageToGeoJSON(object):
         folder, filename = ImageToGeoJSON.folder_and_filename_from_filepath(filepath)
         key = os.path.join(folder, filename)
         self._errors[key] = exception_string
+
+    # def _output_folder(self):
+    #     # 
+    #     folder, tail = os.path.splitext(self._output_directory)
+    #     return folder
 
     def _rel_image_path(self, filename):
         # Return the relative path to the image filename.
