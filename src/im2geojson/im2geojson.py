@@ -10,8 +10,7 @@ from .geojson_parser import GeoJSONParser
 from .exif_reader import read_exif
 from .timer import Timer
 
-DEFAULT_OUTPUT_DIRECTORY = '.'
-OUT_DIR = 'assets'
+DEFAULT_OUTPUT_DIRECTORY = './assets'
 GEOJSON_DIR = 'geojson'
 IMAGE_DIR = 'images'
 
@@ -24,7 +23,7 @@ class ImageToGeoJSON(object):
     ----------
     Notes
     -----
-    Saves the harvested metadata as geojson to 'out_dir_path`
+    Saves the harvested metadata as geojson to 'output_directory`
     Optionally saves images without metadata and thumbnails.
     """
 
@@ -72,12 +71,12 @@ class ImageToGeoJSON(object):
     @property
     def geojson_dir_path(self):
         """str: Return the path to the geojson directory."""
-        return os.path.join(self.output_directory, OUT_DIR, GEOJSON_DIR)
+        return os.path.join(self.output_directory, GEOJSON_DIR)
     
     @property
     def image_dir_path(self):
         """str: Return the path to the image directory."""
-        return os.path.join(self.output_directory, OUT_DIR, IMAGE_DIR)
+        return os.path.join(self.output_directory, IMAGE_DIR)
 
     @property
     def errors(self):
@@ -164,19 +163,19 @@ class ImageToGeoJSON(object):
         key = os.path.join(folder, filename)
         self._errors[key] = exception_string
 
-    # def _output_folder(self):
-    #     # 
-    #     folder, tail = os.path.splitext(self._output_directory)
-    #     return folder
+    def _output_parent_folder(self):
+        # Return the output parent folder
+        head, folder = os.path.split(self._output_directory)
+        return folder
 
     def _rel_image_path(self, filename):
         # Return the relative path to the image filename.
-        return os.path.join(OUT_DIR, IMAGE_DIR, filename)
+        return os.path.join(IMAGE_DIR, filename)
     
     def _rel_thumbnail_path(self, filename):
         # Return the relative path to the thumbnail image filename.
         thumb_file_name = ImageToGeoJSON.thumbnail_filename(filename)
-        return os.path.join(OUT_DIR, IMAGE_DIR, thumb_file_name)
+        return os.path.join(IMAGE_DIR, thumb_file_name)
 
     @staticmethod
     def folder_and_filename_from_filepath(filepath):

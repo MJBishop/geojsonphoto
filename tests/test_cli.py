@@ -9,7 +9,6 @@ import os
 from contextlib import redirect_stdout
 
 from im2geojson.cli import create_parser, parse_args_to_dict, main
-from im2geojson.im2geojson import OUT_DIR
 
 
 class TestParserCreate(unittest.TestCase):
@@ -88,12 +87,11 @@ class TestParseArgs(unittest.TestCase):
 class TestMain(unittest.TestCase):
 
     def setUp(self):
-        self.output_directory = 'tests/test_out_path/'
+        self.output_directory = 'tests/assets/'
 
     def tearDown(self):
-        out_path = os.path.join(self.output_directory, OUT_DIR)
-        if os.path.isdir(out_path):
-            shutil.rmtree(out_path)
+        if os.path.isdir(self.output_directory):
+            shutil.rmtree(self.output_directory)
 
     
     def test_main(self):
