@@ -24,7 +24,7 @@ Start image processing:
 ```python
 >>> my_image_parser.start()
 ```
-```
+```s
 Running...
 Finished in 0.31 seconds
 ```
