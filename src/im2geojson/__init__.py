@@ -14,14 +14,11 @@ Import im2geojson and create an image parser:
 ```python
 >>> from im2geojson import ImageToGeoJSON
 
+# Initiate
 >>> input_directory='./my_images'
 >>> my_image_parser = ImageToGeoJSON(input_directory=input_directory)
-```
 
-
-Start image processing:
-
-```python
+# Start image processing:
 >>> my_image_parser.start()
 ```
 ```s
@@ -50,7 +47,7 @@ Output
 // my_images.geojson
 {
     "type": "FeatureCollection", 
-    "title": "images", 
+    "title": "my_images", 
     "features": 
     [
         {
@@ -63,7 +60,7 @@ Output
             "properties": 
             {
                 "datetime": "2023-05-05 06:19:24", 
-                "original_image_absolute_path": "./images/EXIF.jpg"
+                "original_absolute_path": "./images/EXIF.jpg"
             }
         }
     ]
@@ -76,7 +73,7 @@ Errors
 ------
 
 ```python
->>> my_image_parser.errors_or_none
+>>> my_image_parser.error_dictionary
 ```
 ```s
 {'my_images/MISSING_EXIF.jpg': 'AttributeError: image does not have attribute gps_latitude',

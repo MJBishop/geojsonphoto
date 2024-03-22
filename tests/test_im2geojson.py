@@ -201,7 +201,7 @@ class TestImageToGeoJSONErrors(TestImageToGeoJSONInit):
                             save_images=False, 
                             save_thumbnails=True)
         im2geojson.start()
-        self.assertIsNone(im2geojson.errors_or_none)
+        self.assertEqual({}, im2geojson.error_dictionary)
     
     def test_errors(self):
         in_path = 'tests/test_files/test_images/test_no_exif/'
@@ -214,7 +214,7 @@ class TestImageToGeoJSONErrors(TestImageToGeoJSONInit):
         test_error_dictionary = {
             test_folder_file:"'No metadata.'"
         }
-        self.assertEqual(test_error_dictionary, im2geojson.errors_or_none)
+        self.assertEqual(test_error_dictionary, im2geojson.error_dictionary)
 
 
 class TestImageToGeoJSONSummary(TestImageToGeoJSONInit):

@@ -40,7 +40,7 @@ class ImageToGeoJSON(object):
 
         self._geojson_parser = GeoJSONParser()
         self._timer = None
-        self._errors = {}
+        self._error_dictionary = {}
         self._total_count = 0
         self._success_count = 0
 
@@ -60,26 +60,23 @@ class ImageToGeoJSON(object):
 
     @property
     def input_directory(self):
-        """str: Return the path to the input directory."""
+        """str: Return the path to the `input_directory`."""
         return self._input_directory
     
     @property
     def output_directory(self):
-        """str: Return the path to the output directory."""
+        """str: Return the path to the `output_directory`."""
         return self._output_directory
         
     @property
     def summary(self):
-        """str: Return the summary string."""
+        """str: Return the `summary` string."""
         return f'{self._success_count} out of {self._total_count} images processed successfully'
     
     @property
-    def errors_or_none(self):
-        """dict: Return the error dictionary or None."""
-        if self._errors == {}:
-            return None
-        else:
-            return self._errors
+    def error_dictionary(self):
+        """dict: Return the `error_dictionary`."""
+        return self._error_dictionary
 
     def start(self):
         """
@@ -150,7 +147,7 @@ class ImageToGeoJSON(object):
     def _add_file_to_errors_with_exception_string(self, filepath, exception_string):
         folder, filename = ImageToGeoJSON._folder_and_filename_from_filepath(filepath)
         key = os.path.join(folder, filename)
-        self._errors[key] = exception_string
+        self._error_dictionary[key] = exception_string
 
     def _output_parent_folder(self):
         """str: Return the output parent folder name."""
