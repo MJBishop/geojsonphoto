@@ -15,10 +15,9 @@ def create_parser():
         # epilog='Text at the bottom of help'
         )
     parser.add_argument(
-        '-i', 
-        '--input_directory', 
+        'input_directory', 
         help='Set the path to the images to process', 
-        type=str
+        type=str,
         )
     parser.add_argument(
         '-o', 

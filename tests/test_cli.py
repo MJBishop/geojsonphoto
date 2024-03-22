@@ -28,42 +28,37 @@ class TestParserArguments(unittest.TestCase):
     def setUp(self):
         self.parser = create_parser()
 
-    def test_parser_short_in_path(self):
-        parsed = self.parser.parse_args(['-i', 'testing/in'])
-        self.assertEqual('testing/in', parsed.input_directory)
-
-    def test_parser_in_path(self):
-        parsed = self.parser.parse_args(['--input_directory', 'testing/in'])
+    def test_parser_positional_input_directory(self):
+        parsed = self.parser.parse_args(['testing/in'])
         self.assertEqual('testing/in', parsed.input_directory)
 
     def test_parser_short_out_path(self):
-        parsed = self.parser.parse_args(['-o', 'testing/out'])
+        parsed = self.parser.parse_args(['testing/in', '-o', 'testing/out'])
         self.assertEqual('testing/out', parsed.output_directory)
 
     def test_parser_out_path(self):
-        parsed = self.parser.parse_args(['--output_directory', 'testing/out'])
+        parsed = self.parser.parse_args(['testing/in', '--output_directory', 'testing/out'])
         self.assertEqual('testing/out', parsed.output_directory)
 
     def test_parser_short_save_images(self):
-        parsed = self.parser.parse_args(['-s'])
+        parsed = self.parser.parse_args(['testing/in', '-s'])
         self.assertTrue(parsed.save_images)
 
     def test_parser_save_images(self):
-        parsed = self.parser.parse_args(['--save_images'])
+        parsed = self.parser.parse_args(['testing/in', '--save_images'])
         self.assertTrue(parsed.save_images)
 
     def test_parser_short_save_thumbnails(self):
-        parsed = self.parser.parse_args(['-t'])
+        parsed = self.parser.parse_args(['testing/in', '-t'])
         self.assertTrue(parsed.save_thumbnails)
 
     def test_parser_save_thumbnails(self):
-        parsed = self.parser.parse_args(['--save_thumbnails'])
+        parsed = self.parser.parse_args(['testing/in', '--save_thumbnails'])
         self.assertTrue(parsed.save_thumbnails)
 
     def test_parser_defaults(self):
-        parsed = self.parser.parse_args([])
-        with self.assertRaises(AttributeError):
-            parsed.in_dir_path
+        parsed = self.parser.parse_args(['testing/in'])
+        self.assertTrue(parsed.input_directory)
         with self.assertRaises(AttributeError):
             parsed.out_dir_path
         with self.assertRaises(AttributeError):
@@ -75,7 +70,7 @@ class TestParserArguments(unittest.TestCase):
 class TestParseArgs(unittest.TestCase):
 
     def test_parsed_args_dict(self):
-        args = ['-i', 'testing/in', '-o', 'testing/out', '-s', '-t']
+        args = ['testing/in', '-o', 'testing/out', '-s', '-t']
         parsed_args_dict = parse_args_to_dict(args)
         expected = {'input_directory': 'testing/in', 
                     'output_directory': 'testing/out', 
@@ -98,7 +93,7 @@ class TestMain(unittest.TestCase):
         f = io.StringIO()
         with redirect_stdout(f):
             
-            main(['-i', './', '-o', self.output_directory])
+            main(['./', '-o', self.output_directory])
         out = f.getvalue()
         out_lines = out.split('\n')
 
