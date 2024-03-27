@@ -6,8 +6,11 @@ from exif import Image
 from datetime import datetime
 import warnings 
 import threading
+import logging
 
 from .dms_conversion import dms_to_decimal
+
+log = logging.getLogger('im2geojson')
 
 
 def read_exif(filepath, get_image=False, get_thumbnail=False):
@@ -92,4 +95,5 @@ def read_exif(filepath, get_image=False, get_thumbnail=False):
             return (lat, long), props, image_b, thumb_b
         
     except FileNotFoundError as e:
-        raise FileNotFoundError('FileNotFoundError: No such file or directory.') from e
+        # raise FileNotFoundError('FileNotFoundError: No such file or directory.') from e
+        log.exception(f'FileNotFoundError: No such file or directory: {filepath}')
