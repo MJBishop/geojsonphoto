@@ -11,7 +11,7 @@ from contextlib import redirect_stdout
 from im2geojson.im2geojson import *
 
 
-class TestImageToGeoJSONInit(unittest.TestCase):
+class TestBaseClass(unittest.TestCase):
 
     def setUp(self):
         self.default_in_path = "./"
@@ -26,6 +26,14 @@ class TestImageToGeoJSONInit(unittest.TestCase):
 
         if os.path.isdir(DEFAULT_OUTPUT_DIRECTORY):
             shutil.rmtree(DEFAULT_OUTPUT_DIRECTORY)
+
+class TestImageToGeoJSONInit(TestBaseClass):
+
+    def setUp(self):
+        super().setUp()
+
+    def tearDown(self):
+        super().tearDown()
     
     def test_in_path(self):
         im2geojson = ImageToGeoJSON(input_directory = self.input_directory)
@@ -85,13 +93,26 @@ class TestImageToGeoJSONInit(unittest.TestCase):
 
         self.assertTrue(os.path.isdir(self.geojson_dir_path))
         self.assertTrue(os.path.isdir(self.image_dir_path))
+
+    def test_init_logs_directory_created(self):
+        self.assertFalse(os.path.isdir(self.output_directory))
+
+        with self.assertLogs() as captured:
+            im2geojson = ImageToGeoJSON(input_directory = self.input_directory, 
+                                output_directory = self.output_directory)
+
+        self.assertEqual(len(captured.records), 1) # check that there is only one log message
+        self.assertEqual(captured.records[0].getMessage(), f"Folder {self.geojson_dir_path} created!") # and it is the proper one
         
 
-class TestImageToGeoJSONStart(TestImageToGeoJSONInit):
+class TestImageToGeoJSONStart(TestBaseClass):
 
     def setUp(self):
         super().setUp()
         self.test_geojson_file_name = 'test_folder.geojson'
+
+    def tearDown(self):
+        super().tearDown()
 
     def test_im2geojson_start_creates_geojsonphoto_file(self):
         im2geojson = ImageToGeoJSON(input_directory = self.input_directory, 
@@ -170,7 +191,13 @@ class TestImageToGeoJSONStart(TestImageToGeoJSONInit):
             self.assertIsNotNone(jsn['features'][0]['properties']['original_image_absolute_path'])
 
 
-class TestImageToGeoJSONStatus(TestImageToGeoJSONInit):
+class TestImageToGeoJSONStatus(TestBaseClass):
+
+    def setUp(self):
+        super().setUp()
+
+    def tearDown(self):
+        super().tearDown()
 
     def test_in_progress_status(self):
         im2geojson = ImageToGeoJSON(input_directory = self.input_directory, 
@@ -193,7 +220,13 @@ class TestImageToGeoJSONStatus(TestImageToGeoJSONInit):
             im2geojson.start()
 
 
-class TestImageToGeoJSONErrors(TestImageToGeoJSONInit):
+class TestImageToGeoJSONErrors(TestBaseClass):
+
+    def setUp(self):
+        super().setUp()
+
+    def tearDown(self):
+        super().tearDown()
     
     def test_no_errors(self):
         im2geojson = ImageToGeoJSON(input_directory = self.input_directory, 
@@ -212,12 +245,18 @@ class TestImageToGeoJSONErrors(TestImageToGeoJSONInit):
         im2geojson.start()
         test_folder_file = 'test_folder/NO_EXIF.jpg'
         test_error_dictionary = {
-            test_folder_file:"'No metadata.'"
+            test_folder_file:"'KeyError: No metadata.'"
         }
         self.assertEqual(test_error_dictionary, im2geojson.error_dictionary)
 
 
-class TestImageToGeoJSONSummary(TestImageToGeoJSONInit):
+class TestImageToGeoJSONSummary(TestBaseClass):
+
+    def setUp(self):
+        super().setUp()
+
+    def tearDown(self):
+        super().tearDown()
 
     def test_summary(self):
         im2geojson = ImageToGeoJSON(input_directory = self.input_directory, 

@@ -5,6 +5,7 @@ import os
 import glob
 import json
 import concurrent.futures
+import logging
 
 from .geojson_parser import GeoJSONParser
 from .exif_reader import read_exif
@@ -13,6 +14,8 @@ from .timer import Timer
 DEFAULT_OUTPUT_DIRECTORY = './assets'
 GEOJSON_DIR = 'geojson'
 IMAGE_DIR = 'images'
+
+log = logging.getLogger('im2geojson')
 
 
 class ImageToGeoJSON(object):
@@ -55,8 +58,7 @@ class ImageToGeoJSON(object):
                 # print(f"Folder {path} already exists")
                 pass
             else:
-                # print(f"Folder {path} created!")
-                pass
+                log.info(f"Folder {path} created!")
 
     @property
     def input_directory(self):
