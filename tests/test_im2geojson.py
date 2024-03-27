@@ -102,7 +102,7 @@ class TestImageToGeoJSONInit(TestBaseClass):
                                 output_directory = self.output_directory)
 
         self.assertEqual(len(captured.records), 1)
-        self.assertEqual(captured.records[0].getMessage(), f"Folder {self.geojson_dir_path} created!")
+        self.assertEqual(captured.records[0].getMessage(), f"Folder {self.geojson_dir_path} created.")
 
     def test_init_logs_geojson_directory_exists(self):
         self.assertFalse(os.path.isdir(self.output_directory))
@@ -125,7 +125,7 @@ class TestImageToGeoJSONInit(TestBaseClass):
                             save_thumbnails=False)
 
         self.assertEqual(len(captured.records), 2)
-        self.assertEqual(captured.records[1].getMessage(), f"Folder {self.image_dir_path} created!")
+        self.assertEqual(captured.records[1].getMessage(), f"Folder {self.image_dir_path} created.")
         
 
 class TestImageToGeoJSONStart(TestBaseClass):
@@ -200,7 +200,7 @@ class TestImageToGeoJSONStart(TestBaseClass):
             with self.assertRaises(KeyError):
                 jsn['features'][0]['properties']['rel_image_path']
 
-    def test_geojsonphoto_start_original_image_absolute_path(self):
+    def test_im2geojson_start_original_image_absolute_path(self):
         test_thumbnail_file = 'EXIF_thumb.jpg'
         im2geojson = ImageToGeoJSON(input_directory = self.input_directory, 
                             output_directory = self.output_directory, 

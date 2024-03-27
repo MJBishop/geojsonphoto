@@ -50,7 +50,7 @@ class TestExif(unittest.TestCase):
         filepath = os.path.join(self.in_path, file_dir)
         with self.assertRaises(FileNotFoundError) as e:
             coord, props, image_b, thumb_b = read_exif(filepath, get_image=False, get_thumbnail=False)
-        self.assertIn('No such file or directory:', str(e.exception))
+        self.assertIn('No such file or directory', str(e.exception))
 
 
 class TestExifFromImageTypes(unittest.TestCase):
@@ -82,7 +82,7 @@ class TestNoExif(unittest.TestCase):
     def test_read_no_exif(self):
         with self.assertRaises(KeyError) as e:
             coord, props, image_b, thumb_b = read_exif(self.filepath, get_image=False, get_thumbnail=False)
-        self.assertEqual("'No metadata.'", str(e.exception))
+        self.assertEqual("'KeyError: No metadata.'", str(e.exception))
 
 
 class TestMissingExif(unittest.TestCase):

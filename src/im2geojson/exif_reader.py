@@ -1,5 +1,5 @@
 """
-Read Exif metadata from image
+Read Exif metadata from an image.
 Exchangeable Image File Format
 """
 from exif import Image
@@ -39,51 +39,57 @@ def read_exif(filepath, get_image=False, get_thumbnail=False):
     ValueError
         If `image_file` has invalid metadata.
     """
-    with open(filepath, 'rb') as image_file:
-        image = Image(image_file)
-        if not image.has_exif:
-            raise KeyError('No metadata.')
+    try:
+        with open(filepath, 'rb') as image_file:
+            image = Image(image_file)
+            if not image.has_exif:
+                raise KeyError('KeyError: No metadata.')
 
-        # coord
-        try:
-            dms_lat = (*image.gps_latitude, image.gps_latitude_ref)
-            dms_long = (*image.gps_longitude, image.gps_longitude_ref)
-        except AttributeError as e:
-            raise AttributeError(f'AttributeError: {e}') from e
-        else:
+            # coord
             try:
-                lat = dms_to_decimal(*dms_lat)
-                long = dms_to_decimal(*dms_long)
-            except ValueError as e:
-                raise e
-        
-        # datetime
-        try:
-            datetime_str = image.datetime_original
-        except AttributeError as e:
-            raise AttributeError(f'AttributeError: {e}') from e
-        else:
-            try:
-                datetime_object = datetime.strptime(datetime_str, '%Y:%m:%d %H:%M:%S')
-            except ValueError as e:
-                raise ValueError(f'ValueError: {e}') from e
-
-        # props 
-        props = { 
-            "datetime": str(datetime_object),
-            }
-
-        # delete exif data
-        if get_image:
-            with threading.RLock():
-                # Catch warning that not all data has been deleted:
-                with warnings.catch_warnings():
-                    warnings.simplefilter('ignore')
-                    image.delete_all()
+                dms_lat = (*image.gps_latitude, image.gps_latitude_ref)
+                dms_long = (*image.gps_longitude, image.gps_longitude_ref)
+            except AttributeError as e:
+                raise AttributeError(f'AttributeError: {e}') from e
+            else:
+                try:
+                    lat = dms_to_decimal(*dms_lat)
+                    long = dms_to_decimal(*dms_long)
+                except ValueError as e:
+                    raise e
             
-        # files
-        image_b = image.get_file() if get_image else None
-        thumb_b = image.get_thumbnail() if get_thumbnail else None
+            # datetime
+            try:
+                datetime_str = image.datetime_original
+            except AttributeError as e:
+                raise AttributeError(f'AttributeError: {e}') from e
+            else:
+                try:
+                    datetime_object = datetime.strptime(datetime_str, '%Y:%m:%d %H:%M:%S')
+                except ValueError as e:
+                    raise ValueError(f'ValueError: {e}') from e
+
+            # props 
+            props = { 
+                "datetime": str(datetime_object),
+                }
+
+            # delete exif data
+            if get_image:
+                with threading.RLock():
+                    # Catch warning that not all data has been deleted:
+                    with warnings.catch_warnings():
+                        warnings.simplefilter('ignore')
+                        image.delete_all()
+                
+            # files
+            image_b = image.get_file() if get_image else None
+
+            # TODO - try
+            thumb_b = image.get_thumbnail() if get_thumbnail else None
 
 
-        return (lat, long), props, image_b, thumb_b
+            return (lat, long), props, image_b, thumb_b
+        
+    except FileNotFoundError as e:
+        raise FileNotFoundError('FileNotFoundError: No such file or directory.') from e
