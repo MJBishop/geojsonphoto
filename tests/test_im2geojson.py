@@ -101,8 +101,19 @@ class TestImageToGeoJSONInit(TestBaseClass):
             im2geojson = ImageToGeoJSON(input_directory = self.input_directory, 
                                 output_directory = self.output_directory)
 
-        self.assertEqual(len(captured.records), 1) # check that there is only one log message
-        self.assertEqual(captured.records[0].getMessage(), f"Folder {self.geojson_dir_path} created!") # and it is the proper one
+        self.assertEqual(len(captured.records), 1)
+        self.assertEqual(captured.records[0].getMessage(), f"Folder {self.geojson_dir_path} created!")
+
+    def test_init_logs_directory_exists(self):
+        self.assertFalse(os.path.isdir(self.output_directory))
+        os.makedirs(self.geojson_dir_path)
+
+        with self.assertLogs() as captured:
+            im2geojson = ImageToGeoJSON(input_directory = self.input_directory, 
+                                output_directory = self.output_directory)
+
+        self.assertEqual(len(captured.records), 1)
+        self.assertEqual(captured.records[0].getMessage(), f"Folder {self.geojson_dir_path} already exists.")
         
 
 class TestImageToGeoJSONStart(TestBaseClass):

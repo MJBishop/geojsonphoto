@@ -55,8 +55,7 @@ class ImageToGeoJSON(object):
             try:
                 os.makedirs(path)
             except FileExistsError:
-                # print(f"Folder {path} already exists")
-                pass
+                log.info(f"Folder {path} already exists.")
             else:
                 log.info(f"Folder {path} created!")
 
