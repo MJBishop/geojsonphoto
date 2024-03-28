@@ -50,10 +50,10 @@ class ImageToGeoJSON(object):
             The path to the `output_directory`.
 
         save_images : bool, default False
-            Save images stripped of metadata to 'output_directory`.
+            Save images stripped of metadata to `output_directory`.
 
         save_thumbnails : bool, default False
-            Save thumbnail images to 'output_directory`.
+            Save thumbnail images to `output_directory`.
         
         """
         
@@ -94,6 +94,10 @@ class ImageToGeoJSON(object):
     def summary(self):
         """str: Return the `summary` string."""
         return f'{self._success_count} out of {self._total_count} images processed successfully'
+    
+    @property
+    def has_errors(self):
+        return True
     
     @property
     def error_dictionary(self):
