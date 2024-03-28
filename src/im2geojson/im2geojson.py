@@ -97,7 +97,7 @@ class ImageToGeoJSON(object):
     
     @property
     def has_errors(self):
-        return True
+        return False if self._error_dictionary == {} else True
     
     @property
     def error_dictionary(self):
