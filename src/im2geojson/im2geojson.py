@@ -1,6 +1,8 @@
 """
 Parse Image metadata to GeoJSON.
 """
+__docformat__ = "numpy"
+
 import os
 import glob
 import json
