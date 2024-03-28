@@ -1,6 +1,5 @@
 """
-Read Exif metadata from an image.
-Exchangeable Image File Format
+Read Exchangeable Image File Format (EXIF) metadata from an image.
 """
 from exif import Image
 from datetime import datetime
@@ -41,6 +40,8 @@ def read_exif(filepath, get_image=False, get_thumbnail=False):
         If `image_file` has missing metadata.
     ValueError
         If `image_file` has invalid metadata.
+    FileNotFoundError
+        If no file found at `filepath.
     """
     try:
         with open(filepath, 'rb') as image_file:
@@ -91,9 +92,8 @@ def read_exif(filepath, get_image=False, get_thumbnail=False):
             # TODO - try
             thumb_b = image.get_thumbnail() if get_thumbnail else None
 
-
             return (lat, long), props, image_b, thumb_b
         
+
     except FileNotFoundError as e:
-        # raise FileNotFoundError('FileNotFoundError: No such file or directory.') from e
         log.exception(f'FileNotFoundError: No such file or directory: {filepath}')

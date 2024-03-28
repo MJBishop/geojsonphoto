@@ -1,5 +1,5 @@
 """
-cli.py
+Command Line Interface for im2geojson.
 """
 
 import argparse
@@ -8,6 +8,14 @@ from im2geojson.im2geojson import ImageToGeoJSON
 
 
 def create_parser():
+    """
+    Creates a CLI parser.
+
+    Returns
+    -------
+    parser : ArgumentParser
+        The ArgumentParser with arguments added.
+    """
     parser = argparse.ArgumentParser(
         argument_default=argparse.SUPPRESS,
         prog='im2geojson',
@@ -40,12 +48,25 @@ def create_parser():
     return parser
 
 def parse_args_to_dict(args):
+    """
+    Parse `args` to a dictionary.
+
+    Returns
+    -------
+    parsed_args_dict : dictionary
+        Dictionary of parsed arguments.
+    """
     parser = create_parser()
     parsed_args = parser.parse_args(args)
     parsed_args_dict = vars(parsed_args)
     return parsed_args_dict
 
 def main(args=None):
+    """
+    Process images
+
+    Process images from CLI, print summery and results.
+    """
     parsed_args_dict = parse_args_to_dict(args)
     im2geo = ImageToGeoJSON(**parsed_args_dict)
     im2geo.start()

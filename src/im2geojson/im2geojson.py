@@ -1,5 +1,5 @@
 """
-im2geojson.py
+Parse Image metadata to GeoJSON.
 """
 import os
 import glob
@@ -22,12 +22,11 @@ class ImageToGeoJSON(object):
     """
     ImageToGeoJSON
 
-    Attributes
-    ----------
-    Notes
-    -----
+    Note
+    ----
     Saves the harvested metadata as geojson to 'output_directory`
-    Optionally saves images without metadata and thumbnails.
+    Optionally saves images without metadata. and thumbnails.
+    Optionally saves thumbnails images.
     """
 
     def __init__(self, 
@@ -35,6 +34,23 @@ class ImageToGeoJSON(object):
                  output_directory=DEFAULT_OUTPUT_DIRECTORY, 
                  save_images=False, 
                  save_thumbnails=False):
+        """
+        Initialise ImageToGeoJSON object.
+
+        Initialise the object and creates `output_directory` and folders.
+        
+        Parameters
+        ----------
+        input_directory : str
+            The path to the `input_directory`.
+        output_directory : str, default './assets'
+            The path to the `output_directory`.
+        save_images : bool, default False
+            Save images stripped of metadata to 'output_directory`.
+        save_thumbnails : bool, default False
+            Save thumbnail images to 'output_directory`.
+        
+        """
         
         self._input_directory = input_directory
         self._output_directory = output_directory.rstrip('/')
@@ -57,7 +73,7 @@ class ImageToGeoJSON(object):
             except FileExistsError:
                 log.info(f"Folder {path} already exists.")
             else:
-                log.info(f"Folder {path} created!")
+                log.info(f"Folder {path} created.")
 
     @property
     def input_directory(self):
@@ -117,8 +133,6 @@ class ImageToGeoJSON(object):
             coord, props, image_b, thumb_b = read_exif(filepath, 
                                                        get_image=self._save_images, 
                                                        get_thumbnail=self._save_thumbnails)
-        except FileNotFoundError as e:
-            raise FileNotFoundError('FileNotFoundError: No such file or directory') from e
         except Exception as e:
             raise e
         else:

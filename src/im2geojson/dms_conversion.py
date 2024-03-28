@@ -41,13 +41,17 @@ def dms_to_decimal(deg, min, sec, ref):
     Returns
     -------
     float
-        Decimal degree.
+        Decimal degree as float.
 
     Raises
     ------
     ValueError
-        If `ref` is invalid.
-        If `ref` is invalid.
+        Invalid GPS Reference, Expecting N, S, E or W.
+        Invalid Seconds, Should be positive and less than 60.
+        Invalid Minutes, Should be positive and less than 60.
+        Invalid Degrees, Should be positive.
+        Invalid Latitude, cannot be greater than 90 degrees.
+        Invalid Longitude, cannot be greater than 180 degrees.
     """
     if ref not in [NORTH_REF, SOUTH_REF, EAST_REF, WEST_REF]:
         raise ValueError(f'ValueError: Invalid GPS Reference {ref}, Expecting N, S, E or W')
@@ -62,11 +66,12 @@ def dms_to_decimal(deg, min, sec, ref):
         raise ValueError(f'ValueError: Invalid Degrees {str(sec)}, Should be positive')
     
     if is_latitude(ref) and deg > MAX_LAT_DEGREES:
-        raise ValueError(f'ValueError: Latitude {str(deg) + ref}, cannot be greater than 90 degrees')
+        raise ValueError(f'ValueError: Invalid Latitude {str(deg) + ref}, cannot be greater than 90 degrees')
     
     elif is_longitude(ref) and deg > MAX_LONG_DEGREES:
-        raise ValueError(f'ValueError: Longitude {str(deg) + ref}, cannot be greater than 180 degrees')
+        raise ValueError(f'ValueError: Invalid Longitude {str(deg) + ref}, cannot be greater than 180 degrees')
     
     sign = (-1 if ref == SOUTH_REF or ref == WEST_REF else 1)
     dec_deg = (Decimal(deg) + Decimal(min)/Decimal(60) + Decimal(sec)/Decimal(3600)) * sign
+
     return float(dec_deg.quantize(SIX_PLACES))

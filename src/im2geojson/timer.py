@@ -1,6 +1,6 @@
 
 """
-Timer
+Timer Context Manager.
 """
 from time import perf_counter
 
@@ -18,18 +18,22 @@ class Timer(object):
     """
 
     def __init__(self):
+        """
+        
+        """
         self.elapsed_time = 0
         self._in_progress = None
 
     def __enter__(self):
-        """Enter the runtime context related to this object."""
+        """Enter the runtime context and print status.
+        """
         self._start = perf_counter()
         self._in_progress = True
         self.print_status()
         return self
     
     def __exit__(self, exc_type, exc_value, exc_traceback):
-        """bool: Exit the runtime context related to this object."""
+        """bool: Exit the runtime context and print status."""
         self._stop = perf_counter()
         self._in_progress = False
         self.elapsed_time = self._stop - self._start
