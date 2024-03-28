@@ -71,7 +71,8 @@ def main(args=None):
     im2geo = ImageToGeoJSON(**parsed_args_dict)
     im2geo.start()
     print(im2geo.summary)
-    print(im2geo.error_dictionary)
+    if im2geo.has_errors:
+        print(im2geo.error_dictionary)
 
 
 if __name__ == '__main__':

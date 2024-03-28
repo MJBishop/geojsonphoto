@@ -88,7 +88,6 @@ class TestMain(unittest.TestCase):
         if os.path.isdir(self.output_directory):
             shutil.rmtree(self.output_directory)
 
-    
     def test_main(self):
         f = io.StringIO()
         with redirect_stdout(f):
@@ -102,6 +101,21 @@ class TestMain(unittest.TestCase):
 
         self.assertEqual(expected_first_line, out_lines[0])
         self.assertEqual(expected_last_line, out_lines[2])
+
+    def test_main_prints_errors(self):
+        f = io.StringIO()
+        with redirect_stdout(f):
+            
+            main(['tests/test_files/test_images/test_no_exif/', '-o', self.output_directory])
+        out = f.getvalue()
+        out_lines = out.split('\n')
+
+        expected_first_line = 'Running...'
+        expected_last_line = '0 out of 1 images processed successfully'
+
+        self.assertEqual(expected_first_line, out_lines[0])
+        self.assertEqual(expected_last_line, out_lines[2])
+        self.assertIn('No metadata', out_lines[3])
 
 
 if __name__ == '__main__':  
