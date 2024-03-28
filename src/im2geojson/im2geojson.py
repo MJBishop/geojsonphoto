@@ -44,19 +44,15 @@ class ImageToGeoJSON(object):
         Parameters
         ----------
         input_directory : str
-
             The path to the `input_directory`.
             
         output_directory : str, default './assets'
-
             The path to the `output_directory`.
 
         save_images : bool, default False
-
             Save images stripped of metadata to 'output_directory`.
 
         save_thumbnails : bool, default False
-        
             Save thumbnail images to 'output_directory`.
         
         """
