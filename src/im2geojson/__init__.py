@@ -14,7 +14,7 @@ Import im2geojson and create an image parser:
 ```python
 >>> from im2geojson import ImageToGeoJSON
 
-# Initiate
+# Initialise with `input_directory`:
 >>> input_directory='./my_images'
 >>> my_image_parser = ImageToGeoJSON(input_directory=input_directory)
 
@@ -60,7 +60,7 @@ Output
             "properties": 
             {
                 "datetime": "2023-05-05 06:19:24", 
-                "original_absolute_path": "./images/EXIF.jpg"
+                "original_absolute_path": "./my_images/EXIF.jpg"
             }
         }
     ]
@@ -92,6 +92,12 @@ Errors
 
 """
 
+import logging
+
+logging.getLogger('im2geojson').addHandler(logging.NullHandler())
+
+
 from im2geojson.im2geojson import ImageToGeoJSON
 
 __all__ = ['ImageToGeoJSON']
+
