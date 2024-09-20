@@ -17,7 +17,7 @@ class GeoJSONParser(object):
         """Return an iterator for `_collections_dict` items."""
         return iter(self._collections_dict.items())
 
-    def add_feature(self, title, lat, long, properties={}):
+    def add_feature(self, collection_title, lat, long, properties={}, collection_parent = None):
         """
         Add a `Feature' to `_collections_dict`.
 
@@ -37,11 +37,14 @@ class GeoJSONParser(object):
             geometry=point, 
             properties=properties
         )
-        if title not in self._collections_dict:
+        if collection_title not in self._collections_dict:
             feature_collection = geojson.FeatureCollection(
-                features = [feature], 
-                title = title
+                title = collection_title,
+                features = [feature]
             )
-            self._collections_dict[title] = feature_collection
+            if collection_parent: 
+                feature_collection['properties'] = { 'parent': collection_parent }
+                
+            self._collections_dict[collection_title] = feature_collection
         else:
-            self._collections_dict[title]['features'].append(feature)
+            self._collections_dict[collection_title]['features'].append(feature)
