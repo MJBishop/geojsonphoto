@@ -23,14 +23,16 @@ class GeoJSONParser(object):
 
         Parameters
         ----------
-        title : str
+        collection_title : str
             The `FeatureCollection` title.
         lat : float
-            The latitude of the Feature.
+            The latitude of the 'Feature'.
         long : float
-            The longitude of the Feature.
+            The longitude of the 'Feature'.
         properties : dict
-            The Feature properties.
+            The 'Feature' properties.
+        collection_parent : str
+            The `FeatureCollection` parent.
         """
         point = geojson.Point((long, lat))
         feature = geojson.Feature(
@@ -44,7 +46,7 @@ class GeoJSONParser(object):
             )
             if collection_parent: 
                 feature_collection['properties'] = { 'parent': collection_parent }
-                
+
             self._collections_dict[collection_title] = feature_collection
         else:
             self._collections_dict[collection_title]['features'].append(feature)

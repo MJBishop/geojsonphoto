@@ -129,7 +129,8 @@ class ImageToGeoJSON(object):
                 except Exception as e:
                     self._add_file_to_errors_with_exception_string(filepath, str(e))
                 else:
-                    self._geojson_parser.add_feature(folder, *coord, props)
+                    parent = ImageToGeoJSON._parent_folder_from_filepath(filepath)
+                    self._geojson_parser.add_feature(folder, *coord, props, parent)
                     self._success_count += 1
 
         # Save geojson

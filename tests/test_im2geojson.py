@@ -148,6 +148,7 @@ class TestImageToGeoJSONStart(TestBaseClass):
         geojson_path = os.path.join(self.geojson_dir_path, self.test_geojson_file_name)
         with open(geojson_path, 'r') as f:
             jsn = json.load(f)
+            self.assertIsNotNone(jsn['properties'])
             self.assertIsNotNone(jsn['features'][0]['properties']['datetime'])
 
             with self.assertRaises(KeyError):
