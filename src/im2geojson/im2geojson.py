@@ -136,7 +136,7 @@ class ImageToGeoJSON(object):
         for title, feature_collection in self._geojson_parser:
             geojson_file_path = os.path.join(self._geojson_dir_path, f'{title}.geojson')
             with open(geojson_file_path, 'w') as f:
-                json.dump(feature_collection, f)
+                json.dump(feature_collection, f, indent=4)
 
     def _process_image_file(self, filepath):
         try:
