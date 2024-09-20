@@ -118,6 +118,7 @@ class ImageToGeoJSON(object):
     def _process_files(self):
         # Process image files concurrently
         files = glob.iglob(f'{self.input_directory}**/*.[Jj][Pp][Gg]')
+        # TODO - **/*.@(jpg|JPG|jpeg|JPEG|gif|GIF|png|PNG) : Tests for gif, png
         with concurrent.futures.ThreadPoolExecutor() as executor:
             future_to_path = {executor.submit(self._process_image_file, filepath): filepath for filepath in files}
             for future in concurrent.futures.as_completed(future_to_path):
