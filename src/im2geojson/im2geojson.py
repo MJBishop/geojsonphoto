@@ -27,8 +27,7 @@ class ImageToGeoJSON(object):
     Note
     ----
     Saves the harvested metadata as geojson to 'output_directory`
-    Optionally saves images without metadata. and thumbnails.
-    Optionally saves thumbnails images.
+    Optionally saves images without metadata and thumbnails images.
     """
 
     def __init__(self, 
@@ -147,8 +146,8 @@ class ImageToGeoJSON(object):
         except Exception as e:
             raise e
         else:
-            props['original_image_absolute_path'] = filepath
             folder, filename = ImageToGeoJSON._folder_and_filename_from_filepath(filepath)
+            props['filename'] = filename
 
             # image 
             if self._save_images and image_b is not None:

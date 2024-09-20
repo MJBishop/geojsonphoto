@@ -201,7 +201,7 @@ class TestImageToGeoJSONStart(TestBaseClass):
             with self.assertRaises(KeyError):
                 jsn['features'][0]['properties']['rel_image_path']
 
-    def test_im2geojson_start_original_image_absolute_path(self):
+    def test_im2geojson_start_feature_props_filename(self):
         test_thumbnail_file = 'EXIF_thumb.jpg'
         im2geojson = ImageToGeoJSON(input_directory = self.input_directory, 
                             output_directory = self.output_directory, 
@@ -212,7 +212,7 @@ class TestImageToGeoJSONStart(TestBaseClass):
         geojson_path = os.path.join(self.geojson_dir_path, self.test_geojson_file_name)
         with open(geojson_path, 'r') as f:
             jsn = json.load(f)
-            self.assertIsNotNone(jsn['features'][0]['properties']['original_image_absolute_path'])
+            self.assertIsNotNone(jsn['features'][0]['properties']['filename'])
 
 
 class TestImageToGeoJSONStatus(TestBaseClass):
