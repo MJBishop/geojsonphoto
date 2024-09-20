@@ -72,7 +72,8 @@ def main(args=None):
     im2geo.start()
     print(im2geo.summary)
     if im2geo.has_errors:
-        print(im2geo.error_dictionary)
+        import pprint
+        pprint.pp(im2geo.error_dictionary)
 
 
 if __name__ == '__main__':
