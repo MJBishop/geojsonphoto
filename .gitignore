@@ -2,7 +2,7 @@
 **/__pycache__
 geophoto/__pycache__
 **/**/DS.store
-**/DS.store
+**/.DS_store
 
 
 # Distribution / packaging
