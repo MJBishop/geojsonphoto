@@ -22,6 +22,18 @@ class TestGeoJSONParser(unittest.TestCase):
         self.assertTrue(test_title in geojson_parser._collections_dict)
         self.assertEqual(1, len(geojson_parser._collections_dict[test_title]['features']))
 
+    def test_feature_properties(self):
+        geojson_parser = GeoJSONParser()
+        test_title = 'Test_Title'
+        test_filename = 'Test_Filename.jpg'
+        geojson_parser.add_feature(
+            title = test_title, lat=0, long=0, properties={ 'filename': test_filename }
+        )
+        self.assertTrue(test_title in geojson_parser._collections_dict)
+        feature = geojson_parser._collections_dict[test_title]['features'][0]
+        properties = feature['properties']
+        self.assertEqual(test_filename, properties['filename'])
+
     def test_point_feature_coord_long_lat(self):
         geojson_parser = GeoJSONParser()
         test_title = 'Test_Title'
