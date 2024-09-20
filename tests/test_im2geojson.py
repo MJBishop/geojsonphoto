@@ -312,9 +312,15 @@ class TestFolderFilesFromPath(unittest.TestCase):
 
     def setUp(self):
         self.test_filename = 'image_file.jpg'
-        self.test_folder_filename = 'image_file_thumb.jpg'
+        self.test_thumb_filename = 'image_file_thumb.jpg'
         self.test_folder_name = 'folder'
-        self.test_in_path = os.path.join('tests/test_files/', self.test_folder_name, self.test_filename)
+        self.test_parent_folder_name = 'test_files'
+        self.test_in_path = os.path.join(
+            'tests/', 
+            self.test_parent_folder_name, 
+            self.test_folder_name, 
+            self.test_filename
+        )
 
     def test_filename_from_path(self):
         filename = ImageToGeoJSON._folder_and_filename_from_filepath(self.test_in_path)[1]
@@ -326,7 +332,11 @@ class TestFolderFilesFromPath(unittest.TestCase):
 
     def test_thumbnail_filename_from_image_filename(self):
         thumbnail_filename = ImageToGeoJSON._thumbnail_filename(self.test_filename)
-        self.assertEqual(self.test_folder_filename, thumbnail_filename)
+        self.assertEqual(self.test_thumb_filename, thumbnail_filename)
+
+    def test_parent_folder_from_path(self):
+        parent_folder = ImageToGeoJSON._parent_folder_from_filepath(self.test_in_path)
+        self.assertEqual(self.test_parent_folder_name, parent_folder)
 
 
 

@@ -206,6 +206,14 @@ class ImageToGeoJSON(object):
         return folder, filename
     
     @staticmethod
+    def _parent_folder_from_filepath(filepath):
+        """str: Split"""
+        head, filename = os.path.split(filepath)
+        head, folder = os.path.split(head)
+        head, parent = os.path.split(head)
+        return parent
+    
+    @staticmethod
     def _thumbnail_filename(image_filename):
         """str: Split the image filename and return the thumbnail filename."""
         f_name, f_type  = image_filename.split('.')
