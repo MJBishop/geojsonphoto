@@ -9,17 +9,19 @@ Quick Start
 -----------
 
 
-Import im2geojson and create an image parser:
+Import im2geojson and initialise by passing the directory of images:
+
 
 ```python
 >>> from im2geojson import ImageToGeoJSON
 
+# For example: if your current directory is named `parent` and this contains a folder of images: `my_images`,
 # Initialise with `input_directory`:
->>> input_directory='./my_images'
->>> my_image_parser = ImageToGeoJSON(input_directory=input_directory)
+>>> input_directory = './my_images'
+>>> im2geojson = ImageToGeoJSON(input_directory=input_directory)
 
 # Start image processing:
->>> my_image_parser.start()
+>>> im2geojson.start()
 ```
 ```s
 Running...
@@ -32,7 +34,7 @@ Summary
 -------
 
 ```python
->>> my_image_parser.summary
+>>> im2geojson.summary
 ```
 ```s
 '1 out of 6 images processed successfully'
@@ -60,10 +62,14 @@ Output
             "properties": 
             {
                 "datetime": "2023-05-05 06:19:24", 
-                "original_absolute_path": "./my_images/EXIF.jpg"
+                "filename": "EXIF.jpg"
             }
         }
-    ]
+    ], 
+    "properties": 
+    {
+        "parent": "parent"
+    }
 }
 ```
 <br>
@@ -73,7 +79,7 @@ Errors
 ------
 
 ```python
->>> my_image_parser.error_dictionary
+>>> im2geojson.error_dictionary
 ```
 ```s
 {'my_images/MISSING_EXIF.jpg': 'AttributeError: image does not have attribute gps_latitude',
