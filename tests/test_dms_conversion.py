@@ -36,6 +36,10 @@ class TestDMSToDecimal(unittest.TestCase):
         test_result = 59.084167
         self.assertEqual(test_result, dms_to_decimal(59, 5, 3, 'N'))
 
+    def test_convert_fifty_nine_plus_seconds(self):
+        test_result = 1.033331
+        self.assertEqual(test_result, dms_to_decimal(1, 1, 59.99, 'N'))
+
     def test_lat_91N_raises_exception(self):
         with self.assertRaises(ValueError):
             dms_to_decimal(91, 0, 0, 'N')

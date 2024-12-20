@@ -10,7 +10,7 @@ SOUTH_REF = 'S'
 EAST_REF = 'E'
 WEST_REF = 'W'
 MAX_MINUTES = 59
-MAX_SECONDS = 59
+MAX_SECONDS = 60
 MAX_LAT_DEGREES = 90
 MAX_LONG_DEGREES = 180
 
@@ -56,7 +56,7 @@ def dms_to_decimal(deg, min, sec, ref):
     if ref not in [NORTH_REF, SOUTH_REF, EAST_REF, WEST_REF]:
         raise ValueError(f'ValueError: Invalid GPS Reference {ref}, Expecting N, S, E or W')
     
-    if sec > MAX_SECONDS or sec < 0:
+    if sec >= MAX_SECONDS or sec < 0:
         raise ValueError(f'ValueError: Invalid Seconds {str(sec)}, Should be positive and less than 60')
     
     if min > MAX_MINUTES or min < 0:
